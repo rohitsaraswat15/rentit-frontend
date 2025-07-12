@@ -1,4 +1,3 @@
-// OTPInput.tsx
 import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 
@@ -13,9 +12,10 @@ interface OtpInputProps {
   error?: string;
   onVerify: (otp: string) => void;
   onResend: () => void;
+  resendEnabled?: boolean;
 }
 
-const OtpInput = forwardRef<OtpInputRef, OtpInputProps>(({ length = 6, onVerify, onResend }, ref) => {
+const OtpInput = forwardRef<OtpInputRef, OtpInputProps>(({ length = 6, onVerify, onResend, resendEnabled = false }, ref) => {
   const [otp, setOtp] = useState<string[]>(new Array(length).fill(''));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -57,8 +57,8 @@ const OtpInput = forwardRef<OtpInputRef, OtpInputProps>(({ length = 6, onVerify,
   };
 
   return (
-    <div className="flex flex-col items-center mt-4">
-      <div className="flex justify-center gap-3">
+    <div className="flex flex-col items-center mt-4 justify-center overflow-x-auto w-full max-w-full scrollbar-hide">
+      <div className="flex justify-center flex-nowrap overflow-visible gap-2 w-full max-w-xs mx-auto min-w-[300px]">
         {otp.map((value, index) => (
           <input
             key={index}
@@ -70,23 +70,29 @@ const OtpInput = forwardRef<OtpInputRef, OtpInputProps>(({ length = 6, onVerify,
             onChange={(e) => handleChange(index, e)}
             onClick={() => handleClick(index)}
             onKeyDown={(e) => handleKeyDown(index, e)}
-            className="w-12 h-12 text-center text-lg border border-gray-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-10 h-10 text-center text-base border border-gray-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         ))}
       </div>
-      <div className="flex gap-15 mt-4 mb-4">
+      {/* <div className="flex flex-wrap justify-center gap-15 mt-4 mb-4"> */}
+      <div className="flex flex-wrap justify-center gap-4 mt-4 mb-4">
         <button
           onClick={() => onVerify(otp.join(''))}
           className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-green-700 transition"
         >
           Verify OTP
         </button>
+
         <button
           onClick={() => {
             onResend();
             setOtp(new Array(length).fill(''));
           }}
-          className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400 transition"
+          disabled={!resendEnabled}
+          className={`px-4 py-2 rounded transition ${resendEnabled
+              ? 'bg-gray-300 text-black hover:bg-gray-400'
+              : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+            }`}
         >
           Resend OTP
         </button>

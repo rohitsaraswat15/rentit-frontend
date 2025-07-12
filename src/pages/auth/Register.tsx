@@ -9,6 +9,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { isValidEmail, isValidPhone, isValidPassword, isPasswordMatch } from '../../utils/validators';
 import GoogleLoginButton from '../../components/GoogleLoginButton';
 import { registerUser, sendOtp, verifyOtp } from '../../services/authService';
+import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   fullName: string;
@@ -45,10 +46,26 @@ const Register: React.FC = () => {
   const [showOtpInput, setShowOtpInput] = useState<boolean>(false);
   const [otpVerifiedMessage, setOtpVerifiedMessage] = useState<string>('');
   const [isOtpVerified, setIsOtpVerified] = useState<boolean>(false);
+  const [otpSent, setOtpSent] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const [registerMessage, setRegisterMessage] = useState<string>('');
+  const [registerSuccess, setRegisterSuccess] = useState<boolean | null>(null);
+  const [otpFailed, setOtpFailed] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: '' });
+    // setForm({ ...form, [e.target.name]: e.target.value });
+    // setErrors({ ...errors, [e.target.name]: '' });
+
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: '' }));
+
+    // Reset OTP states only if phone number is being changed
+    if (name === 'phone') {
+      setOtpSent(false);
+      setIsOtpVerified(false);
+      setOtpVerifiedMessage('');
+    }
   };
 
   const validateForm = () => {
@@ -70,7 +87,7 @@ const Register: React.FC = () => {
     if (!validateForm()) return;
 
     if (!isOtpVerified) {
-      setErrors((prev) => ({ ...prev, otp: 'Please verify OTP before registering.' }));
+      setErrors((prev) => ({ ...prev, otp: 'Please verify your mobile number through OTP for Registration.' }));
       return;
     }
 
@@ -81,9 +98,23 @@ const Register: React.FC = () => {
         phone: form.phone,
         password: form.password,
       });
-      alert((response as { message: string }).message);
+      // alert((response as { message: string }).message);
+      // if ((response as { success: boolean }).success) {
+      // Redirect only if registration was successful
+      //   navigate('/login');
+      // }
+      const { success, message } = response as { success: boolean; message: string };
+      setRegisterMessage(message);
+      setRegisterSuccess(success);
+
+      if (success) {
+        setTimeout(() => navigate('/login'), 2000); // delay to show success message
+      }
     } catch (err) {
       console.error(err);
+      // alert('Registration failed. Please try again.');
+      setRegisterMessage('Registration failed. Please try again.');
+      setRegisterSuccess(false);
     }
   };
 
@@ -100,7 +131,9 @@ const Register: React.FC = () => {
     try {
       await sendOtp(form.phone);
       setShowOtpInput(true);
+      setOtpSent(true);
       alert('OTP sent!');
+      console.log("OTP Sent to " , form.phone)
     } catch {
       alert('Failed to send OTP');
     }
@@ -108,6 +141,11 @@ const Register: React.FC = () => {
 
 
   const handleVerifyOtp = async () => {
+    if (!otpSent) {
+      setErrors((prev) => ({ ...prev, otp: 'Please send OTP first.' }));
+      return;
+    }
+
     if (!form.phone.trim()) {
       setErrors((prev) => ({ ...prev, otp: 'Please enter mobile number.' }));
       return;
@@ -128,18 +166,20 @@ const Register: React.FC = () => {
     try {
       const res = await verifyOtp(enteredOtp);
       console.log('OTP Verified:', res);
-      setOtpVerifiedMessage('OTP Verified Successfully');
-      setErrors((prev) => ({ ...prev, otp: '' }));
-      setIsOtpVerified(true); // set true on success
+      setOtpVerifiedMessage('OTP Verified Successfully')
+      setErrors((prev) => ({ ...prev, otp: '' }))
+      setIsOtpVerified(true)
+      setOtpFailed(false) 
     } catch (err: unknown) {
-  const errorMessage = err instanceof Error ? err.message : 'Invalid OTP. Please try again.';
-  setErrors((prev) => ({
-    ...prev,
-    otp: errorMessage,
-  }));
-  setOtpVerifiedMessage('');
-  setIsOtpVerified(false);
-}
+      const errorMessage = err instanceof Error ? err.message : 'Invalid OTP. Please try again.';
+      setErrors((prev) => ({
+        ...prev,
+        otp: errorMessage,
+      }));
+      setOtpVerifiedMessage('');
+      setIsOtpVerified(false);
+      setOtpFailed(true);
+    }
   };
 
 
@@ -149,8 +189,8 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-black">
-      <div className="w-full max-w-md mx-auto p-5 shadow-xl bg-white backdrop-blur-md border border-gray-200 rounded">
+    <div className="flex px-4 py-24 sm:px-6 lg:px-8 items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-black overflow-x-hidden overflow-y-hidden">
+      <div className="w-full max-w-md mx-auto p-4 shadow-xl bg-white backdrop-blur-md border border-gray-200 rounded">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Create an Account</h2>
 
         <InputField type="text" name="fullName" onChange={handleChange} value={form.fullName} placeholder="Full Name" />
@@ -177,6 +217,7 @@ const Register: React.FC = () => {
             onResend={handleResendOtp}
             contact={form.phone}
             error={errors.otp}
+             resendEnabled={otpFailed}
           />
           {errors.otp && (
             <p className="text-sm text-red-500 mt-2 text-center">{errors.otp}</p>
@@ -206,14 +247,23 @@ const Register: React.FC = () => {
         {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
 
         <form onSubmit={handleSubmit}>
-          <button className="w-full mt-6 py-2 px-4 bg-blue-600 text-white font-medium rounded-sm hover:bg-green-700 transition">
+          <button className="w-full mt-2 py-2 px-4 bg-blue-600 text-white font-medium rounded-sm hover:bg-green-700 transition">
             Sign Up
           </button>
+          {registerMessage && (
+            <p
+              className={`mt-3 text-sm text-center ${registerSuccess ? 'text-green-600' : 'text-red-500'
+                }`}
+            >
+              {registerMessage}
+            </p>
+          )}
+
         </form>
 
         <GoogleLoginButton />
 
-        <div className="mt-6 text-center text-sm text-gray-600">
+        <div className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{' '}
           <Link to="/login" className="text-indigo-600 hover:underline font-medium">
             Login

@@ -23,7 +23,7 @@ const Login: React.FC = () => {
   const [errors, setErrors] = useState<ErrorState>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const navigate = useNavigate(); // ✅ for redirect
+  const navigate = useNavigate(); // for redirect
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -48,13 +48,13 @@ const Login: React.FC = () => {
         email: form.email,
         password: form.password,
       });
-
-      // Store user session
+         if (res.success) {
       localStorage.setItem('user', JSON.stringify(res.user));
-      alert('Login successful');
-
-      // Redirect to dashboard
+      console.log('Login success, redirecting to Dashboard');
       navigate('/dashboard');
+    } else {
+      setErrors({ general: 'Login failed: Invalid credentials' });
+    }
     } catch (err) {
       console.error('Login error:', err);
       setErrors({ general: 'Login failed: Invalid credentials' });
@@ -65,9 +65,9 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-black">
-      <div className="w-full max-w-md mx-auto p-5 shadow-xl bg-white backdrop-blur-md border border-gray-200 rounded-md">
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Welcome to RentIt 👋</h2>
-        <h3 className="text-lg font-normal text-gray-800 text-center mb-6">Please login to your account!</h3>
+      <div className="w-full max-w-md mx-auto p-4 shadow-xl bg-white backdrop-blur-md border border-gray-200 rounded-md">
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">Welcome to RentIt 👋</h2>
+        <h3 className="text-lg font-normal text-gray-800 text-center mb-4 top-1">Please login to your account!</h3>
 
         <InputField
           type="email"
@@ -102,7 +102,7 @@ const Login: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full mt-6 py-2 rounded-xl font-semibold transition ${loading ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-green-700'
+            className={`w-full mt-2 py-2 rounded-xl font-semibold transition ${loading ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-green-700'
               }`}
           >
             {loading ? 'Logging in...' : 'Login'}

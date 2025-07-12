@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-white border-b border-gray-200 shadow-sm">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
             <Link to="/register">
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+                className="w-full px-4 mt-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
               >
                 Register
               </button>
@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
             <Link to="/login">
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full px-4 py-2 bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 transition"
+                className="w-full px-4 mt-3 py-2 bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 transition"
               >
                 Login
               </button>

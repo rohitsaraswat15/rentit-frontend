@@ -156,7 +156,7 @@ const ForgotPassword: React.FC = () => {
             onClick={handleProceed}
             className="w-full mt-6 py-2 px-4 bg-blue-600 text-white font-medium rounded-sm hover:bg-green-700 transition cursor-pointer"
           >
-            Save
+            Next
           </button>
         </form>
       </div>
