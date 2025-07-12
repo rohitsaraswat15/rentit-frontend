@@ -42,7 +42,7 @@ export const sendOtp = async (contact: string): Promise<OtpResponse> => {
   } catch {
     console.warn('API failed, using dummy OTP');
     return new Promise((resolve) =>
-      setTimeout(() => resolve({ success: true, otp: '123456' }), 1000)
+      setTimeout(() => resolve({ success: true, otp: '123456' }), 100)
     );
   }
 };
@@ -58,7 +58,7 @@ export const verifyOtp = async (otp: string): Promise<{ success: boolean }> => {
       setTimeout(() => {
         if (otp === '123456') resolve({ success: true });
         else reject({ success: false, message: 'Invalid OTP' });
-      }, 1000)
+      }, 100)
     );
   }
 };
@@ -74,7 +74,7 @@ export const registerUser = async (data: RegisterData): Promise<RegisterResponse
       setTimeout(() => {
         console.log('Dummy register user:', data);
         resolve({ success: true, message: 'Registered successfully (dummy)' });
-      }, 1000)
+      }, 100)
     );
   }
 };
@@ -97,9 +97,9 @@ export const loginUser = async (data: LoginData): Promise<LoginResponse> => {
             },
           });
         } else {
-          reject({ success: false, message: 'Invalid credentials' });
+           reject(new Error('Invalid credentials'));
         }
-      }, 1000)
+      }, 100)
     );
   }
 };

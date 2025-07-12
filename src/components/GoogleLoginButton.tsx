@@ -12,7 +12,7 @@ const GoogleLoginButton: React.FC = () => {
         alt="Google Logo"
         className="w-5 h-5"
       />
-      <span className="text-sm text-gray-700 font-medium">Login with Google</span>
+      <span className="text-sm text-gray-700 font-medium">Continue with Google</span>
     </button>
   );
 };
