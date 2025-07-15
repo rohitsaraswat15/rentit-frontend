@@ -1,5 +1,5 @@
 import React from 'react';
-import googleLogo from './../assets/google_logo.png';
+import googleLogo from '../../assets/logo/google_logo.png';
 
 const GoogleLoginButton: React.FC = () => {
   return (

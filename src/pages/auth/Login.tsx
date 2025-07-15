@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
-import InputField from '../../components/InputField';
-import GoogleLoginButton from '../../components/GoogleLoginButton';
+import InputField from '../../components/common/InputField';
+import GoogleLoginButton from '../../components/common/GoogleLoginButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword } from '../../utils/validators';
 import { FaEye, FaEyeSlash } from "react-icons/fa6";

@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import OtpInput from '../../components/OTPInput';
-import InputField from '../../components/InputField';
+import OtpInput from '../../components/common/OTPInput';
+import InputField from '../../components/common/InputField';
 import { sendOtp, verifyOtp } from '../../services/authService';
-import type { OtpInputRef } from '../../components/OTPInput';
+import type { OtpInputRef } from '../../components/common/OTPInput';
 
 const ForgotPassword: React.FC = () => {
   const [showOtpInput, setShowOtpInput] = useState(false);
