@@ -3,7 +3,7 @@ import './App.css';
 import Navbar from './components/common/Navbar';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRouter';
-import Footer from './layout/footer/Footer';
+// import Footer from './layout/footer/Footer';
 
 function App() {
   return (
@@ -33,7 +33,7 @@ function App() {
       </p>
     </div>
 
-    <Footer/>
+    {/* <Footer/> */}
     </>
   );
 }
