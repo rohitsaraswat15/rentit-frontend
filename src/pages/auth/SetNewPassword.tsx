@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { ChangeEvent, FormEvent} from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import InputField from '../../components/InputField';
+import InputField from '../../components/common/InputField';
 import { isValidPassword, isPasswordMatch } from '../../utils/validators';
 import { Link } from 'react-router-dom';
 

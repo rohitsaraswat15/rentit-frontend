@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
-import InputField from '../../components/InputField';
+import InputField from '../../components/common/InputField';
 import '../../App.css';
-import OtpInput from '../../components/OTPInput';
-import type { OtpInputRef } from '../../components/OTPInput';
+import OtpInput from '../../components/common/OTPInput';
+import type { OtpInputRef } from '../../components/common/OTPInput';
 import { Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { isValidEmail, isValidPhone, isValidPassword, isPasswordMatch } from '../../utils/validators';
-import GoogleLoginButton from '../../components/GoogleLoginButton';
+import GoogleLoginButton from '../../components/common/GoogleLoginButton';
 import { registerUser, sendOtp, verifyOtp } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 
