@@ -8,7 +8,7 @@ interface ItemProps {
 
 const Item: React.FC<ItemProps> = ({ icon, title, onDelete }) => {
     return (
-        <div className="relative flex flex-col items-center border border-gray-300 bg-white shadow-lg rounded-xl p-2 w-full max-w-xs transition hover:shadow-lg">
+        <div className="relative flex flex-col items-center border border-gray-300 bg-white shadow-lg rounded-xl p-1 w-full max-w-xs transition hover:shadow-lg">
             {/* Icon */}
             <div className="w-full h-50 flex items-center justify-center rounded-lg mb-3 text-black text-8xl">
                 {icon}

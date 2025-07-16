@@ -83,7 +83,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
     };
 
     const handleDeleteCard = (index: number) => {
-        const updated = items.filter((item: { icon: string; title: string }, i: number) => i !== index);
+        const updated = items.filter((_item: { icon: string; title: string }, i: number) => i !== index);
         setItems(updated);
     };
 
@@ -145,17 +145,16 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                 </div>
             </section>
 
-            {/* <div className="w-full max-w-9xl mx-auto bg-white shadow-lg rounded-2xl p-6 md:p-10"> */}
-                <div className="text-center mb-2 md:p-10">
+            <div className="w-full max-w-screen-xl mx-auto px-4 md:px-8 lg:px-16 py-10">
+
+                <div className="text-start mb-6">
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
                         Select Category
                     </h1>
                 </div>
-            {/* </div> */}
 
-            <div className="p-6 min-h-fit">
-                {/* Admin Toggle and Add Card Button */}
-                <div className="mb-2 flex justify-between items-center flex-wrap gap-4">
+                {/* Admin Controls */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                     <button
                         onClick={() => setIsAdmin(!isAdmin)}
                         className="bg-gray-200 px-4 py-2 rounded shadow"
@@ -175,7 +174,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
 
                 {/* Admin Add Form */}
                 {isAdmin && showForm && (
-                    <div className="bg-white shadow-md rounded-xl p-6 mb-6 w-full md:w-2/3 lg:w-1/2">
+                    <div className="bg-white shadow-md rounded-xl p-6 mb-8 w-full md:w-3/4 lg:w-1/2">
                         <h3 className="text-xl font-semibold mb-4">Add New Card</h3>
 
                         <input
@@ -211,46 +210,48 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                     </div>
                 )}
 
-                {/* Admin View: Grid with Delete Buttons */}
-                {isAdmin ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-                        {items.map((item: { icon: string; title: string }, index: number) => (
-                            <ProductCard
-                                key={index}
-                                icon={iconMap[item.icon] ?? <FaBoxOpen />}
-                                title={item.title}
-                                onDelete={() => handleDeleteCard(index)}
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    // User View: Carousel
-                    <Carousel
-                        key={items.length}
-                        responsive={{
-                            superLargeDesktop: { breakpoint: { max: 4000, min: 1200 }, items: 4 },
-                            desktop: { breakpoint: { max: 1200, min: 768 }, items: 2 },
-                            tablet: { breakpoint: { max: 768, min: 464 }, items: 1 },
-                            mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
-                        }}
-                        infinite
-                        autoPlay
-                        className="py-4"
-                    >
-                        {items.map((item: { icon: string; title: string }, index: number) => (
-                            <ProductCard
-                                key={index}
-                                icon={iconMap[item.icon] ?? <FaBoxOpen />}
-                                title={item.title}
-                            />
-                        ))}
-                    </Carousel>
-                )}
+                {/* Cards Section */}
+                <div>
+                    {isAdmin ? (
+                        // Admin Grid View
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            {items.map((item: { icon: string; title: string }, index: number) => (
+                                <ProductCard
+                                    key={index}
+                                    icon={iconMap[item.icon] ?? <FaBoxOpen />}
+                                    title={item.title}
+                                    onDelete={() => handleDeleteCard(index)}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        // User Carousel View
+                        <Carousel
+                            key={items.length}
+                            responsive={{
+                                superLargeDesktop: { breakpoint: { max: 4000, min: 1200 }, items: 4 },
+                                desktop: { breakpoint: { max: 1200, min: 768 }, items: 2 },
+                                tablet: { breakpoint: { max: 768, min: 464 }, items: 1 },
+                                mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
+                            }}
+                            infinite
+                            autoPlay
+                            className="py-6"
+                        >
+                            {items.map((item: { icon: string; title: string }, index: number) => (
+                                <ProductCard
+                                    key={index}
+                                    icon={iconMap[item.icon] ?? <FaBoxOpen />}
+                                    title={item.title}
+                                />
+                            ))}
+                        </Carousel>
+                    )}
+                </div>
             </div>
 
-
-            <div className="w-full max-w-9xl mx-auto bg-white shadow-lg rounded-2xl p-6 md:p-10">
-                <div className="text-center mb-8">
+            <div className="w-full max-w-9xl mx-auto shadow-lg p-6 md:p-10">
+                <div className="text-start font-bold mb-8 py-10 px-4 md:p-10 lg:px-24">
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
                         Trending Rentals near you!
                     </h1>
@@ -259,7 +260,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
 
             <div className="w-full py-10 px-4 md:px-12 lg:px-24">
                 <div className="w-full max-w-9xl mx-auto bg-white shadow-lg rounded-2xl p-6 md:p-10">
-                    <div className="text-center mb-8">
+                    <div className="text-start mb-8">
                         <h1 className="text-2xl md:text-4xl font-bold text-gray-800">
                             How RentIt Works?
                         </h1>
@@ -268,7 +269,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-18 ml-0">
                         <div className="flex items-center justify-center bg-amber-50 rounded-2xl shadow-md p-6 gap-4 transition hover:scale-105 hover:shadow-lg">
                             <IoSearchSharp className="w-12 h-12 text-black" />
                             <p className="text-base md:text-lg font-semibold text-gray-800">
@@ -305,13 +306,13 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                 </div>
 
                 <div className="w-full max-w-9xl mx-auto mt-8 bg-white shadow-lg rounded-2xl p-6 md:p-10">
-                    <div className="text-center mb-8">
+                    <div className="text-start mb-8">
                         <h1 className="text-2xl md:text-4xl font-bold text-gray-800">
                             Why trust us ?
                         </h1>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-18 ml-0">
                         <div className="flex items-center justify-center bg-amber-50 rounded-2xl shadow-md p-6 gap-4 transition hover:scale-105 hover:shadow-lg">
                             <FaIdCard className="w-12 h-12 text-black" />
                             <p className="text-base md:text-lg font-semibold text-gray-800">
@@ -344,7 +345,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium text-gray-800 text-center mb-6">
                     <span className='text-teal-600'>  Have a device or product you don’t use? </span> Earn money by renting it out.      </h1>
 
-                <button className="bg-gradient-to-r from-purple-600 via-blue-800 to-purple-600 text-white px-6 py-3 rounded-1xl mt-4 text-lg m:text-base font-medium hover:bg-indigo-700 transition duration-300">
+                <button className="item-start bg-gradient-to-r from-purple-600 via-blue-800 to-purple-600 text-white px-6 py-3 rounded-1xl mt-4 text-lg m:text-base font-medium hover:bg-indigo-700 transition duration-300">
                     Post Your Product
                 </button>
             </div>
@@ -357,23 +358,23 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
 // export default HomePage
 
 const DropdownExample: React.FC = () => {
-  const dropdownOptions = ['Jaipur', 'Delhi', 'Mumbai', 'Agra', 'Indore', 'Banglore'];
+    const dropdownOptions = ['Jaipur', 'Delhi', 'Mumbai', 'Agra', 'Indore', 'Banglore'];
 
-  const handleSelect = (selected: string) => {
-    console.log('Selected option:', selected);
-  };
+    const handleSelect = (selected: string) => {
+        console.log('Selected option:', selected);
+    };
 
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Choose a Color</h1>
+    return (
+        <div>
+            <h1 className="text-2xl font-bold mb-4">Choose a Color</h1>
 
-      <HomePage
-        options={dropdownOptions}
-        onSelect={handleSelect}
-        defaultLabel="Select City"
-      />
-    </div>
-  );
+            <HomePage
+                options={dropdownOptions}
+                onSelect={handleSelect}
+                defaultLabel="Select City"
+            />
+        </div>
+    );
 };
 
 export default DropdownExample;
