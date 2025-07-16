@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
               </button>
             </Link>
             <Link to="/login">
-              <button className="px-4 py-2 bg-indigo-600 font-bold text-white rounded-md hover:bg-indigo-700 transition">
+              <button className="px-4 py-2 bg-gradient-to-r from-purple-600 via-blue-800 to-purple-600 font-bold text-white rounded-md hover:bg-indigo-700 transition">
                 Login
               </button>
             </Link>
