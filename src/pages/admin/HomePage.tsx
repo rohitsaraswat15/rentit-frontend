@@ -236,7 +236,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                             }}
                             infinite
                             autoPlay
-                            className="py-6"
+                            className="py-6 gap-3"
                         >
                             {items.map((item: { icon: string; title: string }, index: number) => (
                                 <ProductCard
