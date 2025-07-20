@@ -25,7 +25,14 @@ export interface LoginResponse {
   user: {
     name: string;
     email: string;
+    role: string;
   };
+}
+
+export interface User {
+  name: string;
+  email: string;
+  role: 'admin' | 'user';
 }
 
 export interface OtpResponse {
@@ -87,16 +94,30 @@ export const loginUser = async (data: LoginData): Promise<LoginResponse> => {
   } catch {
     return new Promise((resolve, reject) =>
       setTimeout(() => {
-        if (data.email === 'test@example.com' && data.password === 'Password@123') {
+        if (data.email === 'user@example.com' && data.password === 'User@123') {
           resolve({
             success: true,
-            token: 'dummy-token',
+            token: 'dummy-user-token',
             user: {
-              name: 'Test User',
+              name: 'Tanya',
               email: data.email,
+              role: 'user',
             },
           });
-        } else {
+        }
+        else if (data.email === 'admin@example.com' && data.password === 'Admin@123') {
+          resolve({
+            success: true,
+            token: 'dummy-admin-token',
+            user: {
+              name: 'Elsa',
+              email: data.email,
+              role: 'admin',
+            },
+          });
+        } 
+        
+        else {
            reject(new Error('Invalid credentials'));
         }
       }, 100)

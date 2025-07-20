@@ -51,7 +51,7 @@ const getInitialItems = () => {
 };
 
 const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = 'Select Option' }) => {
-    const [isAdmin, setIsAdmin] = useState(false);
+    // const [isAdmin, setIsAdmin] = useState(false);
     const [items, setItems] = useState(getInitialItems);
     // Admin form state
     const [showForm, setShowForm] = useState(false);
@@ -59,6 +59,9 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
     const [selectedIconIndex, setSelectedIconIndex] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState<string>(defaultLabel);
+
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const isAdmin = user?.role === 'admin';
 
     const handleSelect = (option: string) => {
         setSelected(option);
@@ -155,12 +158,12 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
 
                 {/* Admin Controls */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                    <button
+                    {/* <button
                         onClick={() => setIsAdmin(!isAdmin)}
                         className="bg-gray-200 px-4 py-2 rounded shadow"
                     >
                         Toggle Admin Mode: {isAdmin ? 'ON' : 'OFF'}
-                    </button>
+                    </button> */}
 
                     {isAdmin && (
                         <button
@@ -366,8 +369,6 @@ const DropdownExample: React.FC = () => {
 
     return (
         <div>
-            <h1 className="text-2xl font-bold mb-4">Choose a Color</h1>
-
             <HomePage
                 options={dropdownOptions}
                 onSelect={handleSelect}

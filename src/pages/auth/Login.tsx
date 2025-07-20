@@ -10,6 +10,7 @@ import { loginUser } from '../../services/authService';
 interface FormState {
   email: string;
   password: string;
+  role: string;
 }
 
 interface ErrorState {
@@ -19,7 +20,7 @@ interface ErrorState {
 }
 
 const Login: React.FC = () => {
-  const [form, setForm] = useState<FormState>({ email: '', password: '' });
+  const [form, setForm] = useState<FormState>({ email: '', password: '' ,role:''});
   const [errors, setErrors] = useState<ErrorState>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -47,14 +48,24 @@ const Login: React.FC = () => {
       const res = await loginUser({
         email: form.email,
         password: form.password,
+
       });
-         if (res.success) {
-      localStorage.setItem('user', JSON.stringify(res.user));
-      console.log('Login success, redirecting to Dashboard');
-      navigate('/dashboard');
-    } else {
-      setErrors({ general: 'Login failed: Invalid credentials' });
-    }
+
+      if (res.success) {
+        localStorage.setItem('user', JSON.stringify(res.user));
+        window.dispatchEvent(new Event('storage'));              // important for navbar to auto update
+        console.log('Login success, redirecting to Dashboard');
+
+        if (res.user.role === 'admin') {
+          navigate('/homepage')
+        } else if (res.user.role === 'user') {
+          navigate('/homepage')
+        }
+      }
+
+      else {
+        setErrors({ general: 'Login failed: Invalid credentials' });
+      }
     } catch (err) {
       console.error('Login error:', err);
       setErrors({ general: 'Login failed: Invalid credentials' });
