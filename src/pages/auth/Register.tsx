@@ -199,6 +199,7 @@ const Register: React.FC = () => {
         <div className="relative">
           <InputField type="tel" name="phone" onChange={handleChange} value={form.phone} placeholder="Phone Number" />
           {errors.phone && <p className="text-sm text-red-500 mb-2">{errors.phone}</p>}
+
           <div className="absolute top-0 right-3 cursor-pointer hover:text-gray-700">
             <button onClick={handleSendOtp} type="button" className="w-full py-2 px-4 text-blue-800 font-medium rounded-xl transition">
               Send OTP
