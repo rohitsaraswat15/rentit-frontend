@@ -15,6 +15,7 @@ const ForgotPassword: React.FC = () => {
   const otpRef = useRef<OtpInputRef>(null);
   const navigate = useNavigate();
   const [otpSuccess, setOtpSuccess] = useState<string>('');
+  
 
   const handleSendOtp = async () => {
     const contact = contactMethod === 'email' ? email : phone;
@@ -64,6 +65,8 @@ const ForgotPassword: React.FC = () => {
     alert(`OTP resent to ${contact}`);
     console.log(`OTP resent to ${contact}`)
   };
+
+  
 
   const handleProceed = () => {
     if (otpVerified) {
