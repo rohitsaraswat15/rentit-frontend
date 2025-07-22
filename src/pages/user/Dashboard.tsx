@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-// import Sidebar from '../../components/layout/Sidebar';
+import DashboardLayout from '../../components/layout/DashboardLayout';
 
 const UserDashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -16,10 +16,11 @@ const UserDashboard: React.FC = () => {
   }, [navigate]);
 
   return (
-     
-    <div className="p-6">
-      <h1 className="text-2xl mt-20 font-bold mb-4">Welcome to Admin Dashboard</h1>
-    </div>
+
+    <DashboardLayout>
+      <h1 className="text-2xl font-bold mb-4">User Dashboard</h1>
+      {/* Your user dashboard content here */}
+    </DashboardLayout>
 
   );
 };
