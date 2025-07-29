@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiX } from 'react-icons/fi';
 import RentItLogo from '../../assets/logo/RentIt.png';
 import { LuLayoutDashboard, LuUpload } from "react-icons/lu";
 import { MdAccountCircle } from "react-icons/md";
@@ -8,6 +8,8 @@ import { GoGitPullRequestDraft } from "react-icons/go";
 import { RiMessage2Line } from "react-icons/ri";
 import { IoLogOutOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
+import { RiMenu3Fill } from "react-icons/ri";
+import { FaSpinner } from 'react-icons/fa';
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,8 +17,8 @@ const Navbar: React.FC = () => {
   const [userDropdown, setUserDropdown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
-  // const [adminDashboard , setAdminDashboard] =useState(false)
-  // const [userDashboard , setUserDashboard] = useState(false)
+  const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
+
 
   // Load user info from localStorage
   useEffect(() => {
@@ -32,9 +34,16 @@ const Navbar: React.FC = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    setUser(null);
-    navigate('/');
+    // Show the "logging out" message
+    setIsLoggingOut(true);
+
+    // Simulate a loading delay, then handle the logout logic
+    setTimeout(() => {
+      localStorage.removeItem('user');
+         setUser(null);
+      setIsLoggingOut(false);
+      navigate('/');
+    }, 2000); 
   };
 
   const handleUserDropDown = () => {
@@ -150,7 +159,7 @@ const Navbar: React.FC = () => {
                       </h3>
                       <div className=' flex flex-col p-1 mt-2 cursor-pointer text-md text-left rounded text-gray-700'>
 
-                       <div  onClick={() => navigate(`/${user.role}-dashboard`)}  className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2'><LuLayoutDashboard className='text-xl text-gray-700' /> Your Dashboard</div> 
+                        <div onClick={() => navigate(`/${user.role}-dashboard`)} className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2'><LuLayoutDashboard className='text-xl text-gray-700' /> Your Dashboard</div>
 
                         <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <MdAccountCircle className='text-xl text-gray-700' /> Your Account</div>
                         <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <BsBoxes className='text-xl text-gray-700' />Your Products</div>
@@ -158,6 +167,18 @@ const Navbar: React.FC = () => {
                         <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <RiMessage2Line className='text-xl text-gray-700' />Your Message</div>
                         <div className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><LuUpload className='text-xl text-gray-700' />  Post Product</div>
                         <div onClick={handleLogout} className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><IoLogOutOutline className='text-xl text-gray-700' /> Logout</div>
+
+                        {isLoggingOut && (
+                          <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+                            <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs sm:max-w-sm md:max-w-md">
+                              <p className="text-lg font-semibold text-gray-800">You are logging out...</p>
+                              <div className="mt-4 animate-spin">
+                                <FaSpinner className="text-blue-500 text-3xl mx-auto" />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
                       </div>
                     </div>
                   )}
@@ -172,7 +193,7 @@ const Navbar: React.FC = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-700 focus:outline-none"
             >
-              {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+              {isMobileMenuOpen ? <FiX size={24} /> : <RiMenu3Fill size={24} />}
             </button>
           </div>
         </div>
@@ -208,25 +229,13 @@ const Navbar: React.FC = () => {
               </>
             ) : (
               <>
-              <div className="md:hidden px-4 pb-4 pt-2 space-y-2 bg-white shadow-md border-t border-gray-200 items-center">
+                <div className="md:hidden px-4 pb-4 pt-2 space-y-2 bg-white shadow-md border-t border-gray-200 items-center">
                   <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3 border-2 border-gray-400 rounded-xl">About</Link>
                   <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Pricing</Link>
                   <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Categories</Link>
                   <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Contact</Link>
-                  </div>
-
-                {/* <div className="w-full text-center text-gray-800 font-medium mt-2">
-                  👤 {user.name} ({user.role})
                 </div>
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-                >
-                  Logout
-                </button> */}
+
               </>
             )}
           </div>
