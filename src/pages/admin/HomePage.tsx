@@ -94,7 +94,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
     return (
         <>
 
-            <section className="w-full py-12 px-6 md:px-12 lg:px-24 mt-5 bg-teal-500">
+            <section className="w-full md:h-120 py-12 px-6 md:px-12 lg:px-24 mt-5 bg-teal-500">
                 <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-10">
 
                     <div className="flex flex-col w-full  py-12 px-6 text-center md:text-left ">
@@ -240,7 +240,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                             }}
                             infinite
                             autoPlay
-                            className="cursor-pointer gap-2 w-full"
+                            className="cursor-pointer gap-2 w-full z-10"
                         >
                             {items.map((item: { icon: string; title: string }, index: number) => (
                                 <ProductCard
@@ -254,7 +254,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                 </div>
             </div>
 
-            <div className="w-full max-w-9xl mx-auto shadow-lg p-6 md:p-10">
+            <div className="w-full max-w-9xl mx-auto p-6 md:p-10">
                 <div className="text-start font-bold mb-8 py-10 px-4 md:p-10 lg:px-24">
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
                         Trending Rentals near you!
@@ -264,10 +264,10 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                  <ProductImageCarousel/>
             </div>
 
-            <div className="w-full py-10 px-4 md:px-5 lg:px-24">
-                <div className="w-full max-w-9xl bg-white rounded-2xl p-6 md:p-10">
+            <div className="w-full py-10 px-4 md:px-5 lg:px-20">
+                <div className="w-full max-w-9xl bg-white rounded-2xl p-6 md:p-8">
                     <div className="text-start mb-8">
-                        <h1 className="text-2xl md:text-4xl font-bold text-gray-800">
+                        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
                             How RentIt Works?
                         </h1>
                         <p className="text-gray-600 mt-2 text-sm md:text-base">
@@ -275,9 +275,9 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-18 ml-0">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10 ml-0 ">
                         <div className="flex items-center justify-center bg-amber-50 rounded-2xl shadow-md p-6 gap-4 transition hover:scale-105 hover:shadow-lg">
-                            <IoSearchSharp className="w-12 h-12 text-black" />
+                            <IoSearchSharp className="w-12 h-12 text-gray-900" />
                             <p className="text-base md:text-lg font-semibold text-gray-800">
                                 <b>  Search </b><br />
                                 Product
@@ -313,12 +313,12 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
 
                 <div className="w-full max-w-9xl mt-8 bg-white rounded-2xl p-6 md:p-10">
                     <div className="text-start mb-8">
-                        <h1 className="text-2xl md:text-4xl font-bold text-gray-800">
+                        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
                             Why trust us ?
                         </h1>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-18 ml-0">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 ml-0">
                         <div className="flex items-center justify-center bg-amber-50 rounded-2xl shadow-md p-6 gap-4 transition hover:scale-105 hover:shadow-lg">
                             <FaIdCard className="w-12 h-12 text-black" />
                             <p className="text-base md:text-lg font-semibold text-gray-800">
@@ -347,11 +347,11 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                 </div>
             </div>
 
-            <div className="w-full bg-[#ffffff19] py-16 px-6 sm:px-8 md:px-16 lg:px-32 flex flex-col items-center rounded-xl shadow-lg">
+            <div className="w-full bg-[#ffffff19] py-16 px-6 sm:px-8 md:px-10 lg:px-32 flex flex-col items-center rounded-xl shadow-lg">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium text-gray-800 text-center mb-6">
-                    <span className='text-teal-600'>  Have a device or product you don’t use? </span> Earn money by renting it out.      </h1>
+                    <span className='text-teal-700'>  Have a device or product you don’t use? </span> Earn money by renting it out.      </h1>
 
-                <button className="item-start bg-gradient-to-r from-purple-600 via-blue-800 to-purple-600 text-white px-6 py-3 rounded-1xl mt-4 text-lg m:text-base font-medium hover:bg-indigo-700 transition duration-300">
+                <button className="item-start bg-purple-600 via-blue-800 to-purple-600 text-white px-6 py-3 rounded-md mt-4 text-lg m:text-base font-medium hover:bg-indigo-700 transition duration-300">
                     Post Your Product
                 </button>
             </div>
