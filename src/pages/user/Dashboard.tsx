@@ -18,10 +18,8 @@ const UserDashboard: React.FC = () => {
   return (
 
     <DashboardLayout>
-      <h1 className="text-2xl font-bold mb-4">User Dashboard</h1>
-      {/* Your user dashboard content here */}
+      <h1 className="text-2xl font-bold m-auto">Welcome to your User Dashboard</h1>
     </DashboardLayout>
-
   );
 };
 
