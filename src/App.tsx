@@ -16,7 +16,9 @@ function App() {
    const location = useLocation();
     const hideNavbar =
     location.pathname.startsWith('/admin-dashboard') ||
-    location.pathname.startsWith('/user-dashboard');
+    location.pathname.startsWith('/user-dashboard') ||
+    location.pathname.startsWith('/myProducts') ||
+    location.pathname.startsWith('/post-product');
 
 
   return (
