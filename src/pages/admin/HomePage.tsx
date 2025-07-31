@@ -94,7 +94,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
     return (
         <>
 
-            <section className="w-full md:h-120 py-12 px-6 md:px-12 lg:px-24 mt-5 bg-teal-500">
+            <section className="w-full md:h-120 py-12 px-6 md:px-12 lg:px-24 mt-5 bg-yellow-300">
                 <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-10">
 
                     <div className="flex flex-col w-full  py-12 px-6 text-center md:text-left ">
@@ -149,10 +149,10 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                 </div>
             </section>
 
-            <div className="w-full max-w-screen-xl m-auto px-4 md:px-8 lg:px-5 py-5 ">
+            <div className="w-full md:mx-aut0 max-w-9xl mx-auto p-6 md:p-10 px-4 md:px-8 lg:px-20 py-5 ">
 
-                <div className="text-start mb-6">
-                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+                <div className="text-start font-bold py-2 md:p-10 lg:px-24 mt-0 ">
+                    <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800 ">
                         Select Category
                     </h1>
                 </div>
@@ -235,8 +235,8 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                             responsive={{
                                 superLargeDesktop: { breakpoint: { max: 4000, min: 1200 }, items: 6 },
                                 desktop: { breakpoint: { max: 1200, min: 768 }, items: 4 },
-                                tablet: { breakpoint: { max: 768, min: 464 }, items: 3 },
-                                mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
+                                tablet: { breakpoint: { max: 768, min: 464 }, items: 4 },
+                                mobile: { breakpoint: { max: 464, min: 0 }, items: 4 },
                             }}
                             infinite
                             autoPlay
@@ -255,8 +255,8 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
             </div>
 
             <div className="w-full max-w-9xl mx-auto p-6 md:p-10">
-                <div className="text-start font-bold mb-8 py-10 px-4 md:p-10 lg:px-24">
-                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+                <div className="text-start font-bold py-2 md:p-10 lg:px-24 mt-0">
+                    <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800">
                         Trending Rentals near you!
                     </h1>
                 </div>

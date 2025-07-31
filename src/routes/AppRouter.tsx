@@ -9,8 +9,10 @@ import UserDashboard from '../pages/user/Dashboard';
 import ProtectedRoute from './ProtectedRoute';
 import AdminDashboard from '../pages/admin/Dashboard';
 import HomePage from '../pages/admin/HomePage';
+import NotSignedInComponent from '../components/layout/NotSignedInComponent';
 import PostProduct from '../pages/user/PostProduct';
 import MyProducts from '../pages/user/MyProducts';
+
 
 
 
@@ -30,9 +32,10 @@ const AppRoutes: React.FC = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/forgetpassword" element={<ForgotPassword />} />
       <Route path="/setnewpassword" element={<SetNewPassword />} />
-      <Route path='/post-product' element={<PostProduct />} />
-      <Route path='/myProducts' element={<MyProducts/>} />
-      
+<Route path='/notsigned' element={<NotSignedInComponent />} />
+<Route path='/post-product' element={<PostProduct />} />
+<Route path='/myProducts' element={<MyProducts />} />
+
       {/* user homepage route */}
       <Route path="/homepage"
         element={
