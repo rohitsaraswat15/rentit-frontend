@@ -11,6 +11,7 @@ import { RiMessage2Line } from "react-icons/ri";
 import { IoLogOutOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
 
+
 const BottomHeader: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [user, setUser] = useState<{ name: string; role: string } | null>(null);

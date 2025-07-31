@@ -1,13 +1,13 @@
 import React from 'react';
-import { FaUserAlt } from 'react-icons/fa';  
 import { Link } from 'react-router-dom';
+import { BiSolidDoorOpen } from "react-icons/bi";
  
 const NotSignedInComponent: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-4 sm:px-6">
       {/* Illustration/Icon */}
-      <div className="text-4xl text-blue-500 mb-4">
-        <FaUserAlt />
+      <div className="text-8xl text-yellow-400 mb-4">
+        <BiSolidDoorOpen />
       </div>
 
       {/* Message */}
