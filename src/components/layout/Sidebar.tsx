@@ -60,7 +60,7 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
         {/* user links */}
         {!isAdmin && (
           <>
-            <SidebarLink to="/products" icon={<BsBoxes />} label="My Products" collapsed={collapsed} />
+            <SidebarLink to="/myProducts" icon={<BsBoxes />} label="My Products" collapsed={collapsed} />
             <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Rent Request" collapsed={collapsed} />
           </>
         )}
@@ -70,7 +70,7 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
           <>
             <SidebarLink to="/products" icon={<BsBoxes />} label="All Products" collapsed={collapsed} />
             <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Request for Boost" collapsed={collapsed} />
-            <SidebarLink to="/requests" icon={<IoTrashBinOutline />} label="Bin" collapsed={collapsed} />
+            <SidebarLink to="/bin" icon={<IoTrashBinOutline />} label="Bin" collapsed={collapsed} />
           </>
         )}
 
@@ -84,11 +84,11 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
           </button>
           {/* Admin */}
           {isAdmin && (
-            <SidebarLink to="/post-product" icon={<IoSettingsOutline />} label="User Settings" collapsed={collapsed} />
+            <SidebarLink to="/admin-settings" icon={<IoSettingsOutline />} label="User Settings" collapsed={collapsed} />
           )}
           {/* user */}
           {!isAdmin && (
-            <SidebarLink to="/post-product" icon={<IoSettingsOutline />} label="Settings" collapsed={collapsed} />
+            <SidebarLink to="/settings" icon={<IoSettingsOutline />} label="Settings" collapsed={collapsed} />
           )}
 
         </div>
