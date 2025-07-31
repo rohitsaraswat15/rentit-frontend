@@ -10,6 +10,8 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
 import { RiMenu3Fill } from "react-icons/ri";
 import { FaSpinner } from 'react-icons/fa';
+import { IoIosNotificationsOutline } from "react-icons/io";
+
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -40,10 +42,10 @@ const Navbar: React.FC = () => {
     // Simulate a loading delay, then handle the logout logic
     setTimeout(() => {
       localStorage.removeItem('user');
-         setUser(null);
+      setUser(null);
       setIsLoggingOut(false);
       navigate('/');
-    }, 2000); 
+    }, 2000);
   };
 
   const handleUserDropDown = () => {
@@ -66,15 +68,16 @@ const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 ml-10 items-center">
+        <div className="flex justify-between h-16 ml-4 sm:ml-8 md:ml-12 items-center">
           {/* Logo */}
-          <Link to="/" className="text-xl font-bold text-indigo-600">
+          <Link to="/" className="text-md sm:text-lg md:text-xl font-bold text-indigo-600">
             <img
               src={RentItLogo}
               alt="RentIt Logo"
-              style={{ width: '120px', maxWidth: '100%' }}
+              style={{ width: '90px', maxWidth: '100%' }}
             />
           </Link>
+
           {/* Navbar links */}
           <div className="hidden md:flex space-x-8 justify-center flex-1 text-md p-3">
             <Link to="/" className="text-gray-700 hover:bg-indigo-200 p-2 hover:rounded-lg font-medium transition">
@@ -90,8 +93,13 @@ const Navbar: React.FC = () => {
               Contact
             </Link>
           </div>
+
+          <div className="flex items-end float-right md:mr-8 ml-35 sm:ml-40">
+            <IoIosNotificationsOutline size={30} />
+          </div>
+
           {/* search box */}
-          <div className="flex-grow max-w-md w-full mx-auto px-2">
+          <div className="flex-grow max-w-md w-full mx-auto px-2 hidden sm:visible md:visible lg:visible">
             <div className="relative text-gray-600">
               <input
                 type="text"
@@ -132,7 +140,7 @@ const Navbar: React.FC = () => {
             ) : (
               <>
                 <span className="font-semibold text-gray-700 flex gap-4 items-center relative">
-                  {user.name} ({user.role})
+                  {/* {user.name} ({user.role}) */}
 
                   {/* User Dropdown Name Initials*/}
                   <button
@@ -188,6 +196,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Hamburger Icon */}
+
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
