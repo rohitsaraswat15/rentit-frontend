@@ -98,7 +98,7 @@ const Login: React.FC = () => {
           value={form.email}
           placeholder="Email"
         />
-        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+        {errors.email && <p className="text-red-500 text-sm mb-2">{errors.email}</p>}
 
         <div className="relative">
           <InputField
@@ -109,7 +109,7 @@ const Login: React.FC = () => {
             placeholder="Password"
           />
           {errors.general && (
-            <p className="text-red-500 text-sm text-center mb-4">{errors.general}</p>
+            <p className="text-red-500 text-sm text-center mb-2">{errors.general}</p>
           )}
           <div
             onClick={() => setShowPassword((prev) => !prev)}
@@ -124,7 +124,7 @@ const Login: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full mt-2 py-2 rounded-xl font-semibold transition ${loading ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-green-700'
+            className={`w-full mt-2 py-2 rounded-xl font-semibold transition ${loading ? 'bg-gray-300 cursor-not-allowed' : 'bg-purple-500 text-white hover:bg-purple-600 cursor-pointer'
               }`}
           >
             {loading ? 'Logging in...' : 'Login'}

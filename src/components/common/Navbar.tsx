@@ -96,10 +96,10 @@ const Navbar: React.FC = () => {
 
           <div className="relative flex items-end float-right md:mr-8 ml-35 sm:ml-40 text-gray-500">
             {/* Notification Icon */}
-            <IoIosNotificationsOutline size={30} />
+            <IoIosNotificationsOutline className='cursor-pointer' size={30} />
 
             {/* Notification Badge */}
-            <div className="absolute top-0 right-0 bg-red-500 text-white text-sm font-semibold rounded-full w-4 h-4 flex items-center justify-center">
+            <div className="absolute top-0 right-0 cursor-pointer bg-red-500 text-white text-sm font-semibold rounded-full w-4 h-4 flex items-center justify-center">
               3 
             </div>
           </div>
@@ -133,12 +133,12 @@ const Navbar: React.FC = () => {
             {!user ? (
               <>
                 <Link to="/register">
-                  <button className="px-4 py-2 bg-white font-bold text-gray-500 rounded-md hover:bg-gray-200 border-2 border-gray-400 transition">
+                  <button className="px-4 py-2 cursor-pointer bg-white font-bold text-gray-500 rounded-md hover:bg-gray-200 border-2 border-gray-400 transition">
                     Register
                   </button>
                 </Link>
                 <Link to="/login">
-                  <button className="px-4 py-2 bg-purple-500 font-bold text-white rounded-md hover:bg-purple-600 transition">
+                  <button className="px-4 py-2 cursor-pointer bg-purple-500 font-bold text-white rounded-md hover:bg-purple-600 transition">
                     Login
                   </button>
                 </Link>
@@ -175,12 +175,12 @@ const Navbar: React.FC = () => {
 
                         <div onClick={() => navigate(`/${user.role}-dashboard`)} className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2'><LuLayoutDashboard className='text-xl text-gray-700' /> Your Dashboard</div>
 
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <MdAccountCircle className='text-xl text-gray-700' /> Your Account</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <BsBoxes className='text-xl text-gray-700' />Your Products</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><GoGitPullRequestDraft className='text-xl text-gray-700' /> Your Request</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <RiMessage2Line className='text-xl text-gray-700' />Your Message</div>
-                        <div className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><LuUpload className='text-xl text-gray-700' />  Post Product</div>
-                        <div onClick={handleLogout} className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><IoLogOutOutline className='text-xl text-gray-700' /> Logout</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <MdAccountCircle className='text-xl text-gray-700' /> Your Account</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <BsBoxes className='text-xl text-gray-700' />Your Products</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><GoGitPullRequestDraft className='text-xl text-gray-700' /> Your Request</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <RiMessage2Line className='text-xl text-gray-700' />Your Message</div>
+                        <div className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><LuUpload className='text-xl text-gray-700' />  Post Product</div>
+                        <div onClick={handleLogout} className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><IoLogOutOutline className='text-xl text-gray-700' /> Logout</div>
 
                         {isLoggingOut && (
                           <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
@@ -206,7 +206,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-500 focus:outline-none"
+              className="text-gray-500 focus:outline-none cursor-pointer"
             >
               {isMobileMenuOpen ? <FiX size={24} /> : <RiMenu3Fill size={24} />}
             </button>
@@ -219,15 +219,15 @@ const Navbar: React.FC = () => {
             {!user ? (
               <>
                 <div className="md:hidden px-4 pb-4 pt-2 space-y-2 bg-white shadow-md border-t border-gray-200 items-center">
-                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3border-2 border-gray-400 rounded-xl">About</Link>
-                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Pricing</Link>
-                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Categories</Link>
-                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Contact</Link>
+                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3border-2 border-gray-400 rounded-xl cursor-pointer">About</Link>
+                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3 cursor-pointer">Pricing</Link>
+                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3 cursor-pointer">Categories</Link>
+                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3 cursor-pointer">Contact</Link>
 
                   <Link to="/register">
                     <button
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="w-full px-4 mt-3 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition"
+                      className="w-full px-4 mt-3 py-2 cursor-pointer bg-purple-500 text-white rounded-md hover:bg-purple-600 transition"
                     >
                       Register
                     </button>
@@ -235,7 +235,7 @@ const Navbar: React.FC = () => {
                   <Link to="/login">
                     <button
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="w-full px-4 mt-3 py-2 bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 transition"
+                      className="w-full px-4 mt-3 py-2 bg-gray-100 cursor-pointer text-gray-800 rounded-md hover:bg-gray-200 transition"
                     >
                       Login
                     </button>

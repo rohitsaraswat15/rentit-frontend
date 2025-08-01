@@ -78,7 +78,7 @@ const OtpInput = forwardRef<OtpInputRef, OtpInputProps>(({ length = 6, onVerify,
       <div className="flex flex-wrap justify-center gap-4 mt-4 mb-4">
         <button
           onClick={() => onVerify(otp.join(''))}
-          className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-green-700 transition"
+          className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition cursor-pointer"
         >
           Verify OTP
         </button>
@@ -90,7 +90,7 @@ const OtpInput = forwardRef<OtpInputRef, OtpInputProps>(({ length = 6, onVerify,
           }}
           disabled={!resendEnabled}
           className={`px-4 py-2 rounded transition ${resendEnabled
-              ? 'bg-gray-300 text-black hover:bg-gray-400'
+              ? 'bg-gray-300 text-black hover:bg-gray-400 cursor-pointer'
               : 'bg-gray-200 text-gray-500 cursor-not-allowed'
             }`}
         >

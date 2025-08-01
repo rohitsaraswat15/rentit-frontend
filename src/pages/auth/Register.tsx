@@ -213,7 +213,7 @@ const Register: React.FC = () => {
           {errors.phone && <p className="text-sm text-red-500 mb-2">{errors.phone}</p>}
 
           <div className="absolute top-0 right-3 cursor-pointer hover:text-gray-700">
-            <button onClick={handleSendOtp} type="button" className="w-full py-2 px-4 text-purple-500 font-medium rounded-xl transition">
+            <button onClick={handleSendOtp} type="button" className="w-full py-2 px-4 text-purple-500 font-medium rounded-xl transition cursor-pointer">
               Send OTP
             </button>
           </div>

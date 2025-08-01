@@ -59,14 +59,17 @@ const BottomHeader: React.FC = () => {
 
   const handleIconClick = (icon: string) => {
     setActiveIcon(icon);
-     
-    if(!user && (icon === 'profile' || icon === 'chat') ){
+
+    if (!user && (icon === 'profile' || icon === 'chat' || icon === 'post')) {
       navigate('/notsigned')
+    }
+    else if (user && icon === 'post') {
+      navigate('/postProduct')
     }
     else {
       navigate('/')
     }
-    
+
   };
 
   return (
@@ -98,7 +101,7 @@ const BottomHeader: React.FC = () => {
           </div>
 
 
-          <div className="relative flex items-center justify-center bg-purple-500 text-white rounded-full p-3 transform translate-y-[-50%] shadow-xl z-30">
+          <div onClick={() => handleIconClick('post')} className="relative flex items-center justify-center bg-purple-500 text-white rounded-full p-3 transform translate-y-[-50%] shadow-xl z-30">
             <GoPlus size={30} />
           </div>
 
@@ -148,25 +151,35 @@ const BottomHeader: React.FC = () => {
                 </div>
 
                 {isOpen && (
-                  <div
-                    className={`${isOpen ? "transform translate-y-[-5%]" : "transform translate-y-full"
-                      } fixed bottom-[64px] left-0 w-full z-10 bg-white text-white p-4 transition-all duration-300 ease-in-out sm:hidden rounded-t-xl h-[calc(60vh-64px)] overflow-y-auto scrollbar-hidden border-2 border-t-gray-400`}
-                  >
-                    <div className="scroll-m-0 border-t-3 border-gray-400 mt-10 pt-4 m-auto "></div>
-                    {/* Links inside the sliding div */}
-                    <div onClick={handleLinkClick} className=' flex flex-col p-1 mt-2 cursor-pointer text-md text-left rounded text-gray-700 z-10 '>
+                  <>
+                  {/* <div className='flex flex-col gap-3 w-full h-fit bg-red-500'> 
 
-                      <div onClick={() => navigate(`/${user.role}-dashboard`)} className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2'><LuLayoutDashboard className='text-xl text-gray-700' /> Your Dashboard</div>
+                    <div className='bg-gray-400 w-full h-fit flex flex-col m-auto fixed z-20'>
+                      <div className="border-t-3 border-gray-400 mt-10 pt-4 m-auto "></div>
+                      <h3 className='text-gray-600 text-sm text-center '>Profile</h3>
+                    </div> */}
 
-                      <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <MdAccountCircle className='text-xl text-gray-700' /> Your Account</div>
-                      <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <BsBoxes className='text-xl text-gray-700' />Your Products</div>
-                      <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><GoGitPullRequestDraft className='text-xl text-gray-700' /> Your Request</div>
-                      <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <RiMessage2Line className='text-xl text-gray-700' />Your Message</div>
-                      <div className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><LuUpload className='text-xl text-gray-700' />  Post Product</div>
-                      <div onClick={handleLogout} className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><IoLogOutOutline className='text-xl text-gray-700' /> Logout</div>
+                    <div
+                      className={`${isOpen ? "transform translate-y-[-5%]" : "transform translate-y-full"
+                        } fixed bottom-[54px] left-0 w-full z-10 bg-white text-white p-4 transition-all duration-300 ease-in-out sm:hidden rounded-t-xl h-[calc(60vh-64px)] overflow-y-auto scrollbar-hidden border-2 border-t-gray-400`}
+                    >
 
+                      {/* Links inside the sliding div */}
+                      <div onClick={handleLinkClick} className=' flex flex-col p-1 mt-2 cursor-pointer text-md text-left rounded text-gray-700 z-10 '>
+
+                        <div onClick={() => navigate(`/${user.role}-dashboard`)} className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2'><LuLayoutDashboard className='text-xl text-gray-700' /> Your Dashboard</div>
+
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <MdAccountCircle className='text-xl text-gray-700' /> Your Account</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <BsBoxes className='text-xl text-gray-700' />Your Products</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><GoGitPullRequestDraft className='text-xl text-gray-700' /> Your Request</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <RiMessage2Line className='text-xl text-gray-700' />Your Message</div>
+                        <div className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><LuUpload className='text-xl text-gray-700' />  Post Product</div>
+                        <div onClick={handleLogout} className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><IoLogOutOutline className='text-xl text-gray-700' /> Logout</div>
+
+                      </div>
                     </div>
-                  </div>
+                    {/* </div> */}
+                  </>
 
                 )}
 
