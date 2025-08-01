@@ -63,9 +63,6 @@ const BottomHeader: React.FC = () => {
     if (!user && (icon === 'profile' || icon === 'chat' || icon === 'post')) {
       navigate('/notsigned')
     }
-    else if (user && icon === 'post') {
-      navigate('/postProduct')
-    }
     else {
       navigate('/')
     }
