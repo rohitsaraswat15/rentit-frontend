@@ -94,7 +94,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
     return (
         <>
 
-            <section className="w-full md:h-120 py-12 px-6 md:px-12 lg:px-24 mt-5 bg-yellow-300">
+            <section className="w-full md:h-120 py-12 px-6 md:px-12 lg:px-24 mt-5 bg-purple-300">
                 <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-10">
 
                     <div className="flex flex-col w-full  py-12 px-6 text-center md:text-left ">
@@ -106,7 +106,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                             <input
                                 type="text"
                                 placeholder="I am lokking for...."
-                                className="w-full text-white sm:w-72 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                className="w-full text-gray-600 sm:w-72 px-4 py-3 bg-white border-2 border-white rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
                             />
 
                             <div className="relative w-full max-w-xs">
@@ -351,9 +351,10 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium text-gray-800 text-center mb-6">
                     <span className='text-teal-700'>  Have a device or product you don’t use? </span> Earn money by renting it out.      </h1>
 
-                <button className="item-start bg-purple-600 via-blue-800 to-purple-600 text-white px-6 py-3 rounded-md mt-4 text-lg m:text-base font-medium hover:bg-indigo-700 transition duration-300">
+                 <button className="item-start bg-purple-600 via-blue-800 to-purple-600 text-white px-6 py-3 rounded-md mt-4 text-lg m:text-base font-medium hover:bg-indigo-700 transition duration-300">
                     Post Your Product
                 </button>
+              
             </div>
 
             <Footer />

@@ -94,8 +94,14 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          <div className="flex items-end float-right md:mr-8 ml-35 sm:ml-40">
+          <div className="relative flex items-end float-right md:mr-8 ml-35 sm:ml-40 text-gray-500">
+            {/* Notification Icon */}
             <IoIosNotificationsOutline size={30} />
+
+            {/* Notification Badge */}
+            <div className="absolute top-0 right-0 bg-red-500 text-white text-sm font-semibold rounded-full w-4 h-4 flex items-center justify-center">
+              3 
+            </div>
           </div>
 
           {/* search box */}
@@ -127,12 +133,12 @@ const Navbar: React.FC = () => {
             {!user ? (
               <>
                 <Link to="/register">
-                  <button className="px-4 py-2 bg-white font-bold text-gray-700 rounded-md hover:bg-gray-200 border-2 border-gray-400 transition">
+                  <button className="px-4 py-2 bg-white font-bold text-gray-500 rounded-md hover:bg-gray-200 border-2 border-gray-400 transition">
                     Register
                   </button>
                 </Link>
                 <Link to="/login">
-                  <button className="px-4 py-2 bg-gradient-to-r from-purple-600 via-blue-800 to-purple-600 font-bold text-white rounded-md hover:bg-indigo-700 transition">
+                  <button className="px-4 py-2 bg-purple-500 font-bold text-white rounded-md hover:bg-purple-600 transition">
                     Login
                   </button>
                 </Link>
@@ -200,7 +206,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-700 focus:outline-none"
+              className="text-gray-500 focus:outline-none"
             >
               {isMobileMenuOpen ? <FiX size={24} /> : <RiMenu3Fill size={24} />}
             </button>
@@ -221,7 +227,7 @@ const Navbar: React.FC = () => {
                   <Link to="/register">
                     <button
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="w-full px-4 mt-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+                      className="w-full px-4 mt-3 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition"
                     >
                       Register
                     </button>

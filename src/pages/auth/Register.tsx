@@ -10,6 +10,8 @@ import { isValidEmail, isValidPhone, isValidPassword, isPasswordMatch } from '..
 import GoogleLoginButton from '../../components/common/GoogleLoginButton';
 import { registerUser, sendOtp, verifyOtp } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
+import { IoCloseCircle } from "react-icons/io5";
+
 
 interface FormData {
   fullName: string;
@@ -133,7 +135,7 @@ const Register: React.FC = () => {
       setShowOtpInput(true);
       setOtpSent(true);
       alert('OTP sent!');
-      console.log("OTP Sent to " , form.phone)
+      console.log("OTP Sent to ", form.phone)
     } catch {
       alert('Failed to send OTP');
     }
@@ -169,7 +171,7 @@ const Register: React.FC = () => {
       setOtpVerifiedMessage('OTP Verified Successfully')
       setErrors((prev) => ({ ...prev, otp: '' }))
       setIsOtpVerified(true)
-      setOtpFailed(false) 
+      setOtpFailed(false)
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Invalid OTP. Please try again.';
       setErrors((prev) => ({
@@ -188,9 +190,19 @@ const Register: React.FC = () => {
     console.log('OTP resent to', form.phone);
   };
 
+  const closeModal = () => {
+  navigate('/')
+  };
+
   return (
-    <div className="flex px-4 py-24 sm:px-6 lg:px-8 items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-black overflow-x-hidden overflow-y-hidden">
+    <div className="flex px-4 py-20 sm:px-6 lg:px-8 items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-purple-300 overflow-x-hidden overflow-y-hidden">
       <div className="w-full max-w-md mx-auto p-4 shadow-xl bg-white backdrop-blur-md border border-gray-200 rounded">
+        <button
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-600 text-2xl"
+          onClick={closeModal}
+        >
+          <IoCloseCircle />
+        </button>
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Create an Account</h2>
 
         <InputField type="text" name="fullName" onChange={handleChange} value={form.fullName} placeholder="Full Name" />
@@ -201,30 +213,34 @@ const Register: React.FC = () => {
           {errors.phone && <p className="text-sm text-red-500 mb-2">{errors.phone}</p>}
 
           <div className="absolute top-0 right-3 cursor-pointer hover:text-gray-700">
-            <button onClick={handleSendOtp} type="button" className="w-full py-2 px-4 text-blue-800 font-medium rounded-xl transition">
+            <button onClick={handleSendOtp} type="button" className="w-full py-2 px-4 text-purple-500 font-medium rounded-xl transition">
               Send OTP
             </button>
           </div>
         </div>
 
+        {errors.otp && (
+          <p className="text-sm text-red-500 mt-2 text-center">{errors.otp}</p>
+        )}
+        {otpVerifiedMessage && (
+          <p className="text-green-600 text-sm text-center mt-2">{otpVerifiedMessage}</p>
+        )}
+
         <div className="mt-4">
           {showOtpInput && (
             <p className="mb-2 text-sm text-gray-700">Enter OTP sent to {form.phone}</p>
           )}
-          <OtpInput
-            length={6}
-            ref={otpRef}
-            onVerify={handleVerifyOtp}
-            onResend={handleResendOtp}
-            contact={form.phone}
-            error={errors.otp}
-             resendEnabled={otpFailed}
-          />
-          {errors.otp && (
-            <p className="text-sm text-red-500 mt-2 text-center">{errors.otp}</p>
-          )}
-          {otpVerifiedMessage && (
-            <p className="text-green-600 text-sm text-center mt-2">{otpVerifiedMessage}</p>
+
+          {otpSent && (
+            <OtpInput
+              length={6}
+              ref={otpRef}
+              onVerify={handleVerifyOtp}
+              onResend={handleResendOtp}
+              contact={form.phone}
+              error={errors.otp}
+              resendEnabled={otpFailed}
+            />
           )}
         </div>
 
@@ -233,22 +249,21 @@ const Register: React.FC = () => {
 
         <div className="relative">
           <InputField type={showPassword ? 'text' : 'password'} name="password" onChange={handleChange} value={form.password} placeholder="Password" />
-          <div onClick={() => setShowPassword((prev) => !prev)} className="absolute top-3.5 right-3 cursor-pointer text-gray-500 hover:text-gray-700">
+          <div onClick={() => setShowPassword((prev) => !prev)} className="absolute top-3 right-3 cursor-pointer text-gray-500 hover:text-gray-700">
             {showPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
           </div>
+          {errors.password && <p className="text-red-500 text-sm top-0">{errors.password}</p>}
         </div>
-        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
 
         <div className="relative">
+          {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
           <InputField type={showConfirmPassword ? 'text' : 'password'} name="confirmPassword" onChange={handleChange} value={form.confirmPassword} placeholder="Confirm Password" />
-          <div onClick={() => setShowConfirmPassword((prev) => !prev)} className="absolute top-2.5 right-3 cursor-pointer text-gray-500 hover:text-gray-700">
+          <div onClick={() => setShowConfirmPassword((prev) => !prev)} className="absolute top-3 right-3 cursor-pointer text-gray-500 hover:text-gray-700">
             {showConfirmPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
           </div>
         </div>
-        {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
-
         <form onSubmit={handleSubmit}>
-          <button className="w-full mt-2 py-2 px-4 bg-blue-600 text-white font-medium rounded-sm hover:bg-green-700 transition">
+          <button className="w-full mt-2 py-2 px-4 bg-purple-500 text-white font-medium rounded-sm hover:bg-purple-600 transition">
             Sign Up
           </button>
           {registerMessage && (

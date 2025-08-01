@@ -60,7 +60,7 @@ const BottomHeader: React.FC = () => {
   const handleIconClick = (icon: string) => {
     setActiveIcon(icon);
      
-    if(!user && (activeIcon === 'profile' || activeIcon === 'chat') ){
+    if(!user && (icon === 'profile' || icon === 'chat') ){
       navigate('/notsigned')
     }
     else {
@@ -73,27 +73,27 @@ const BottomHeader: React.FC = () => {
     <>
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-400 shadow-lg z-30 sm:hidden">
         {/* This navbar will be hidden on sm and above, and visible on mobile */}
-        <div className="flex justify-between items-center p-3 cursor-pointer relative">
+        <div className="flex justify-between items-center py-2 px-6 cursor-pointer relative">
 
-          <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'home' ? 'text-blue-500 ' : 'text-gray-500'
+          <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'home' ? 'text-purple-500 ' : 'text-gray-500'
             }`}
             onClick={() => handleIconClick('home')}
           >
             <GoHome size={26} />
             <span className="text-xs">Home</span>
             {activeIcon === 'home' && (
-              <div className="w-10 h-1 bg-blue-500 absolute top-0 transform-translate-x-1/2 z-10"></div>
+              <div className="w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10"></div>
             )}
           </div>
 
 
-          <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'search' ? 'text-blue-500' : 'text-gray-500'} `}
+          <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'search' ? 'text-purple-500' : 'text-gray-500'} `}
             onClick={() => handleIconClick('search')}
           >
             <GoSearch size={26} />
             <span className="text-xs">Search</span>
             {activeIcon === 'search' && (
-              <div className='w-10 h-1 bg-blue-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
+              <div className='w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
             )}
           </div>
 
@@ -103,31 +103,31 @@ const BottomHeader: React.FC = () => {
           </div>
 
 
-          <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'chat' ? 'text-blue-500' : 'text-gray-500'} `}
+          <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'chat' ? 'text-purple-500' : 'text-gray-500'} `}
             onClick={() => handleIconClick('chat')}
           >            <IoChatboxEllipsesOutline size={26} />
             <span className="text-xs">Chat</span>
             {activeIcon === 'chat' && (
-              <div className='w-10 h-1 bg-blue-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
+              <div className='w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
             )}
           </div>
 
           {/* Profile Icon */}
           {!user ? (
-            <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'profile' ? 'text-blue-500' : 'text-gray-500'} `}
+            <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'profile' ? 'text-purple-500' : 'text-gray-500'} `}
               onClick={() => handleIconClick('profile')}
             >
               <LiaUserCircleSolid size={26} />
               <span className="text-xs">Profile</span>
               {activeIcon === 'profile' && (
-                <div className='w-10 h-1 bg-blue-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
+                <div className='w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
               )}
             </div>
           ) : (
             <>
               <span className="font-semibold text-gray-700 flex gap-4 items-center relative">
 
-                <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'profile' ? 'text-blue-500' : 'text-gray-500'} `}
+                <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'profile' ? 'text-purple-500' : 'text-gray-500'} `}
                   onClick={() => handleIconClick('profile')}
                 >                   <button
                   type="button"
@@ -143,7 +143,7 @@ const BottomHeader: React.FC = () => {
                   </button>
                   <span className="text-xs">{user.name}</span>
                   {activeIcon === 'profile' && (
-                    <div className='w-10 h-1 bg-blue-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
+                    <div className='w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
                   )}
                 </div>
 
@@ -175,7 +175,7 @@ const BottomHeader: React.FC = () => {
                     <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs sm:max-w-sm md:max-w-md">
                       <p className="text-lg font-semibold text-gray-800">You are logging out...</p>
                       <div className="mt-4 animate-spin">
-                        <FaSpinner className="text-blue-500 text-3xl mx-auto" />
+                        <FaSpinner className="text-purple-500 text-3xl mx-auto" />
                       </div>
                     </div>
                   </div>

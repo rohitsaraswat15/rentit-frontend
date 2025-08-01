@@ -158,11 +158,11 @@ const ProductImageCarousel = () => {
 
             {/* Modal */}
             {selectedProduct && (
-                <div className="fixed overflow-y-scroll scroll inset-0 bg-white bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50 p-4 m-auto">
+                <div className="fixed overflow-y-scroll scroll inset-0 bg-opacity-40 backdrop-blur-2xl flex items-center justify-center z-50 p-4 m-auto">
 
                     <div className="bg-white rounded-xl border-2 border-gray-300 shadow-lg max-w-2xl w-full relative p-4 sm:m-auto md:mt-10 m-auto md:m-auto lg:m-auto">
                         <button
-                            className="absolute top-3 right-3 text-gray-600 hover:text-gray-500 text-2xl"
+                            className="absolute top-3 right-3 text-gray-500 hover:text-gray-600 text-2xl"
                             onClick={closeModal}
                         >
                             <IoCloseCircle />

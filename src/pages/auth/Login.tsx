@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword } from '../../utils/validators';
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { loginUser } from '../../services/authService';
+import { IoCloseCircle } from "react-icons/io5";
 
 interface FormState {
   email: string;
@@ -20,7 +21,7 @@ interface ErrorState {
 }
 
 const Login: React.FC = () => {
-  const [form, setForm] = useState<FormState>({ email: '', password: '' ,role:''});
+  const [form, setForm] = useState<FormState>({ email: '', password: '', role: '' });
   const [errors, setErrors] = useState<ErrorState>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -74,9 +75,19 @@ const Login: React.FC = () => {
     }
   };
 
+  const closeModal = () => {
+    navigate('/')
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-black">
+    <div className="flex px-4 py-24 sm:px-6 lg:px-8 items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-purple-300 overflow-x-hidden overflow-y-hidden">
       <div className="w-full max-w-md mx-auto p-4 shadow-xl bg-white backdrop-blur-md border border-gray-200 rounded-md">
+        <button
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-00 text-2xl"
+          onClick={closeModal}
+        >
+          <IoCloseCircle />
+        </button>
         <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">Welcome to RentIt 👋</h2>
         <h3 className="text-lg font-normal text-gray-800 text-center mb-4 top-1">Please login to your account!</h3>
 
