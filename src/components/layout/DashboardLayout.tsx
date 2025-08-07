@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Outlet is where the child routes will be rendered
+   
 
 interface Props {
   children: React.ReactNode;
