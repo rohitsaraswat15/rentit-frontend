@@ -82,6 +82,10 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
       <main className="flex-1 overflow-y-auto bg-white p-4">
         {children}
       </main>
+
+      
+
+
     </div>
   );
 };

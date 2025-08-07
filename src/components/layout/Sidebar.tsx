@@ -51,12 +51,12 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
         <SidebarLink to={`/${user.role}-dashboard`} icon={<LuLayoutDashboard />} label="Your Dashboard" collapsed={collapsed} />
 
         <SidebarLink to="/messages" icon={<RiMessage2Line />} label="Message" collapsed={collapsed} />
-        <SidebarLink to="/post-product" icon={<LuUpload />} label="Post Product" collapsed={collapsed} />
+        <SidebarLink to="/postproduct" icon={<LuUpload />} label="Post Product" collapsed={collapsed} />
 
         {/* user links */}
         {!isAdmin && (
           <>
-            <SidebarLink to="/myProducts" icon={<BsBoxes />} label="My Products" collapsed={collapsed} />
+            <SidebarLink to="/myproducts" icon={<BsBoxes />} label="My Products" collapsed={collapsed} />
             <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Rent Request" collapsed={collapsed} />
            </>
         )}
@@ -96,7 +96,7 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
 
 interface SidebarLinkProps {
   to: string;
-  icon: React.ReactNode; // safer than JSX.Element
+  icon: React.ReactNode;
   label: string;
   collapsed: boolean;
 }

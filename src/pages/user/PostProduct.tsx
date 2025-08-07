@@ -41,7 +41,7 @@ const PostProduct: React.FC = () => {
     return (
         <>
         <DashboardLayout> 
-            <div className="p-4">
+            <div className="p-4 mt-15 m-auto">
                 <h2 className="text-xl font-semibold">Submit Your Details</h2>
                     <div className='mb-4'>
                         <label className='block text-sm font-medium text-gray-700'>Enter text</label>

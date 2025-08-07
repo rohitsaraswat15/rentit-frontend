@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GoHome, GoSearch, GoPlus } from "react-icons/go";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { LiaUserCircleSolid } from "react-icons/lia";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 import { LuLayoutDashboard, LuUpload } from "react-icons/lu";
 import { MdAccountCircle } from "react-icons/md";
@@ -10,7 +10,7 @@ import { GoGitPullRequestDraft, GoGift } from "react-icons/go";
 import { RiMessage2Line } from "react-icons/ri";
 import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
- 
+
 
 const BottomHeader: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -65,13 +65,9 @@ const BottomHeader: React.FC = () => {
   const handleIconClick = (icon: string) => {
     setActiveIcon(icon);
 
-    if (!user && (icon === 'profile' || icon === 'chat' || icon === 'post')) {
+    if (!user && icon === 'post') {
       navigate('/notsigned')
     }
-    else {
-      navigate('/')
-    }
-
   };
 
   return (
@@ -81,59 +77,42 @@ const BottomHeader: React.FC = () => {
         <div className="flex justify-between items-center py-2 px-5 cursor-pointer relative">
 
           {!user ? (
-            <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'home' ? 'text-purple-500 ' : 'text-gray-700'
-              }`}
-              onClick={() => handleIconClick('home')}
-            >
-              <GoHome size={26} />
-              <span className="text-xs text-gray-700">Home</span>
-              {activeIcon === 'home' && (
-                <div className="w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10"></div>
-              )}
-            </div>
+            <BottomHeaderLink to="/" icon={<GoHome size={26} />} label="Home" />
           ) : (
             isOnDashboardPage ? (
-              <div
-                className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'dashboard' ? 'text-purple-500' : 'text-gray-700'}`}
-                onClick={() => handleIconClick('dashboard')}
-              >
-                <LuLayoutDashboard size={26} />
-                <span className="text-xs text-gray-700">Dashboard</span>
-                {activeIcon === 'dashboard' && (
-                  <div className="w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10"></div>
-                )}
-              </div>
+              <BottomHeaderLink to={`/${user.role}-dashboard`} icon={<LuLayoutDashboard size={26} />} label="Dashboard" />
+
+              // <div
+              //   className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'dashboard' ? 'text-purple-500' : 'text-gray-700'}`}
+              //   onClick={() => handleIconClick('dashboard')}
+              // >
+              //   <LuLayoutDashboard size={26} />
+              //   <span className="text-xs text-gray-700">Dashboard</span>
+              //   {activeIcon === 'dashboard' && (
+              //     <div className="w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10"></div>
+              //   )}
+              // </div>
             ) : (
-              <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'home' ? 'text-purple-500 ' : 'text-gray-700'
-                }`}
-                onClick={() => handleIconClick('home')}
-              >
-                <GoHome size={26} />
-                <span className="text-xs text-gray-700">Home</span>
-                {activeIcon === 'home' && (
-                  <div className="w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10"></div>
-                )}
-              </div>
+              <BottomHeaderLink to="/" icon={<GoHome size={26} />} label="Home" />
             )
           )}
-
-
-
 
 
           {/* when user on homepage */}
           {user && !isOnDashboardPage && (
             <>
-              <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'search' ? 'text-purple-500' : 'text-gray-700'} `}
-                onClick={() => handleIconClick('search')}
-              >
-                <GoSearch size={26} />
-                <span className="text-xs text-gray-700">Search</span>
-                {activeIcon === 'search' && (
-                  <div className='w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
-                )}
-              </div>
+              <BottomHeaderLink to="/" icon={<GoSearch size={26} />} label="Search" />
 
+              <div onClick={() => handleIconClick('post')} className="relative flex items-center justify-center bg-purple-500 text-white rounded-full p-3 transform translate-y-[-50%] shadow-xl z-30">
+                <GoPlus size={30} />
+              </div>
+            </>
+          )}
+
+          {/* when user not logged in and on homepage */}
+          {!user && (
+            <>
+              <BottomHeaderLink to="/search" icon={<GoSearch size={26} />} label="Search" />
 
               <div onClick={() => handleIconClick('post')} className="relative flex items-center justify-center bg-purple-500 text-white rounded-full p-3 transform translate-y-[-50%] shadow-xl z-30">
                 <GoPlus size={30} />
@@ -145,65 +124,25 @@ const BottomHeader: React.FC = () => {
           {/* when user on dashborad */}
           {user && isOnDashboardPage && (
             <>
-              <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'pullrequest' ? 'text-purple-500' : 'text-gray-700'} `}
-                onClick={() => handleIconClick('pullrequest')}
-              >
-                <GoGitPullRequestDraft size={26} />
-                <span className="text-xs text-gray-700">Request</span>
-                {activeIcon === 'pullrequest' && (
-                  <div className='w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
-                )}
-              </div>
-
-              <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'product' ? 'text-purple-500' : 'text-gray-700'} `}
-                onClick={() => handleIconClick('product')}
-              >
-                <GoGift size={26} />
-                <span className="text-xs text-gray-700">Product</span>
-                {activeIcon === 'product' && (
-                  <div className='w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
-                )}
-              </div>
-
+              <BottomHeaderLink to="/request" icon={<GoGitPullRequestDraft size={26} />} label="Request" />
+              <BottomHeaderLink to="/postproduct" icon={<GoGift size={26} />} label="Product" />
             </>
           )}
 
-
-          <div className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'chat' ? 'text-purple-500' : 'text-gray-700'} `}
-            onClick={() => handleIconClick('chat')}
-          >
-            <IoChatboxEllipsesOutline size={26} />
-            <span className="text-xs text-gray-700">Chat</span>
-            {activeIcon === 'chat' && (
-              <div className='w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10'></div>
-            )}
-          </div>
+          {user && (
+            <BottomHeaderLink to="/messages" icon={<IoChatboxEllipsesOutline size={26} />} label="Chat" />
+          )}
+          {!user && (
+            <BottomHeaderLink to="/notsigned" icon={<IoChatboxEllipsesOutline size={26} />} label="Chat" />
+          )}
 
           {/* Profile Icon */}
           {!user ? (
-            <div
-              className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'profile' ? 'text-purple-500' : 'text-gray-700'}`}
-              onClick={() => handleIconClick('profile')}
-            >
-              <LiaUserCircleSolid size={26} />
-              <span className="text-xs text-gray-700">Profile</span>
-              {activeIcon === 'profile' && (
-                <div className="w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10"></div>
-              )}
-            </div>
+            <BottomHeaderLink to="/notsigned" icon={<LiaUserCircleSolid size={26} />} label="Profile" />
           ) : (
             <>
               {isOnDashboardPage ? (
-                <div
-                  className={`flex flex-col items-center space-y-1 cursor-pointer ${activeIcon === 'settings' ? 'text-purple-500' : 'text-gray-700'}`}
-                  onClick={() => handleIconClick('settings')}
-                >
-                  <IoSettingsOutline size={26} />
-                  <span className="text-xs text-gray-700">Settings</span>
-                  {activeIcon === 'settings' && (
-                    <div className="w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10"></div>
-                  )}
-                </div>
+                <BottomHeaderLink to="/" icon={<IoSettingsOutline size={26} />} label="Settings" />
               ) : (
 
                 <span className="font-semibold text-gray-700 flex gap-4 items-center relative">
@@ -293,4 +232,32 @@ const BottomHeader: React.FC = () => {
   )
 };
 
+interface BottomHeaderLinkProps {
+  to: string;
+  icon: React.ReactNode;
+  label: string;
+}
+
+const BottomHeaderLink = ({ to, icon, label }: BottomHeaderLinkProps) => {
+  const location = useLocation();
+
+  const isActive = location.pathname === to;
+
+  return (
+    <NavLink
+      to={to}
+      className={`flex flex-col items-center space-y-1 cursor-pointer ${isActive ? 'text-purple-500' : 'text-gray-700'}`}
+    >
+      <span>{icon}</span>
+      <span className="text-xs text-gray-700">{label}</span>
+      {isActive && (
+        <div className="w-10 h-1 bg-purple-500 absolute top-0 transform translate-x-1/22 z-10"></div>
+      )}
+    </NavLink>
+  )
+};
+
+
 export default BottomHeader;
+
+

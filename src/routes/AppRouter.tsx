@@ -12,6 +12,7 @@ import HomePage from '../pages/admin/HomePage';
 import NotSignedInComponent from '../components/layout/NotSignedInComponent';
 import PostProduct from '../pages/user/PostProduct';
 import MyProducts from '../pages/user/MyProducts';
+import Messages from '../pages/user/Messages';
 
 
 
@@ -32,9 +33,11 @@ const AppRoutes: React.FC = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/forgetpassword" element={<ForgotPassword />} />
       <Route path="/setnewpassword" element={<SetNewPassword />} />
-<Route path='/notsigned' element={<NotSignedInComponent />} />
-<Route path='/post-product' element={<PostProduct />} />
-<Route path='/myProducts' element={<MyProducts />} />
+      <Route path='/notsigned' element={<NotSignedInComponent />} />
+      <Route path='/postproduct' element={<PostProduct />} />
+      <Route path='/myproducts' element={<MyProducts />} />
+      <Route path='/messages' element={<Messages />} />
+
 
       {/* user homepage route */}
       <Route path="/homepage"
