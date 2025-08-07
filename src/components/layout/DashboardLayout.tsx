@@ -67,7 +67,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
     <div className="flex w-full h-screen overflow-hidden">
       {/* Sidebar */}
       <div
-        className="relative z-10 bg-gray-900 text-white flex-shrink-0 transition-all duration-150 ease-in-out"
+        className={`relative top-15 z-10 flex-shrink-0 transition-all duration-150 ease-in-out ${collapsed ? 'w-20' : 'w-64'} hidden sm:hidden md:block`}
         style={{ width: `${sidebarWidth}px`, minWidth: '80px', maxWidth: '400px' }}
       >
         <Sidebar handleLogout={handleLogout} sidebarWidth={sidebarWidth} collapsed={collapsed}

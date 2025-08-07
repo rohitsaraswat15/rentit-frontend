@@ -1,13 +1,11 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { LuLayoutDashboard, LuUpload } from "react-icons/lu";
 import { BsBoxes } from "react-icons/bs";
 import { GoGitPullRequestDraft, GoHome } from "react-icons/go";
 import { RiMessage2Line } from "react-icons/ri";
 import { IoLogOutOutline, IoSettingsOutline, IoTrashBinOutline } from "react-icons/io5";
 import { FiMenu } from "react-icons/fi";
-import RentItLogo from '../../assets/logo/RentIt.png';
-
 
 const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
   handleLogout: () => void; sidebarWidth: number; collapsed: boolean;
@@ -19,37 +17,35 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
 
   return (
     <div
-      className={`flex flex-col h-screen min-h-screen bg-gray-900 text-white transition-[width] duration-200 ease-in-out ${collapsed ? 'w-20' : 'w-64'} relative z-10`}
+      className={`flex flex-col h-screen border-r-1 border-gray-700 min-h-screen text-gray-900 bg-gray-50 transition-[width] duration-200 ease-in-out ${collapsed ? 'w-20' : 'w-64'} relative z-10 hidden sm:hidden md:block`}
       style={{ width: sidebarWidth }}
     >
-      {/* Logo */}
+    
       <div className="flex items-center justify-between p-2 border-b gap-3 border-gray-700">
-        <Link to="/" className="flex items-center gap-1">
-          <img src={RentItLogo} alt="Logo" className={`transition-all text-2xl ${collapsed ? 'w-30' : 'w-24'}`} />
-          {/* {!collapsed && <span className="font-bold text-indigo-400 text-lg">Rentit</span>} */}
-        </Link>
-        <button onClick={() => setCollapsed(!collapsed)} className="text-xl text-white md:visible lg:hidden">
+
+        <button onClick={() => setCollapsed(!collapsed)} className="text-xl text-gray-900 md:visible lg:visible p-4 ml-auto">
           <FiMenu />
         </button>
+
       </div>
-        <div className="flex gap-3 mt-3 p-4">
-            <div className="w-10 h-10 rounded-full overflow-hidden flex items-center bg-red-400 justify-center text-white font-bold text-xl">
-        {user.name
-          .split(" ")
-          .map((word: string, index: number, arr: string[]) =>
-            index === 0 || index === arr.length - 1 ? word.charAt(0) : ""
-          )
-          .join("")}
+      <div className="flex flex-col gap-3 mt-3 p-4 items-center justify-between">
+        <div className={`rounded-full overflow-hidden flex items-center bg-red-400 justify-center text-white font-bold ${collapsed ? 'w-10 h-10 text-xl' : 'w-25 h-25 text-3xl'}`}>
+          {user.name
+            .split(" ")
+            .map((word: string, index: number, arr: string[]) =>
+              index === 0 || index === arr.length - 1 ? word.charAt(0) : ""
+            )
+            .join("")}
+        </div>
+
+        <span className={`font-bold text-gray-900 flex gap-4 items-center relative ${collapsed ? 'hidden' : 'visible'}`}>
+          {user.name} ({user.role})
+        </span>
       </div>
 
-      <span className="font-semibold text-gray-200 flex gap-4 items-center relative">
-        {user.name} ({user.role})
-      </span>
-        </div>
-       
 
       {/* Navigation */}
-      <div className="flex flex-col gap-1 p-4 mt-1 text-sm">
+      <div className={`flex flex-col gap-1 p-3 text-sm h-100 ${collapsed ? 'overflow-y-scroll scrollbar-none' : 'overflow-y-auto'}`}>
         <SidebarLink to="/" icon={<GoHome />} label="Home" collapsed={collapsed} />
 
         <SidebarLink to={`/${user.role}-dashboard`} icon={<LuLayoutDashboard />} label="Your Dashboard" collapsed={collapsed} />
@@ -62,7 +58,7 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
           <>
             <SidebarLink to="/myProducts" icon={<BsBoxes />} label="My Products" collapsed={collapsed} />
             <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Rent Request" collapsed={collapsed} />
-          </>
+           </>
         )}
 
         {/* Admin */}
@@ -77,11 +73,12 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
         <div className="border-t border-gray-700 mt-4 pt-4">
           <button
             onClick={handleLogout}
-            className="flex items-center w-full gap-6 hover:bg-gray-700 px-3 py-2 rounded transition"
+            className="flex items-center w-full gap-6 hover:bg-gray-300 px-3 py-2 rounded transition"
           >
             <IoLogOutOutline className="text-2xl" />
             {!collapsed && <span>Logout</span>}
           </button>
+
           {/* Admin */}
           {isAdmin && (
             <SidebarLink to="/admin-settings" icon={<IoSettingsOutline />} label="User Settings" collapsed={collapsed} />
@@ -109,7 +106,7 @@ const SidebarLink = ({ to, icon, label, collapsed }: SidebarLinkProps) => (
   <NavLink
     to={to}
     className={({ isActive }) =>
-      `mt-2 transition flex gap-4 items-center p-2 rounded ${isActive ? 'bg-gray-700 text-white' : 'text-gray-100 hover:bg-gray-700'
+      `mt-1 transition flex gap-4 items-center p-2 rounded ${isActive ? 'bg-gray-300 text-gray-900' : 'text-gray-900 hover:bg-gray-300'
       }`
     }
   >

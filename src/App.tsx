@@ -1,4 +1,3 @@
-// import RentItLogo from './assets/logo/RentIt.png';
 import './App.css';
 import Navbar from './components/common/Navbar';
 import { BrowserRouter, useLocation } from 'react-router-dom';
@@ -14,6 +13,7 @@ function AppWrapper() {
 }
 
 function App() {
+<<<<<<< Updated upstream
    const location = useLocation();
     const hideNavbar =
     location.pathname.startsWith('/admin-dashboard') ||
@@ -28,16 +28,23 @@ function App() {
     location.pathname.startsWith('/register') ||
     location.pathname.startsWith('/forgetpassword') ||
     location.pathname.startsWith('/setnewpassword');
+=======
+  const location = useLocation();
+  const hideNavbarPaths = ['/login', '/register', '/forgotpassword', '/setnewpassword'];
+  const hideBottomNavbarPaths = ['/login', '/register', '/forgotpassword', '/setnewpassword'];
+>>>>>>> Stashed changes
 
+  const hideNavbar = hideNavbarPaths.some(path => location.pathname.startsWith(path));
+  const hideBottomNavbar = hideBottomNavbarPaths.some(path => location.pathname.startsWith(path));
 
   return (
     <>
-     
-       {!hideNavbar && <Navbar />}
-       {!hideBottomNavbar && <BottomHeader />}
+
+      {!hideNavbar && <Navbar />}
+      {!hideBottomNavbar && <BottomHeader />}
 
       <AppRoutes />
-   
+
     </>
   );
 }

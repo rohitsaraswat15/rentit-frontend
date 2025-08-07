@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FiX } from 'react-icons/fi';
 import RentItLogo from '../../assets/logo/RentIt.png';
 import { LuLayoutDashboard, LuUpload } from "react-icons/lu";
 import { MdAccountCircle } from "react-icons/md";
 import { GoGitPullRequestDraft } from "react-icons/go";
-import { RiMessage2Line } from "react-icons/ri";
+import { RiMessage2Line,RiMenu4Line } from "react-icons/ri";
 import { IoLogOutOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
-import { RiMenu3Fill } from "react-icons/ri";
 import { FaSpinner } from 'react-icons/fa';
 import { IoIosNotificationsOutline } from "react-icons/io";
-
+ 
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -64,17 +63,30 @@ const Navbar: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const location = useLocation();
+  const isOnDashboardPage = user && location.pathname.startsWith(`/${user.role}-dashboard`);
+
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 ml-4 sm:ml-8 md:ml-12 items-center">
+        <div className="flex justify-between h-16 ml-2 sm:ml-6 md:ml-10 items-center gap-4 md:gap=2 lg:gap-2">
+
+          {/* Mobile Hamburger Icon */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-500 focus:outline-none cursor-pointer items-start"
+            >
+              {isMobileMenuOpen ? <FiX size={24} /> : <RiMenu4Line size={26} />}
+            </button>
+          </div>
+
           {/* Logo */}
-          <Link to="/" className="text-md sm:text-lg md:text-xl font-bold text-indigo-600">
+          <Link to="/" className="text-lg sm:text-lg md:text-md w-fit h-fit md:w-25 md:h-25 lg:w-25 lg:h-25 font-bold items-center justify-center text-indigo-600">
             <img
               src={RentItLogo}
               alt="RentIt Logo"
-              style={{ width: '90px', maxWidth: '100%' }}
             />
           </Link>
 
@@ -93,16 +105,36 @@ const Navbar: React.FC = () => {
               Contact
             </Link>
           </div>
-
+          
+          {/* Notification Icon */}
           <div className="relative flex items-end float-right md:mr-8 ml-35 sm:ml-40 text-gray-500">
-            {/* Notification Icon */}
             <IoIosNotificationsOutline className='cursor-pointer' size={30} />
 
             {/* Notification Badge */}
             <div className="absolute top-0 right-0 cursor-pointer bg-red-500 text-white text-sm font-semibold rounded-full w-4 h-4 flex items-center justify-center">
-              3 
+              3
             </div>
           </div>
+            
+
+          {/* profile */}
+          {isOnDashboardPage && (
+            <span className="md:hidden font-semibold text-gray-700 flex gap-4 items-center relative">
+              {/* User Dropdown Name Initials*/}
+              <button
+                onClick={handleUserDropDown}
+                type="button"
+                className="w-6 h-6 rounded-full overflow-hidden cursor-pointer flex items-center bg-red-400 justify-center text-white font-bold text-md"
+              >
+                {user.name
+                  .split(" ")
+                  .map((word, index, arr) =>
+                    index === 0 || index === arr.length - 1 ? word.charAt(0) : ""
+                  )
+                  .join("")}
+              </button>
+            </span>
+          )}
 
           {/* search box */}
           <div className="flex-grow max-w-md w-full mx-auto px-2 hidden sm:visible md:visible lg:visible">
@@ -162,6 +194,7 @@ const Navbar: React.FC = () => {
                       .join("")}
                   </button>
 
+
                   {/* Dropdown */}
                   {userDropdown && (
                     <div
@@ -201,16 +234,7 @@ const Navbar: React.FC = () => {
             )}
           </div>
 
-          {/* Mobile Hamburger Icon */}
-
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-500 focus:outline-none cursor-pointer"
-            >
-              {isMobileMenuOpen ? <FiX size={24} /> : <RiMenu3Fill size={24} />}
-            </button>
-          </div>
+           
         </div>
 
         {/* Mobile Dropdown Menu */}
@@ -250,7 +274,6 @@ const Navbar: React.FC = () => {
                   <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Categories</Link>
                   <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Contact</Link>
                 </div>
-
               </>
             )}
           </div>
