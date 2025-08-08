@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FiX } from 'react-icons/fi';
 import RentItLogo from '../../assets/logo/RentIt.png';
 import { LuLayoutDashboard, LuUpload } from "react-icons/lu";
 import { MdAccountCircle } from "react-icons/md";
 import { GoGitPullRequestDraft } from "react-icons/go";
-import { RiMessage2Line } from "react-icons/ri";
+import { RiMessage2Line,RiMenu4Line } from "react-icons/ri";
 import { IoLogOutOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
-import { RiMenu3Fill } from "react-icons/ri";
 import { FaSpinner } from 'react-icons/fa';
+import { IoIosNotificationsOutline } from "react-icons/io";
+ 
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -40,10 +41,10 @@ const Navbar: React.FC = () => {
     // Simulate a loading delay, then handle the logout logic
     setTimeout(() => {
       localStorage.removeItem('user');
-         setUser(null);
+      setUser(null);
       setIsLoggingOut(false);
       navigate('/');
-    }, 2000); 
+    }, 2000);
   };
 
   const handleUserDropDown = () => {
@@ -62,19 +63,33 @@ const Navbar: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const location = useLocation();
+  const isOnDashboardPage = user && location.pathname.startsWith(`/${user.role}-dashboard`);
+
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 ml-10 items-center">
+        <div className="flex justify-between h-16 ml-2 sm:ml-6 md:ml-10 items-center gap-4 md:gap=2 lg:gap-2">
+
+          {/* Mobile Hamburger Icon */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-500 focus:outline-none cursor-pointer items-start"
+            >
+              {isMobileMenuOpen ? <FiX size={24} /> : <RiMenu4Line size={26} />}
+            </button>
+          </div>
+
           {/* Logo */}
-          <Link to="/" className="text-xl font-bold text-indigo-600">
+          <Link to="/" className="text-lg sm:text-lg md:text-md w-fit h-fit md:w-25 md:h-25 lg:w-25 lg:h-25 font-bold items-center justify-center text-indigo-600">
             <img
               src={RentItLogo}
               alt="RentIt Logo"
-              style={{ width: '120px', maxWidth: '100%' }}
             />
           </Link>
+
           {/* Navbar links */}
           <div className="hidden md:flex space-x-8 justify-center flex-1 text-md p-3">
             <Link to="/" className="text-gray-700 hover:bg-indigo-200 p-2 hover:rounded-lg font-medium transition">
@@ -90,8 +105,39 @@ const Navbar: React.FC = () => {
               Contact
             </Link>
           </div>
+          
+          {/* Notification Icon */}
+          <div className="relative flex items-end float-right md:mr-8 ml-35 sm:ml-40 text-gray-500">
+            <IoIosNotificationsOutline className='cursor-pointer' size={30} />
+
+            {/* Notification Badge */}
+            <div className="absolute top-0 right-0 cursor-pointer bg-red-500 text-white text-sm font-semibold rounded-full w-4 h-4 flex items-center justify-center">
+              3
+            </div>
+          </div>
+            
+
+          {/* profile */}
+          {isOnDashboardPage && (
+            <span className="md:hidden font-semibold text-gray-700 flex gap-4 items-center relative">
+              {/* User Dropdown Name Initials*/}
+              <button
+                onClick={handleUserDropDown}
+                type="button"
+                className="w-6 h-6 rounded-full overflow-hidden cursor-pointer flex items-center bg-red-400 justify-center text-white font-bold text-md"
+              >
+                {user.name
+                  .split(" ")
+                  .map((word, index, arr) =>
+                    index === 0 || index === arr.length - 1 ? word.charAt(0) : ""
+                  )
+                  .join("")}
+              </button>
+            </span>
+          )}
+
           {/* search box */}
-          <div className="flex-grow max-w-md w-full mx-auto px-2">
+          <div className="flex-grow max-w-md w-full mx-auto px-2 hidden sm:visible md:visible lg:visible">
             <div className="relative text-gray-600">
               <input
                 type="text"
@@ -119,12 +165,12 @@ const Navbar: React.FC = () => {
             {!user ? (
               <>
                 <Link to="/register">
-                  <button className="px-4 py-2 bg-white font-bold text-gray-700 rounded-md hover:bg-gray-200 border-2 border-gray-400 transition">
+                  <button className="px-4 py-2 cursor-pointer bg-white font-bold text-gray-500 rounded-md hover:bg-gray-200 border-2 border-gray-400 transition">
                     Register
                   </button>
                 </Link>
                 <Link to="/login">
-                  <button className="px-4 py-2 bg-gradient-to-r from-purple-600 via-blue-800 to-purple-600 font-bold text-white rounded-md hover:bg-indigo-700 transition">
+                  <button className="px-4 py-2 cursor-pointer bg-purple-500 font-bold text-white rounded-md hover:bg-purple-600 transition">
                     Login
                   </button>
                 </Link>
@@ -132,7 +178,7 @@ const Navbar: React.FC = () => {
             ) : (
               <>
                 <span className="font-semibold text-gray-700 flex gap-4 items-center relative">
-                  {user.name} ({user.role})
+                  {/* {user.name} ({user.role}) */}
 
                   {/* User Dropdown Name Initials*/}
                   <button
@@ -148,6 +194,7 @@ const Navbar: React.FC = () => {
                       .join("")}
                   </button>
 
+
                   {/* Dropdown */}
                   {userDropdown && (
                     <div
@@ -161,12 +208,12 @@ const Navbar: React.FC = () => {
 
                         <div onClick={() => navigate(`/${user.role}-dashboard`)} className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2'><LuLayoutDashboard className='text-xl text-gray-700' /> Your Dashboard</div>
 
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <MdAccountCircle className='text-xl text-gray-700' /> Your Account</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <BsBoxes className='text-xl text-gray-700' />Your Products</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><GoGitPullRequestDraft className='text-xl text-gray-700' /> Your Request</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 '> <RiMessage2Line className='text-xl text-gray-700' />Your Message</div>
-                        <div className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><LuUpload className='text-xl text-gray-700' />  Post Product</div>
-                        <div onClick={handleLogout} className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 '><IoLogOutOutline className='text-xl text-gray-700' /> Logout</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <MdAccountCircle className='text-xl text-gray-700' /> Your Account</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <BsBoxes className='text-xl text-gray-700' />Your Products</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><GoGitPullRequestDraft className='text-xl text-gray-700' /> Your Request</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <RiMessage2Line className='text-xl text-gray-700' />Your Message</div>
+                        <div className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><LuUpload className='text-xl text-gray-700' />  Post Product</div>
+                        <div onClick={handleLogout} className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><IoLogOutOutline className='text-xl text-gray-700' /> Logout</div>
 
                         {isLoggingOut && (
                           <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
@@ -187,15 +234,7 @@ const Navbar: React.FC = () => {
             )}
           </div>
 
-          {/* Mobile Hamburger Icon */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-700 focus:outline-none"
-            >
-              {isMobileMenuOpen ? <FiX size={24} /> : <RiMenu3Fill size={24} />}
-            </button>
-          </div>
+           
         </div>
 
         {/* Mobile Dropdown Menu */}
@@ -204,15 +243,15 @@ const Navbar: React.FC = () => {
             {!user ? (
               <>
                 <div className="md:hidden px-4 pb-4 pt-2 space-y-2 bg-white shadow-md border-t border-gray-200 items-center">
-                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3border-2 border-gray-400 rounded-xl">About</Link>
-                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Pricing</Link>
-                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Categories</Link>
-                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Contact</Link>
+                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3border-2 border-gray-400 rounded-xl cursor-pointer">About</Link>
+                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3 cursor-pointer">Pricing</Link>
+                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3 cursor-pointer">Categories</Link>
+                  <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3 cursor-pointer">Contact</Link>
 
                   <Link to="/register">
                     <button
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="w-full px-4 mt-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+                      className="w-full px-4 mt-3 py-2 cursor-pointer bg-purple-500 text-white rounded-md hover:bg-purple-600 transition"
                     >
                       Register
                     </button>
@@ -220,7 +259,7 @@ const Navbar: React.FC = () => {
                   <Link to="/login">
                     <button
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="w-full px-4 mt-3 py-2 bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 transition"
+                      className="w-full px-4 mt-3 py-2 bg-gray-100 cursor-pointer text-gray-800 rounded-md hover:bg-gray-200 transition"
                     >
                       Login
                     </button>
@@ -235,7 +274,6 @@ const Navbar: React.FC = () => {
                   <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Categories</Link>
                   <Link to="/" className="block text-gray-700 hover:bg-gray-200 transition m-auto text-center p-3">Contact</Link>
                 </div>
-
               </>
             )}
           </div>

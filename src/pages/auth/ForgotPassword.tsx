@@ -77,20 +77,20 @@ const ForgotPassword: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-black">
+    <div className="flex px-4 py-24 sm:px-6 lg:px-8 items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-purple-300 overflow-x-hidden overflow-y-hidden">
       <div className="w-full max-w-md mx-auto p-5 shadow-xl bg-white backdrop-blur-md border border-gray-200 rounded-md">
         <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Forgot Password</h2>
 
         <button
           onClick={() => { setContactMethod('phone'); setShowOtpInput(false); setOtpVerified(false); }}
-          className="w-full mt-6 py-2 px-4 bg-blue-600 text-white font-medium rounded-sm hover:bg-green-700 transition cursor-pointer"
+          className="w-full mt-6 py-2 px-4 bg-purple-500 text-white font-medium rounded-sm hover:bg-purple-600 transition cursor-pointer"
         >
           Get OTP on Mobile
         </button>
 
         <button
           onClick={() => { setContactMethod('email'); setShowOtpInput(false); setOtpVerified(false); }}
-          className="w-full mt-4 py-2 px-4 bg-blue-600 text-white font-medium rounded-sm hover:bg-green-700 transition cursor-pointer"
+          className="w-full mt-4 py-2 px-4 bg-purple-500 text-white font-medium rounded-sm hover:bg-purple-600 transition cursor-pointer"
         >
           Get OTP on Email
         </button>
@@ -122,7 +122,7 @@ const ForgotPassword: React.FC = () => {
               placeholder="Enter your phone number"
             />
             <div className="absolute top-53 right-8 cursor-pointer hover:text-gray-700">
-              <button type="button" onClick={handleSendOtp} className="w-full py-2 px-4 text-blue-800 font-medium rounded-xl transition cursor-pointer">
+              <button type="button" onClick={handleSendOtp} className="w-full py-2 px-4 text-purple-500 font-medium rounded-xl transition cursor-pointer">
                 Send OTP
               </button>
             </div>
@@ -157,7 +157,7 @@ const ForgotPassword: React.FC = () => {
           <button
             type="button"
             onClick={handleProceed}
-            className="w-full mt-6 py-2 px-4 bg-blue-600 text-white font-medium rounded-sm hover:bg-green-700 transition cursor-pointer"
+            className="w-full mt-6 py-2 px-4 bg-purple-500 text-white font-medium rounded-sm hover:bg-purple-600 transition cursor-pointer"
           >
             Next
           </button>

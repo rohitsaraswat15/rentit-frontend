@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 
-const AdminDashboard: React.FC = () => {
+const UserDashboard: React.FC = () => {
   const navigate = useNavigate();
 
  useEffect(() => {
@@ -10,7 +10,7 @@ const AdminDashboard: React.FC = () => {
 
   if (!user) {
     navigate('/login');
-  } else if (user.role !== 'admin') {
+  } else if (user.role !== 'user') {
     navigate('/');
   }
 }, [navigate]);
@@ -23,4 +23,4 @@ const AdminDashboard: React.FC = () => {
   );
 };
 
-export default AdminDashboard;
+export default UserDashboard;
