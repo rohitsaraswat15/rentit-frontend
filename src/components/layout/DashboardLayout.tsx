@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom'; // Outlet is where the child routes will be rendered
-   
+import BottomHeader from './BottomHeader';
+
 
 interface Props {
   children: React.ReactNode;
@@ -9,26 +10,56 @@ interface Props {
 
 const DashboardLayout: React.FC<Props> = ({ children }) => {
   const [sidebarWidth, setSidebarWidth] = useState(256);
-    const [collapsed, setCollapsed] = useState(false);  
+  const [collapsed, setCollapsed] = useState(false);
   const isDragging = useRef(false);
   const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+    // const [user, setUser] = useState<{ name: string; role: string } | null>(null);
+ 
 
   useEffect(() => {
-  if (collapsed) {
-    setSidebarWidth(80);
-  } else {
-    setSidebarWidth(256);
-  }
-}, [collapsed]);
+    const handleResize = () => {
+      // Check if the screen width is less than or equal to 767px (mobile screen)
+      if (window.innerWidth <= 767) {
+        setIsMobile(true); // Show bottom navbar on mobile
+      } else {
+        setIsMobile(false); // Hide bottom navbar on desktop/ipad
+      }
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add resize event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup listener on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  //  useEffect(() => {
+  //   const storedUser = localStorage.getItem('user');
+  //   if (storedUser) {
+  //     setUser(JSON.parse(storedUser));
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    if (collapsed) {
+      setSidebarWidth(80);
+    } else {
+      setSidebarWidth(256);
+    }
+  }, [collapsed]);
 
   // Handle responsive auto-collapse
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
-         setCollapsed(true);
+        setCollapsed(true);
         setSidebarWidth(80); // collapse to icons
       } else {
-         setCollapsed(false);
+        setCollapsed(false);
         setSidebarWidth(256);
       }
     };
@@ -83,7 +114,9 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
         {children}
       </main>
 
-      
+      {isMobile && <BottomHeader />}
+
+
 
 
     </div>

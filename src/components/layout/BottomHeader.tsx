@@ -101,7 +101,7 @@ const BottomHeader: React.FC = () => {
           {/* when user on homepage */}
           {user && !isOnDashboardPage && (
             <>
-              <BottomHeaderLink to="/" icon={<GoSearch size={26} />} label="Search" />
+              <BottomHeaderLink to="/search" icon={<GoSearch size={26} />} label="Search" />
 
               <div onClick={() => handleIconClick('post')} className="relative flex items-center justify-center bg-purple-500 text-white rounded-full p-3 transform translate-y-[-50%] shadow-xl z-30">
                 <GoPlus size={30} />
@@ -251,7 +251,7 @@ const BottomHeaderLink = ({ to, icon, label }: BottomHeaderLinkProps) => {
       <span>{icon}</span>
       <span className="text-xs text-gray-700">{label}</span>
       {isActive && (
-        <div className="w-10 h-1 bg-purple-500 absolute top-0 transform translate-x-1/22 z-10"></div>
+        <div className="w-10 h-1 bg-purple-500 absolute top-0 transform translate-x-1/22 z-50"></div>
       )}
     </NavLink>
   )

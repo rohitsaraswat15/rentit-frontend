@@ -25,7 +25,7 @@ const PostProduct: React.FC = () => {
         localStorage.setItem('formData', JSON.stringify(formData));
 
         //navigate to the show form page
-        navigate('/myProducts')
+        navigate('/myproducts')
 
         //Reset the form after submission
         setText('')
