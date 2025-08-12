@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom'; // Outlet is where the child routes will be rendered
-// import BottomHeader from './BottomHeader';
+import BottomHeader from './BottomHeader';
 
 
 interface Props {
@@ -13,29 +13,29 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const isDragging = useRef(false);
   const navigate = useNavigate();
-  // const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   //   // const [user, setUser] = useState<{ name: string; role: string } | null>(null);
- 
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     // Check if the screen width is less than or equal to 767px (mobile screen)
-  //     if (window.innerWidth <= 767) {
-  //       setIsMobile(true); // Show bottom navbar on mobile
-  //     } else {
-  //       setIsMobile(false); // Hide bottom navbar on desktop/ipad
-  //     }
-  //   };
 
-  //   // Initial check
-  //   handleResize();
+  useEffect(() => {
+    const handleResize = () => {
+      // Check if the screen width is less than or equal to 767px (mobile screen)
+      if (window.innerWidth <= 767) {
+        setIsMobile(true); // Show bottom navbar on mobile
+      } else {
+        setIsMobile(false); // Hide bottom navbar on desktop/ipad
+      }
+    };
 
-  //   // Add resize event listener
-  //   window.addEventListener('resize', handleResize);
+    // Initial check
+    handleResize();
 
-  //   // Cleanup listener on unmount
-  //   return () => window.removeEventListener('resize', handleResize);
-  // }, []);
+    // Add resize event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup listener on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   //  useEffect(() => {
   //   const storedUser = localStorage.getItem('user');
@@ -110,14 +110,13 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
       </div>
 
       {/* Main */}
-      <main className="flex-1 overflow-y-auto bg-white p-4">
+      <main className="flex-1 overflow-y-auto bg-white mt-4">
         {children}
       </main>
 
-      {/* {isMobile && <BottomHeader />} */}
-
-
-
+      <div className='sm:hidden'>
+        {isMobile && <BottomHeader />}
+      </div>
 
     </div>
   );

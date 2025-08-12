@@ -1,35 +1,54 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/layout/DashboardLayout';
+import ProductPageLinks from '../../components/layout/ProductPageLinks';
 
 interface FormData {
   text: string;
   image: string; // This will be the URL or base64 representation of the image
+  date : string;
 }
 
 const PostProduct: React.FC = () => {
     const [text, setText] = useState('');
     const [image, setImage] = useState<File | null>(null);
-    const navigate = useNavigate();
+ 
 
-    const handleSubmit = (e: React.FormEvent) => {
+   const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        //get the current date 
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString('en-IN', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        })
         
-        //create a new object with form data
-        const formData : FormData = {
+        // Create a new object with form data
+        const formData: FormData = {
             text,
-            image:image ?URL.createObjectURL(image): '', // Create a URL for the image (can be used for preview)
+            image: image ? URL.createObjectURL(image) : '', // Create a URL for the image
+            date: formattedDate,
         };
 
-        //store form data in localstorage
-        localStorage.setItem('formData', JSON.stringify(formData));
+         console.log('Form Submitted with:', { text, image });
 
-        //navigate to the show form page
-        navigate('/myProducts')
+        // Retrieve existing data from localStorage, or initialize an empty array
+        let storedData: FormData[] = JSON.parse(localStorage.getItem('formData') || '[]');
 
-        //Reset the form after submission
-        setText('')
-        setImage(null)
+          if (!Array.isArray(storedData)) {
+            storedData = []; // If not an array, reset to an empty array
+        }
+
+        // Add new form data to the array
+        storedData.push(formData);
+
+        // Save the updated array back to localStorage
+        localStorage.setItem('formData', JSON.stringify(storedData));
+
+        // Reset the form after submission
+        setText('');
+        setImage(null);
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +60,8 @@ const PostProduct: React.FC = () => {
     return (
         <>
         <DashboardLayout> 
-            <div className="p-4">
+            <ProductPageLinks/>
+            <div className="p-4 sm:mt-15 md:mt-15 ">
                 <h2 className="text-xl font-semibold">Submit Your Details</h2>
                     <div className='mb-4'>
                         <label className='block text-sm font-medium text-gray-700'>Enter text</label>
@@ -55,21 +75,29 @@ const PostProduct: React.FC = () => {
                     </div>
 
                     <div className='mb-4'>
-                        <label className='block text-sm font-medium text-gray-700'>Upload Image</label>
+                        <label className='block text-sm font-medium text-gray-700 cursor-pointer'>Upload Image</label>
                         <input type="file"
                             onChange={handleImageChange}
                             className='mt-1 block w-full'
                             accept="image/*"
                         />
                     </div>
-                       <form onClick={handleSubmit} className='mt-4'>
+
+                       <form onSubmit={handleSubmit} className='mt-4'>
                     <button
                         type='submit'
-                        className="w-full bg-blue-600 text-white py-2 rounded-md mt-4 hover:bg-blue-700 focus:outline-none"
+                        className="w-full bg-blue-600 text-white py-2 rounded-md mt-4 hover:bg-blue-700 focus:outline-none cursor-pointer"
                     >
                         Submit
                     </button>
                 </form>
+
+                {/* <button
+                    onClick={() => window.location.href = '/myproducts'}
+                    className="w-full bg-green-600 text-white py-2 rounded-md mt-4 hover:bg-green-700 focus:outline-none"
+                >
+                    Show Details
+                </button> */}
             </div>
             </DashboardLayout>
         </>

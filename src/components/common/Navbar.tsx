@@ -5,12 +5,12 @@ import RentItLogo from '../../assets/logo/RentIt.png';
 import { LuLayoutDashboard, LuUpload } from "react-icons/lu";
 import { MdAccountCircle } from "react-icons/md";
 import { GoGitPullRequestDraft } from "react-icons/go";
-import { RiMessage2Line,RiMenu4Line } from "react-icons/ri";
+import { RiMessage2Line, RiMenu4Line } from "react-icons/ri";
 import { IoLogOutOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
 import { FaSpinner } from 'react-icons/fa';
 import { IoIosNotificationsOutline } from "react-icons/io";
- 
+
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -64,7 +64,8 @@ const Navbar: React.FC = () => {
   }, []);
 
   const location = useLocation();
-  const isOnDashboardPage = user && location.pathname.startsWith(`/${user.role}-dashboard`);
+  const showBottomHeaderPaths = ['/admin-dashboard', '/user-dashboard', '/request', '/postproduct', '/messages','/myproducts'];
+  const isOnDashboardPage = user && showBottomHeaderPaths.some(path => location.pathname.startsWith(path));
 
 
   return (
@@ -105,7 +106,7 @@ const Navbar: React.FC = () => {
               Contact
             </Link>
           </div>
-          
+
           {/* Notification Icon */}
           <div className="relative flex items-end float-right md:mr-8 ml-35 sm:ml-40 text-gray-500">
             <IoIosNotificationsOutline className='cursor-pointer' size={30} />
@@ -115,7 +116,7 @@ const Navbar: React.FC = () => {
               3
             </div>
           </div>
-            
+
 
           {/* profile */}
           {isOnDashboardPage && (
@@ -199,7 +200,7 @@ const Navbar: React.FC = () => {
                   {userDropdown && (
                     <div
                       ref={dropdownRef}
-                      className="w-60 h-fit p-6 bg-white absolute top-14 right-0 rounded-md shadow-lg z-50"
+                      className="w-60 h-fit p-6 bg-white absolute top-0 sm:top-14 md:top-14 right-0 rounded-md shadow-lg z-50"
                     >
                       <h3 className="text-center w-full text-xl font-sans font-bold p-1 text-black border-b border-gray-500">
                         {user.name}
@@ -234,7 +235,7 @@ const Navbar: React.FC = () => {
             )}
           </div>
 
-           
+
         </div>
 
         {/* Mobile Dropdown Menu */}

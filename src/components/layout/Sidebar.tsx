@@ -3,9 +3,10 @@ import { NavLink } from "react-router-dom";
 import { LuLayoutDashboard, LuUpload } from "react-icons/lu";
 import { BsBoxes } from "react-icons/bs";
 import { GoGitPullRequestDraft, GoHome } from "react-icons/go";
-import { RiMessage2Line } from "react-icons/ri";
-import { IoLogOutOutline, IoSettingsOutline, IoTrashBinOutline } from "react-icons/io5";
+import { RiDeleteBin6Line, RiMessage2Line } from "react-icons/ri";
+import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import { FiMenu } from "react-icons/fi";
+
 
 const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
   handleLogout: () => void; sidebarWidth: number; collapsed: boolean;
@@ -20,7 +21,7 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
       className={`flex flex-col h-screen border-r-1 border-gray-700 min-h-screen text-gray-900 bg-gray-50 transition-[width] duration-200 ease-in-out ${collapsed ? 'w-20' : 'w-64'} relative z-10 hidden sm:hidden md:block`}
       style={{ width: sidebarWidth }}
     >
-    
+
       <div className="flex items-center justify-between p-2 border-b gap-3 border-gray-700">
 
         <button onClick={() => setCollapsed(!collapsed)} className="text-xl text-gray-900 md:visible lg:visible p-4 ml-auto">
@@ -58,7 +59,8 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
           <>
             <SidebarLink to="/myproducts" icon={<BsBoxes />} label="My Products" collapsed={collapsed} />
             <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Rent Request" collapsed={collapsed} />
-           </>
+            <SidebarLink to="/user-bin" icon={<RiDeleteBin6Line />} label="Bin" collapsed={collapsed} />
+          </>
         )}
 
         {/* Admin */}
@@ -66,7 +68,7 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
           <>
             <SidebarLink to="/products" icon={<BsBoxes />} label="All Products" collapsed={collapsed} />
             <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Request for Boost" collapsed={collapsed} />
-            <SidebarLink to="/bin" icon={<IoTrashBinOutline />} label="Bin" collapsed={collapsed} />
+            <SidebarLink to="/bin" icon={<RiDeleteBin6Line />} label="Bin" collapsed={collapsed} />
           </>
         )}
 

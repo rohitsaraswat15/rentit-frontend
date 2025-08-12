@@ -19,7 +19,8 @@ const BottomHeader: React.FC = () => {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const location = useLocation();
-  const isOnDashboardPage = user && location.pathname.startsWith(`/${user.role}-dashboard`);
+  const showBottomHeaderPaths = ['/admin-dashboard', '/user-dashboard', '/request','/postproduct','/messages','/myproducts','/user-bin'];
+  const isOnDashboardPage = user && showBottomHeaderPaths.some(path => location.pathname.startsWith(path));
 
 
   const handleLogout = () => {
@@ -251,7 +252,7 @@ const BottomHeaderLink = ({ to, icon, label }: BottomHeaderLinkProps) => {
       <span>{icon}</span>
       <span className="text-xs text-gray-700">{label}</span>
       {isActive && (
-        <div className="w-10 h-1 bg-purple-500 absolute top-0 transform translate-x-1/22 z-50"></div>
+        <div className="w-10 h-1 bg-purple-500 rounded-full absolute top-0 transform translate-x-1/22 z-50"></div>
       )}
     </NavLink>
   )
