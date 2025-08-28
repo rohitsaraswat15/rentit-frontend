@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Footer from '../../components/layout/footer/Footer';
 import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlineMarkUnreadChatAlt } from "react-icons/md";
@@ -105,7 +106,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                         <div className="flex flex-col sm:flex-row items-center sm:items-stretch gap-4 mt-6">
                             <input
                                 type="text"
-                                placeholder="I am lokking for...."
+                                placeholder="I am looking for...."
                                 className="w-full text-gray-600 sm:w-72 px-4 py-3 bg-white border-2 border-white rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
                             />
 
@@ -151,10 +152,11 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
 
             <div className="w-full md:mx-aut0 max-w-9xl mx-auto p-6 md:p-10 px-4 md:px-8 lg:px-20 py-5 ">
 
-                <div className="text-start font-bold py-2 md:p-10 lg:px-24 mt-0 ">
-                    <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800 ">
+                <div className="flex flex-col text-start py-2 md:p-10 lg:px-24 mt-0 ">
+                    <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800 w-full">
                         Select Category
                     </h1>
+                    <p className='text-xl mt-6 font-serif'>Choose the most relevant category for your product to ensure it reaches the right audience. Selecting the appropriate category helps customers find your product more easily and enhances visibility on the platform.</p>
                 </div>
 
                 {/* Admin Controls */}
@@ -350,10 +352,10 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
             <div className="w-full bg-[#ffffff19] py-16 px-6 sm:px-8 md:px-10 lg:px-32 flex flex-col items-center rounded-xl shadow-lg">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium text-gray-800 text-center mb-6">
                     <span className='text-teal-700'>  Have a device or product you don’t use? </span> Earn money by renting it out.      </h1>
-
-                 <button className="item-start bg-purple-600 via-blue-800 to-purple-600 text-white px-6 py-3 rounded-md mt-4 text-lg m:text-base font-medium hover:bg-indigo-700 transition duration-300">
+                
+                 <Link to="/postproduct"> <button className="item-start bg-purple-600 via-blue-800 to-purple-600 text-white px-6 py-3 rounded-md mt-4 text-lg m:text-base font-medium hover:bg-indigo-700 transition duration-300">
                     Post Your Product
-                </button>
+                </button></Link>
               
             </div>
 

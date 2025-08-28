@@ -18,11 +18,11 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
 
   return (
     <div
-      className={`flex flex-col h-screen border-r-1 border-gray-700 min-h-screen text-gray-900 bg-gray-50 transition-[width] duration-200 ease-in-out ${collapsed ? 'w-20' : 'w-64'} relative z-10 hidden sm:hidden md:block`}
+      className={`flex flex-col h-screen border-r-2 border-gray-200 min-h-screen text-gray-900 bg-gray-50 transition-[width] duration-200 ease-in-out ${collapsed ? 'w-20' : 'w-64'} relative z-10 hidden sm:hidden md:block`}
       style={{ width: sidebarWidth }}
     >
 
-      <div className="flex items-center justify-between p-2 border-b gap-3 border-gray-700">
+      <div className="flex items-center justify-between p-2 border-b-2 gap-3 border-gray-200">
 
         <button onClick={() => setCollapsed(!collapsed)} className="text-xl text-gray-900 md:visible lg:visible p-4 ml-auto">
           <FiMenu />
@@ -59,16 +59,15 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
           <>
             <SidebarLink to="/myproducts" icon={<BsBoxes />} label="My Products" collapsed={collapsed} />
             <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Rent Request" collapsed={collapsed} />
-            <SidebarLink to="/user-bin" icon={<RiDeleteBin6Line />} label="Bin" collapsed={collapsed} />
-          </>
+           </>
         )}
 
         {/* Admin */}
         {isAdmin && (
           <>
-            <SidebarLink to="/products" icon={<BsBoxes />} label="All Products" collapsed={collapsed} />
+            <SidebarLink to="/allproducts" icon={<BsBoxes />} label="All Products" collapsed={collapsed} />
             <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Request for Boost" collapsed={collapsed} />
-            <SidebarLink to="/bin" icon={<RiDeleteBin6Line />} label="Bin" collapsed={collapsed} />
+            <SidebarLink to="/admin-bin" icon={<RiDeleteBin6Line />} label="Bin" collapsed={collapsed} />
           </>
         )}
 

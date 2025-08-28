@@ -13,10 +13,8 @@ import NotSignedInComponent from '../components/layout/NotSignedInComponent';
 import PostProduct from '../pages/user/PostProduct';
 import MyProducts from '../pages/user/MyProducts';
 import Messages from '../pages/user/Messages';
-import UserBin from '../pages/user/Bin';
-
-
-
+import AdminBin from '../pages/admin/Bin';
+import AllProducts from '../pages/admin/AllProducts';
 
 
 const AppRoutes: React.FC = () => {
@@ -38,7 +36,8 @@ const AppRoutes: React.FC = () => {
       <Route path='/postproduct' element={<PostProduct />} />
       <Route path='/myproducts' element={<MyProducts />} />
       <Route path='/messages' element={<Messages />} />
-      <Route path='/user-bin' element={<UserBin />} />
+      <Route path='/admin-bin' element={<AdminBin />} />
+      <Route path='/allproducts' element={<AllProducts />} />
 
 
       {/* user homepage route */}

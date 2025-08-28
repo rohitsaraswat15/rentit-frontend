@@ -8,8 +8,9 @@ import { GoGitPullRequestDraft } from "react-icons/go";
 import { RiMessage2Line, RiMenu4Line } from "react-icons/ri";
 import { IoLogOutOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
-import { FaSpinner } from 'react-icons/fa';
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { LiaSpinnerSolid } from "react-icons/lia";
+
 
 
 const Navbar: React.FC = () => {
@@ -221,7 +222,7 @@ const Navbar: React.FC = () => {
                             <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs sm:max-w-sm md:max-w-md">
                               <p className="text-lg font-semibold text-gray-800">You are logging out...</p>
                               <div className="mt-4 animate-spin">
-                                <FaSpinner className="text-blue-500 text-3xl mx-auto" />
+                                <LiaSpinnerSolid className="text-purple-500 text-3xl mx-auto" />
                               </div>
                             </div>
                           </div>

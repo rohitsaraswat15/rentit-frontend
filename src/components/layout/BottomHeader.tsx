@@ -3,7 +3,7 @@ import { GoHome, GoSearch, GoPlus } from "react-icons/go";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { LiaUserCircleSolid } from "react-icons/lia";
 import { useNavigate, useLocation, NavLink } from 'react-router-dom';
-import { FaSpinner } from 'react-icons/fa';
+import { LiaSpinnerSolid } from "react-icons/lia";
 import { LuLayoutDashboard, LuUpload } from "react-icons/lu";
 import { MdAccountCircle } from "react-icons/md";
 import { GoGitPullRequestDraft, GoGift } from "react-icons/go";
@@ -19,7 +19,7 @@ const BottomHeader: React.FC = () => {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const location = useLocation();
-  const showBottomHeaderPaths = ['/admin-dashboard', '/user-dashboard', '/request','/postproduct','/messages','/myproducts','/user-bin'];
+  const showBottomHeaderPaths = ['/admin-dashboard', '/user-dashboard', '/request', '/postproduct', '/messages', '/myproducts','/admin-bin'];
   const isOnDashboardPage = user && showBottomHeaderPaths.some(path => location.pathname.startsWith(path));
 
 
@@ -47,10 +47,12 @@ const BottomHeader: React.FC = () => {
       const storedUser = localStorage.getItem('user');
       setUser(storedUser ? JSON.parse(storedUser) : null);
     };
-
+    
+    //update your user log out info in different tab or window 
     window.addEventListener('storage', updateUser);
     updateUser();
-
+     
+    //prevents memory leaks
     return () => window.removeEventListener('storage', updateUser);
   }, []);
 
@@ -75,7 +77,7 @@ const BottomHeader: React.FC = () => {
     <>
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-400 shadow-lg z-30 sm:hidden">
         {/* This navbar will be hidden on sm and above, and visible on mobile */}
-        <div className="flex justify-between items-center py-2 px-5 cursor-pointer relative">
+        <div className="flex justify-between items-center py-2 px-4 cursor-pointer relative">
 
           {!user ? (
             <BottomHeaderLink to="/" icon={<GoHome size={26} />} label="Home" />
@@ -164,14 +166,11 @@ const BottomHeader: React.FC = () => {
                         .join('')}
                     </button>
                     <span className="text-xs text-gray-700">{user.name}</span>
-                    {activeIcon === 'profile' && (
-                      <div className="w-10 h-1 bg-purple-500 absolute top-0 transform-translate-x-1/2 z-10"></div>
-                    )}
                   </div>
 
                   {isOpen && (
                     <div
-                      className={`${isOpen ? 'transform translate-y-[-5%]' : 'transform translate-y-full'
+                      className={`${isOpen ? 'transform translate-y-[-8%]' : 'transform translate-y-full'
                         } fixed bottom-[54px] left-0 w-full z-10 bg-white text-white p-4 transition-all duration-300 ease-in-out sm:hidden rounded-t-xl h-[calc(60vh-64px)] overflow-y-auto scrollbar-hidden border-2 border-t-gray-400`}
                     >
                       {/* Links inside the sliding div */}
@@ -212,11 +211,11 @@ const BottomHeader: React.FC = () => {
                   )}
 
                   {isLoggingOut && (
-                    <div className="fixed inset-0 flex justify-center items-center bg-gray-600 bg-opacity-50 z-50">
+                    <div className="fixed inset-0 backdrop-brightness-35 sm:backdrop-brightness-35 md:backdrop-brightness-0 lg:backdrop-brightness-0 flex justify-center items-center p-4 z-50">
                       <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs sm:max-w-sm md:max-w-md">
                         <p className="text-lg font-semibold text-gray-800">You are logging out...</p>
                         <div className="mt-4 animate-spin">
-                          <FaSpinner className="text-purple-500 text-3xl mx-auto" />
+                          <LiaSpinnerSolid className="text-purple-500 text-3xl mx-auto" />
                         </div>
                       </div>
                     </div>
@@ -247,13 +246,11 @@ const BottomHeaderLink = ({ to, icon, label }: BottomHeaderLinkProps) => {
   return (
     <NavLink
       to={to}
-      className={`flex flex-col items-center space-y-1 cursor-pointer ${isActive ? 'text-purple-500' : 'text-gray-700'}`}
+      className={`flex flex-col items-center space-y-1 cursor-pointer ${isActive ? 'text-purple-700' : 'text-gray-700'}`}
     >
-      <span>{icon}</span>
+      <span className={`rounded-full ${isActive ? 'bg-gray-400 text-white p-3' : 'bg-transparent text-gray-700'}`}
+      >{icon}</span>
       <span className="text-xs text-gray-700">{label}</span>
-      {isActive && (
-        <div className="w-10 h-1 bg-purple-500 rounded-full absolute top-0 transform translate-x-1/22 z-50"></div>
-      )}
     </NavLink>
   )
 };
