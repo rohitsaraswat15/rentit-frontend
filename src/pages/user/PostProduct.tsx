@@ -9,6 +9,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { AiOutlineSmallDash } from "react-icons/ai";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { GoVerified } from "react-icons/go";
+import { terms } from './constant/Terms';
 
 interface FormData {
     pname: string;
@@ -22,6 +23,8 @@ interface FormData {
     pddate: string;
     pdtime: string;
     pdelivery: string;
+    pstate: string;
+    pcity: string;
     image: string[]; // This will be the URL or base64 representation of the image
     pagreement: boolean;
     pownClausecheckbox: string;
@@ -43,6 +46,8 @@ const initialFormData: FormData = {
     pddate: "",
     pdtime: "",
     pdelivery: "",
+    pstate: "",
+    pcity: "",
     image: [],
     pagreement: false,
     pownClausecheckbox: "",
@@ -92,14 +97,7 @@ const PostProduct: React.FC = () => {
         return () => window.removeEventListener('storage', updateUser);
     }, []);
 
-    const terms = [
-        { id: 1, label: 'Rentee must return the  product in original condition.', checked: true },
-        { id: 2, label: 'Late return will incur aditional charges.', checked: true },
-        { id: 3, label: 'Security deposit  is refundable only after inspection.', checked: true },
-        { id: 4, label: 'No third party usage is allowed.', checked: true },
-        { id: 5, label: 'In case of damage, rentee will  bear the repair cost.', checked: true },
-        { id: 6, label: 'The product must  be returned with all accessories.', checked: true },
-    ];
+
 
     const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPostFormData((prev) => ({
@@ -164,22 +162,33 @@ const PostProduct: React.FC = () => {
         const files = e.target.files;
         if (!files) return;
 
-        const selectedFiles = Array.from(files).map((file) =>
-            URL.createObjectURL(file)
-        );
+        const selectedFiles = Array.from(files);
 
+        // Check max 4 images limit
         if (postFormData.image.length + selectedFiles.length > 4) {
             setError("You can upload a maximum of 4 images.");
             return;
         }
 
-        setPostFormData((prev) => ({
-            ...prev,
-            image: [...prev.image, ...selectedFiles],
-        }));
+        // Convert each file into base64 string
+        const readers = selectedFiles.map((file) => {
+            return new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result as string);
+                reader.onerror = reject;
+                reader.readAsDataURL(file); // convert file → base64
+            });
+        });
 
-        setError("");
+        Promise.all(readers).then((base64Files) => {
+            setPostFormData((prev) => ({
+                ...prev,
+                image: [...prev.image, ...base64Files],
+            }));
+            setError("");
+        });
     };
+
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -327,6 +336,7 @@ const PostProduct: React.FC = () => {
                                                 <option value="AC">AC</option>
                                                 <option value="Cloths">Cloths</option>
                                                 <option value="Books">Books</option>
+                                                <option value="Headphone">Headphone</option>
                                             </select>
                                         </div>
                                     </div>
@@ -362,7 +372,7 @@ const PostProduct: React.FC = () => {
 
                                     <div className='w-xs md:w-2xl flex flex-col gap-3'>
                                         <label className="block text-sm font-medium text-gray-700">Security Deposit</label>
-                                        <InputField type="number" value={postFormData.psecurityDeposit} onChange={handleOnChange} placeholder="Enter Security deposit" name='psecuritydeposit'
+                                        <InputField type="number" value={postFormData.psecurityDeposit} onChange={handleOnChange} placeholder="Enter Security deposit" name='psecurityDeposit'
                                         />
                                     </div>
 
@@ -384,6 +394,19 @@ const PostProduct: React.FC = () => {
                                         <div className='flex flex-col w-full gap-3'>
                                             <label className="block text-sm font-medium text-gray-700">Time Duration</label>
                                             <InputField type="time" value={postFormData.pdtime} onChange={handleOnChange} placeholder="Time" name='pdtime'
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-4 mb-4 w-xs md:w-2xl">
+                                        <div className='flex flex-col w-full gap-3'>
+                                            <label className="block text-sm font-medium text-gray-700">State</label>
+                                            <InputField type="text" value={postFormData.pstate} onChange={handleOnChange} placeholder="Enter State" name='pstate'
+                                            />
+                                        </div>
+                                        <div className='flex flex-col w-full gap-3'>
+                                            <label className="block text-sm font-medium text-gray-700">City</label>
+                                            <InputField type="text" value={postFormData.pcity} onChange={handleOnChange} placeholder="Enter City" name='pcity'
                                             />
                                         </div>
                                     </div>
@@ -417,7 +440,7 @@ const PostProduct: React.FC = () => {
                                         <div className="flex gap-3 mt-3 flex-wrap">
                                             {postFormData.image.map((img, index) => (
                                                 <img
-                                                    key={index}
+                                                    key={`${img}-${index}`}
                                                     src={img}
                                                     alt={`upload-${index}`}
                                                     className="w-15 h-15 object-cover rounded-sm"
@@ -602,6 +625,7 @@ const PostProduct: React.FC = () => {
                                             </div>
                                         </div>
                                     </>
+
                                     <h2 className="text-xl font-semibold text-gray-700 mt-4">Payment</h2>
                                     <div className='flex gap-6 mt-4 border-2 border-gray-200 rounded-sm w-full p-6'>
                                         <div className='mt-4 flex items-center justify-between gap-4 w-full mb-4'>

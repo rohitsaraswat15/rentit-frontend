@@ -208,12 +208,12 @@ const Navbar: React.FC = () => {
                       </h3>
                       <div className=' flex flex-col p-1 mt-2 cursor-pointer text-md text-left rounded text-gray-700'>
 
-                        <div onClick={() => navigate(`/${user.role}-dashboard`)} className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2'><LuLayoutDashboard className='text-xl text-gray-700' /> Your Dashboard</div>
+                        <div onClick={() => navigate(`/${user.role}-dashboard`)} className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2'><LuLayoutDashboard className='text-xl text-gray-700' />  Dashboard</div>
 
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <MdAccountCircle className='text-xl text-gray-700' /> Your Account</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <BsBoxes className='text-xl text-gray-700' />Your Products</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><GoGitPullRequestDraft className='text-xl text-gray-700' /> Your Request</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <RiMessage2Line className='text-xl text-gray-700' />Your Message</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <MdAccountCircle className='text-xl text-gray-700' />  Account</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <BsBoxes className='text-xl text-gray-700' /> Products</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><GoGitPullRequestDraft className='text-xl text-gray-700' />  Request</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <RiMessage2Line className='text-xl text-gray-700' /> Message</div>
                         <div className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><LuUpload className='text-xl text-gray-700' />  Post Product</div>
                         <div onClick={handleLogout} className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><IoLogOutOutline className='text-xl text-gray-700' /> Logout</div>
 

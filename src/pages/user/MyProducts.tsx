@@ -10,10 +10,12 @@ import { Link } from 'react-router-dom';
 
 
 interface FormData {
-  text: string;
+  pname: string;
   image: string[];
   date: string;
   postedBy: string;
+  pamount: string;
+  ptime: string;
 }
 
 const MyProducts: React.FC = () => {
@@ -174,7 +176,7 @@ const MyProducts: React.FC = () => {
                   <div className="w-50 h-20 md:w-45 md:h-38 flex items-center justify-center">
                     {data.image ? (
                       <img
-                        src={data.image[1]}
+                        src={data.image[0]}
                         alt="Uploaded"
                         className="w-full h-full object-cover rounded-sm"
                       />
@@ -183,8 +185,8 @@ const MyProducts: React.FC = () => {
                     )}
                   </div>
 
-                  <div className='flex flex-col gap-1 md:gap-2'>
-                    <p className="text-md md:text-lg font-semibold text-gray-900">{data.text}</p>
+                  <Link to={`/productDetails/${index}`}> <div className='flex flex-col gap-1 md:gap-2'>
+                    <p className="text-md md:text-lg font-semibold text-gray-900">{data.pname}</p>
                     <p className="text-sm md:text-md font-bold text-gray-800"><span className='text-sm md:text-sm text-green-600'>Owner :</span> {data.postedBy}</p>
                     <div className="md:hidden lg:hidden text-xs text-gray-500 w-full font-semibold items-center justify-center m-auto">{data.date}</div>
                     <p className="text-xs text-gray-500">Product description to be written here.Available in three colors.Instant delivery.</p>
@@ -192,13 +194,15 @@ const MyProducts: React.FC = () => {
                       <button className='bg-green-300 w-full mt-2 px-4 py-2 text-md font-semibold text-gray-900'>Boost</button>
                     </div>
 
-                    <button
+                    <Link to={`/productDetails/${index}`}> <button
                       className="bg-purple-500 cursor-pointer text-white w-fit px-4 py-2 rounded-sm hidden sm:block md:block"
                     >
                       View Details
                     </button>
+                    </Link>
 
                   </div>
+                  </Link>
                 </div>
 
                 <div className="md:hidden block">
@@ -228,7 +232,7 @@ const MyProducts: React.FC = () => {
 
                 <div className='text-gray-700 absolute m-auto w-fit h-full sm:flex md:flex hidden items-end justify-end right-0'>
 
-                  <div className="text-sm text-gray-900 border-l-2 border-gray-200 p-6 h-full flex items-center justify-center">₹ 250/month</div>
+                  <div className="text-sm text-gray-900 border-l-2 border-gray-200 p-6 h-full flex items-center justify-center">₹ {data.pamount}/{data.ptime}</div>
 
                   <div className='border-l-2 font-bold border-gray-200 p-8 h-full cursor-pointer w-fit flex items-center justify-center m-auto right-0'>
                     <BsLightningCharge size={40} className='bg-green-300 rounded-full p-2' />

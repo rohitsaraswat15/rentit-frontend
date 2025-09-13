@@ -15,6 +15,7 @@ import MyProducts from '../pages/user/MyProducts';
 import Messages from '../pages/user/Messages';
 import AdminBin from '../pages/admin/Bin';
 import AllProducts from '../pages/admin/AllProducts';
+import ProductDetails from '../pages/product/ProductDetails';
 
 
 const AppRoutes: React.FC = () => {
@@ -38,6 +39,7 @@ const AppRoutes: React.FC = () => {
       <Route path='/messages' element={<Messages />} />
       <Route path='/admin-bin' element={<AdminBin />} />
       <Route path='/allproducts' element={<AllProducts />} />
+      <Route path='/productDetails/:pid' element={<ProductDetails />} />
 
 
       {/* user homepage route */}

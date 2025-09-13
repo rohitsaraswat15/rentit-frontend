@@ -182,20 +182,20 @@ const BottomHeader: React.FC = () => {
                           onClick={() => navigate(`/${user.role}-dashboard`)}
                           className="mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2"
                         >
-                          <LuLayoutDashboard className="text-xl text-gray-700" /> Your Dashboard
+                          <LuLayoutDashboard className="text-xl text-gray-700" /> Dashboard
                         </div>
 
                         <div className="mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2">
-                          <MdAccountCircle className="text-xl text-gray-700" /> Your Account
+                          <MdAccountCircle className="text-xl text-gray-700" /> Account
                         </div>
                         <div className="mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2">
-                          <BsBoxes className="text-xl text-gray-700" /> Your Products
+                          <BsBoxes className="text-xl text-gray-700" /> Products
                         </div>
                         <div className="mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2">
-                          <GoGitPullRequestDraft className="text-xl text-gray-700" /> Your Request
+                          <GoGitPullRequestDraft className="text-xl text-gray-700" /> Request
                         </div>
                         <div className="mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2">
-                          <RiMessage2Line className="text-xl text-gray-700" /> Your Message
+                          <RiMessage2Line className="text-xl text-gray-700" /> Message
                         </div>
                         <div className="mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2">
                           <LuUpload className="text-xl text-gray-700" /> Post Product
