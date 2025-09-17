@@ -59,7 +59,7 @@ const SetNewPassword: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-black">
+    <div className="flex px-4 py-24 sm:px-6 lg:px-8 items-center justify-center min-h-screen bg-gradient-to-b from-blue-400 via-blue-600 to-purple-300 overflow-x-hidden overflow-y-hidden">
         <div className="w-full max-w-md mx-auto p-5 shadow-xl bg-white backdrop-blur-md border border-gray-200 rounded-md">
           <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Set New Password</h2>
 
@@ -102,14 +102,14 @@ const SetNewPassword: React.FC = () => {
             onClick={handleSave}
             type="submit"
             disabled={loading}
-            className={`w-full mt-6 py-2 rounded-xl font-semibold transition ${loading ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-green-700'}`}
+            className={`w-full mt-6 py-2 rounded-xl font-semibold transition ${loading ? 'bg-gray-300 cursor-not-allowed' : 'bg-purple-500 text-white hover:bg-purple-600'}`}
           >
             {loading ? 'Saving...' : 'Save'}
           </button>
 
           <form>
             <Link to="/login">
-              <button className="w-full mt-6 py-2 px-4 bg-blue-600 text-white font-medium rounded-sm hover:bg-green-700 transition">
+              <button className="w-full mt-6 py-2 px-4 bg-purple-500 text-white font-medium rounded-sm hover:bg-purple-600 transition">
                 Login Again
               </button>
             </Link>

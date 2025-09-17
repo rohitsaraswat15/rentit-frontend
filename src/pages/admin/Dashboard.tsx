@@ -17,7 +17,7 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <DashboardLayout>
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-4 mt-15">Admin Dashboard</h1>
       {/* Your user dashboard content here */}
     </DashboardLayout>
   );
