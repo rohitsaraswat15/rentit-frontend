@@ -18,6 +18,7 @@ import AllProducts from '../pages/admin/AllProducts';
 import ProductDetails from '../pages/product/ProductDetails';
 
 
+
 const AppRoutes: React.FC = () => {
   //   const isAuthenticated = () => {
   //   return !!localStorage.getItem('user');
@@ -33,6 +34,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/forgetpassword" element={<ForgotPassword />} />
       <Route path="/setnewpassword" element={<SetNewPassword />} />
+
       <Route path='/notsigned' element={<NotSignedInComponent />} />
       <Route path='/postproduct' element={<PostProduct />} />
       <Route path='/myproducts' element={<MyProducts />} />
@@ -40,6 +42,7 @@ const AppRoutes: React.FC = () => {
       <Route path='/admin-bin' element={<AdminBin />} />
       <Route path='/allproducts' element={<AllProducts />} />
       <Route path='/productDetails/:pid' element={<ProductDetails />} />
+
 
 
       {/* user homepage route */}

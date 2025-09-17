@@ -5,13 +5,12 @@ import RentItLogo from '../../assets/logo/RentIt.png';
 import { LuLayoutDashboard, LuUpload } from "react-icons/lu";
 import { MdAccountCircle } from "react-icons/md";
 import { GoGitPullRequestDraft } from "react-icons/go";
-import { RiMessage2Line, RiMenu4Line } from "react-icons/ri";
+import { RiMessage2Line,RiMenu4Line } from "react-icons/ri";
 import { IoLogOutOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
+import { FaSpinner } from 'react-icons/fa';
 import { IoIosNotificationsOutline } from "react-icons/io";
-import { LiaSpinnerSolid } from "react-icons/lia";
-
-
+ 
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -65,8 +64,7 @@ const Navbar: React.FC = () => {
   }, []);
 
   const location = useLocation();
-  const showBottomHeaderPaths = ['/admin-dashboard', '/user-dashboard', '/request', '/postproduct', '/messages','/myproducts'];
-  const isOnDashboardPage = user && showBottomHeaderPaths.some(path => location.pathname.startsWith(path));
+  const isOnDashboardPage = user && location.pathname.startsWith(`/${user.role}-dashboard`);
 
 
   return (
@@ -107,7 +105,7 @@ const Navbar: React.FC = () => {
               Contact
             </Link>
           </div>
-
+          
           {/* Notification Icon */}
           <div className="relative flex items-end float-right md:mr-8 ml-35 sm:ml-40 text-gray-500">
             <IoIosNotificationsOutline className='cursor-pointer' size={30} />
@@ -117,7 +115,7 @@ const Navbar: React.FC = () => {
               3
             </div>
           </div>
-
+            
 
           {/* profile */}
           {isOnDashboardPage && (
@@ -201,19 +199,19 @@ const Navbar: React.FC = () => {
                   {userDropdown && (
                     <div
                       ref={dropdownRef}
-                      className="w-60 h-fit p-6 bg-white absolute top-0 sm:top-14 md:top-14 right-0 rounded-md shadow-lg z-50"
+                      className="w-60 h-fit p-6 bg-white absolute top-14 right-0 rounded-md shadow-lg z-50"
                     >
                       <h3 className="text-center w-full text-xl font-sans font-bold p-1 text-black border-b border-gray-500">
                         {user.name}
                       </h3>
                       <div className=' flex flex-col p-1 mt-2 cursor-pointer text-md text-left rounded text-gray-700'>
 
-                        <div onClick={() => navigate(`/${user.role}-dashboard`)} className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2'><LuLayoutDashboard className='text-xl text-gray-700' />  Dashboard</div>
+                        <div onClick={() => navigate(`/${user.role}-dashboard`)} className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2'><LuLayoutDashboard className='text-xl text-gray-700' /> Your Dashboard</div>
 
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <MdAccountCircle className='text-xl text-gray-700' />  Account</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <BsBoxes className='text-xl text-gray-700' /> Products</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><GoGitPullRequestDraft className='text-xl text-gray-700' />  Request</div>
-                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <RiMessage2Line className='text-xl text-gray-700' /> Message</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <MdAccountCircle className='text-xl text-gray-700' /> Your Account</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <BsBoxes className='text-xl text-gray-700' />Your Products</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><GoGitPullRequestDraft className='text-xl text-gray-700' /> Your Request</div>
+                        <div className='mt-3 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '> <RiMessage2Line className='text-xl text-gray-700' />Your Message</div>
                         <div className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><LuUpload className='text-xl text-gray-700' />  Post Product</div>
                         <div onClick={handleLogout} className='mt-1 hover:bg-gray-200 transition flex gap-4 items-center p-2 cursor-pointer '><IoLogOutOutline className='text-xl text-gray-700' /> Logout</div>
 
@@ -222,7 +220,7 @@ const Navbar: React.FC = () => {
                             <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs sm:max-w-sm md:max-w-md">
                               <p className="text-lg font-semibold text-gray-800">You are logging out...</p>
                               <div className="mt-4 animate-spin">
-                                <LiaSpinnerSolid className="text-purple-500 text-3xl mx-auto" />
+                                <FaSpinner className="text-blue-500 text-3xl mx-auto" />
                               </div>
                             </div>
                           </div>
@@ -236,7 +234,7 @@ const Navbar: React.FC = () => {
             )}
           </div>
 
-
+           
         </div>
 
         {/* Mobile Dropdown Menu */}

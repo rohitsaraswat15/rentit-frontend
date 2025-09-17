@@ -16,15 +16,19 @@ function App() {
   const location = useLocation();
   const hideNavbarPaths = ['/login', '/register', '/forgotpassword','/setnewpassword'];
   const hideBottomNavbarPaths = ['/login', '/register', '/forgotpassword','/setnewpassword'];
+  const showBottomNavbarPaths = ['/postproduct', '/request','/messages','/settings','/admin-dashboard','/user-dashboard'];
   
   const hideNavbar = hideNavbarPaths.some(path => location.pathname.startsWith(path));
   const hideBottomNavbar = hideBottomNavbarPaths.some(path => location.pathname.startsWith(path));
+  const showBottomNavbar = showBottomNavbarPaths.some(path => location.pathname.startsWith(path));
+  
 
   return (
     <>
 
       {!hideNavbar && <Navbar />}
       {!hideBottomNavbar && <BottomHeader />}
+      {showBottomNavbar && <BottomHeader/>}
 
       <AppRoutes />
 
