@@ -17,6 +17,7 @@ import { TbAirConditioning } from "react-icons/tb";
 import { LuSofa } from "react-icons/lu";
 import { GiClothes } from "react-icons/gi";
 import { PiBooksDuotone } from "react-icons/pi";
+import SearchBar from '../../components/common/SearchBar';
 
 interface DropdownProps {
     options: string[];
@@ -61,6 +62,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
     const [selectedIconIndex, setSelectedIconIndex] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState<string>(defaultLabel);
+    const [distance, setDistance] = useState('');
 
     const user = JSON.parse(localStorage.getItem('user') || 'null');
     const isAdmin = user?.role === 'admin';
@@ -113,13 +115,13 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                             <div className="relative w-full max-w-xs">
                                 <button
                                     onClick={() => setIsOpen((prev) => !prev)}
-                                    className="w-full px-6 py-3 text-left bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    className="w-full px-6 py-3 text-left bg-white border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                                 >
                                     {selected}
                                 </button>
 
                                 {isOpen && (
-                                    <ul className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg">
+                                    <ul className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-sm">
                                         {options.map((option, idx) => (
                                             <li
                                                 key={idx}
@@ -133,10 +135,12 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                                 )}
                             </div>
 
-                            <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-text px-6 py-3 rounded-xl font-medium hover:bg-gray-400 hover:text-white transition">
-                                10Km
-                            </button>
+                            <input type='number' placeholder='Enter distance in Km' value={distance} onChange={(e) => setDistance(e.target.value)} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-gray-800 px-6 py-3 rounded-sm font-medium focus:ring-2 focus:ring-purple-500">
+                            </input>
                         </div>
+
+                        <SearchBar/>
+                        
                     </div>
 
                     {/* Illustration */}
@@ -366,7 +370,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
 
 // export default HomePage
 
-const DropdownExample: React.FC = () => {
+const Dropdown: React.FC = () => {
     const dropdownOptions = ['Jaipur', 'Delhi', 'Mumbai', 'Agra', 'Indore', 'Banglore'];
 
     const handleSelect = (selected: string) => {
@@ -384,4 +388,4 @@ const DropdownExample: React.FC = () => {
     );
 };
 
-export default DropdownExample;
+export default Dropdown;
