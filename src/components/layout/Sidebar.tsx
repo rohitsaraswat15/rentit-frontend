@@ -57,7 +57,9 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
         {!isAdmin && (
           <>
             <SidebarLink to="/myproducts" icon={<BsBoxes />} label="My Products" collapsed={collapsed} />
-            <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Rent Request" collapsed={collapsed} />
+            <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Rentit Request" collapsed={collapsed} />
+            <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Rentit Sent Request" collapsed={collapsed} />
+
            </>
         )}
 
@@ -66,6 +68,7 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
           <>
             <SidebarLink to="/products" icon={<BsBoxes />} label="All Products" collapsed={collapsed} />
             <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Request for Boost" collapsed={collapsed} />
+            <SidebarLink to="/" icon={<GoGitPullRequestDraft />} label="Manage HomePage" collapsed={collapsed} />
             <SidebarLink to="/bin" icon={<IoTrashBinOutline />} label="Bin" collapsed={collapsed} />
           </>
         )}
