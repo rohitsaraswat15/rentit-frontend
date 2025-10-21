@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { FilterContext } from "../layout/FilterContext";  
+import { FilterContext } from "../../context/FilterContext";  
 
 export const FilterProvider = ({ children }: { children: ReactNode }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Filters from "./Filters";
+import Filters from "../../pages/product/Filters";
 import { FaFilter } from "react-icons/fa";
  
 const CategoryPageLayout = ({ children }: { children: React.ReactNode }) => {
