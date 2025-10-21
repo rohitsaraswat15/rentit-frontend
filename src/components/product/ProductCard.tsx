@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface ItemProps {
     icon: React.ReactNode;
@@ -7,8 +8,15 @@ interface ItemProps {
 }
 
 const ProductCard: React.FC<ItemProps> = ({ icon, title, onDelete }) => {
+
+    const navigate = useNavigate();
+    const handleClick = () => {
+        if(!onDelete){
+            navigate(`/category/${encodeURIComponent(title)}`)
+        }
+    }
     return (
-        <div className="relative flex flex-col items-center border border-gray-300 bg-white shadow-lg rounded-xl p-1 w-full max-w-xs transition hover:shadow-lg mt-2 sm:mt-4 md:mt-8">
+        <div onClick={handleClick} className="relative flex flex-col items-center border border-gray-300 bg-white shadow-lg rounded-xl p-1 w-full max-w-xs transition hover:shadow-lg mt-2 sm:mt-4 md:mt-8">
             {/* Icon */}
             <div className="w-full h-20 flex items-center justify-center rounded-lg mb-1 text-black text-5xl md:text-7xl">
                 {icon}

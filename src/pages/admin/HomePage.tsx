@@ -25,7 +25,6 @@ interface DropdownProps {
     defaultLabel?: string;
 }
 
-
 const iconOptions = [
     { name: 'FaMobileAlt', component: <FaMobileAlt /> },
     { name: 'IoMdLaptop', component: <IoMdLaptop /> },
@@ -49,7 +48,6 @@ const getInitialItems = () => {
     return stored ? JSON.parse(stored) : [
         { icon: 'FaMobileAlt', title: 'Mobile' },
         { icon: 'IoMdLaptop', title: 'Laptop' },
-        { icon: 'TbAirConditioning', title: 'TbAirConditioning' },
     ];
 };
 
