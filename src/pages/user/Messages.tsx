@@ -1,19 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
+import { useAuthContext } from '../../context/useAuthContext';
 
 const Messages: React.FC = () => {
   const navigate = useNavigate();
+  const {user} = useAuthContext();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-
     if (!user) {
       navigate('/login');
     } else if (user.role !== 'user') {
       navigate('/');
     }
-  }, [navigate]);
+  }, [user, navigate]);
 
   return (
 

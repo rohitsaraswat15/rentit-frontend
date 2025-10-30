@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useFilter } from "../../hooks/useFilter";
 import { useParams } from "react-router-dom";
-import type { Product } from "../../components/product/CategoryPage";
-
+import type { FormDataPost } from "../../types/postTypes";
 
 const Filters = () => {
   const { name } = useParams<{ name: string }>();
@@ -14,40 +13,48 @@ const Filters = () => {
   const categories = ["All", "Mobile", "Furniture", "Fashion", "Books", "Cloths", "Laptop", "AC"];
   const cities = ["Jaipur", "Delhi", "Mumbai", "Pune", "Bangalore", "Chandigarh"];
 
-  // useEffect(() => {
-  //   const allProducts = JSON.parse(localStorage.getItem("formData") || "[]");
-  //   if (selectedCategory && selectedCategory !== "All") {
-  //     const filteredBrands: string[]= [
-  //       ...new Set<string>(
-  //         allProducts
-  //           .filter((p: Product) => p.pcategory?.toLowerCase() === selectedCategory.toLowerCase())
-  //           .map((p: Product) => p.pbrandmodel?.trim() || "")
-  //           .filter(Boolean)
-  //       ),
-  //     ];
-  //     setBrands(filteredBrands);
-  //   } else {
-  //     setBrands([]);
-  //   }
-  // }, [selectedCategory]);
+useEffect(() => {
+  const loadBrands = () => {
+    const allKeys = Object.keys(localStorage);
+    const allProducts: FormDataPost[] = [];
 
-  useEffect(() => {
-    const storedProducts: Product[] = JSON.parse(localStorage.getItem("formData") || "[]");
+    // Collect products from all users
+    allKeys.forEach((key) => {
+      if (key.startsWith("formData_")) {
+        const data = JSON.parse(localStorage.getItem(key) || "[]");
+        if (Array.isArray(data)) {
+          allProducts.push(...data);
+        }
+      }
+    });
 
-    const categoryToUse = selectedCategory && selectedCategory !== "All" ? selectedCategory : name;
+    // Determine current category
+    const categoryToUse =
+      selectedCategory && selectedCategory !== "All"
+        ? selectedCategory
+        : name;
 
     if (categoryToUse) {
-      const filteredBrands = storedProducts
-        .filter((p) => p.pcategory?.toLowerCase() === categoryToUse.toLowerCase())
-        .map((p) => p.pbrandmodel)
-        .filter(Boolean); // remove empty/null brands
+      const filteredBrands = allProducts
+        .filter(
+          (p) =>
+            p.pcategory?.toLowerCase() === categoryToUse?.toLowerCase()
+        )
+        .map((p) => p.pbrandmodel?.trim())
+        .filter(Boolean);
 
-      // Get unique brand names only
-      setBrands(Array.from(new Set(filteredBrands)));
+      setBrands(Array.from(new Set(filteredBrands))); // unique brand list
     } else {
       setBrands([]);
     }
-  }, [selectedCategory, name]);
+  };
+
+  loadBrands();
+  window.addEventListener("storageUpdate", loadBrands);
+  return () => window.removeEventListener("storageUpdate", loadBrands);
+}, [selectedCategory, name]);
+
+
 
   const handleBrandChange = (brand: string) => {
     setSelectedBrands((prev) =>
@@ -56,8 +63,6 @@ const Filters = () => {
         : [...prev, brand]
     );
   };
-
-
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPrice(parseInt(event.target.value));

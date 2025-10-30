@@ -10,39 +10,26 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { LiaSpinnerSolid } from "react-icons/lia";
-
+import { useAuthContext } from '../../context/useAuthContext';
 
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<{ name: string; role: string } | null>(null);
+  // const [user, setUser] = useState<{ name: string; role: string } | null>(null);
   const [userDropdown, setUserDropdown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
+  const { logout, user} = useAuthContext();
 
-
-  // Load user info from localStorage
-  useEffect(() => {
-    const updateUser = () => {
-      const storedUser = localStorage.getItem('user');
-      setUser(storedUser ? JSON.parse(storedUser) : null);
-    };
-
-    window.addEventListener('storage', updateUser);
-    updateUser();
-
-    return () => window.removeEventListener('storage', updateUser);
-  }, []);
-
+  
   const handleLogout = () => {
     // Show the "logging out" message
     setIsLoggingOut(true);
 
     // Simulate a loading delay, then handle the logout logic
     setTimeout(() => {
-      localStorage.removeItem('user');
-      setUser(null);
+       logout();
       setIsLoggingOut(false);
       navigate('/');
     }, 2000);

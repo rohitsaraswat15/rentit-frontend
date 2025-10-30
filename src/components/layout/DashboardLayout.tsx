@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom'; // Outlet is where the child routes will be rendered
 import BottomHeader from './BottomHeader';
-
+import { useAuthContext } from '../../context/useAuthContext';
 
 interface Props {
   children: React.ReactNode;
@@ -14,9 +14,8 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
   const isDragging = useRef(false);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  //   // const [user, setUser] = useState<{ name: string; role: string } | null>(null);
-
-
+  const {logout} = useAuthContext();
+ 
   useEffect(() => {
     const handleResize = () => {
       // Check if the screen width is less than or equal to 767px (mobile screen)
@@ -37,13 +36,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  //  useEffect(() => {
-  //   const storedUser = localStorage.getItem('user');
-  //   if (storedUser) {
-  //     setUser(JSON.parse(storedUser));
-  //   }
-  // }, []);
-
+  
   useEffect(() => {
     if (collapsed) {
       setSidebarWidth(80);
@@ -90,7 +83,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    logout();
     navigate('/');
   };
 

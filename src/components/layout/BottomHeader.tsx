@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { GoHome, GoSearch, GoPlus } from "react-icons/go";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { LiaUserCircleSolid } from "react-icons/lia";
@@ -10,12 +10,13 @@ import { GoGitPullRequestDraft, GoGift } from "react-icons/go";
 import { RiMessage2Line } from "react-icons/ri";
 import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
+import { useAuthContext } from '../../context/useAuthContext';
 
 
 const BottomHeader: React.FC = () => {
+  const { user, logout} = useAuthContext();
   const [isOpen, setIsOpen] = useState(false)
-  const [user, setUser] = useState<{ name: string; role: string } | null>(null);
-  const [activeIcon, setActiveIcon] = useState<string>('home'); // Default active icon is 'home'
+    const [activeIcon, setActiveIcon] = useState<string>('home');
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const location = useLocation();
@@ -24,13 +25,9 @@ const BottomHeader: React.FC = () => {
 
 
   const handleLogout = () => {
-    // Show the "logging out" message
     setIsLoggingOut(true);
-
-    // Simulate a loading delay, then handle the logout logic
-    setTimeout(() => {
-      localStorage.removeItem('user');
-      setUser(null);
+     setTimeout(() => {
+       logout();
       setIsLoggingOut(false);
       navigate('/');
     }, 2000);
@@ -41,23 +38,6 @@ const BottomHeader: React.FC = () => {
     setIsOpen(false);
   };
 
-
-  useEffect(() => {
-    const updateUser = () => {
-      const storedUser = localStorage.getItem('user');
-      setUser(storedUser ? JSON.parse(storedUser) : null);
-    };
-    
-    //update your user log out info in different tab or window 
-    window.addEventListener('storage', updateUser);
-    updateUser();
-     
-    //prevents memory leaks
-    return () => window.removeEventListener('storage', updateUser);
-  }, []);
-
-
-
   const handletoggleProfile = () => {
     setIsOpen(!isOpen)
     if (!setIsLoggingOut) {
@@ -67,7 +47,6 @@ const BottomHeader: React.FC = () => {
 
   const handleIconClick = (icon: string) => {
     setActiveIcon(icon);
-
     if (!user && icon === 'post') {
       navigate('/notsigned')
     }

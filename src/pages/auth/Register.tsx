@@ -12,7 +12,6 @@ import { registerUser, sendOtp, verifyOtp } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { IoCloseCircle } from "react-icons/io5";
 
-
 interface FormData {
   fullName: string;
   email: string;
@@ -100,11 +99,7 @@ const Register: React.FC = () => {
         phone: form.phone,
         password: form.password,
       });
-      // alert((response as { message: string }).message);
-      // if ((response as { success: boolean }).success) {
-      // Redirect only if registration was successful
-      //   navigate('/login');
-      // }
+ 
       const { success, message } = response as { success: boolean; message: string };
       setRegisterMessage(message);
       setRegisterSuccess(success);

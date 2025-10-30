@@ -4,6 +4,7 @@ import { IoPlanetOutline } from "react-icons/io5";
 import CategoryPageLayout from "../layout/CategoryPageLayout";
 import { useFilter } from "../../hooks/useFilter";
 import { FilterProvider } from "./FilterProvider";
+import type { FormDataPost } from "../../types/postTypes";
 
 const cityCoordinates: Record<string, { lat: number; lon: number }> = {
   Jaipur: { lat: 26.9124, lon: 75.7873 },
@@ -14,7 +15,7 @@ const cityCoordinates: Record<string, { lat: number; lon: number }> = {
   Chandigarh: { lat: 30.7333, lon: 76.7794 },
 };
 
-// ✅ Utility function
+// Utility function
 function calculateDistance(
   lat1: number,
   lon1: number,
@@ -33,27 +34,11 @@ function calculateDistance(
   return R * c;
 }
 
-export interface Product {
-  pid: number;
-  pname: string;
-  pdetails: string;
-  image: string[];
-  date: string;
-  postedBy: string;
-  pamount: string;
-  ptime: string;
-  city: string;
-  pcategory: string;
-  pbrandmodel: string;
-  pdlocation: string;
-  pcity: string;
-}
-
 const CategoryPageContent = () => {
   const { name } = useParams<{ name: string }>();
   const { selectedCategory, priceRange, selectedBrands, selectedCity, distanceKm } = useFilter();
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [allProducts, setAllProducts] = useState<FormDataPost[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<FormDataPost[]>([]);
   const [availableBrands, setAvailableBrands] = useState<string[]>([])
   const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
 
@@ -82,9 +67,20 @@ const CategoryPageContent = () => {
 }, []);
 
   // Load all products
-  useEffect(() => {
-    const storedProducts: Product[] = JSON.parse(localStorage.getItem("formData") || "[]");
-    setAllProducts(storedProducts);
+   useEffect(() => {
+    const allKeys = Object.keys(localStorage);
+    const allUserProducts: FormDataPost[] = [];
+
+    allKeys.forEach((key) => {
+      if (key.startsWith("formData_")) {
+        const userData = JSON.parse(localStorage.getItem(key) || "[]");
+        if (Array.isArray(userData)) {
+          allUserProducts.push(...userData);
+        }
+      }
+    });
+
+    setAllProducts(allUserProducts);
   }, []);
 
   useEffect(() => {
@@ -106,7 +102,7 @@ const CategoryPageContent = () => {
   useEffect(() => {
     if (allProducts.length === 0) return;
 
-    let productsToShow: Product[] = [];
+    let productsToShow: FormDataPost[] = [];
 
     // If user manually selects category via radio than it will override URL category
     if (selectedCategory && selectedCategory !== "All") {
@@ -142,7 +138,7 @@ const CategoryPageContent = () => {
     const userCoords =  userLocation || cityCoordinates[selectedCity as keyof typeof cityCoordinates];
     if (userCoords) {
       productsToShow = productsToShow.filter((p) => {
-        const deliveryCity = p.city || p.pdlocation;
+        const deliveryCity = p.pcity || p.pdlocation;
         const productCoords = cityCoordinates[deliveryCity];
         if (!productCoords) return false;
 

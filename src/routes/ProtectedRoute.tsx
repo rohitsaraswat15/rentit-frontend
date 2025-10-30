@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import React from 'react';
+import { useAuthContext } from '../context/useAuthContext';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -7,8 +8,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
-  const storedUser = localStorage.getItem('user') || 'null';
-  const user = storedUser ? JSON.parse(storedUser) : null;
+ const {user} = useAuthContext();
   const location = useLocation();
 
   if (!user) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { LuLayoutDashboard, LuUpload } from "react-icons/lu";
 import { BsBoxes } from "react-icons/bs";
@@ -6,17 +6,32 @@ import { GoGitPullRequestDraft, GoHome } from "react-icons/go";
 import { RiDeleteBin6Line, RiMessage2Line } from "react-icons/ri";
 import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import { FiMenu } from "react-icons/fi";
+import { LiaSpinnerSolid } from "react-icons/lia";
+import { useAuthContext } from "../../context/useAuthContext";
 
-
-const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
-  handleLogout: () => void; sidebarWidth: number; collapsed: boolean;
+interface SidebarProps {
+  sidebarWidth: number;
+  collapsed: boolean;
   setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+   handleLogout: () => void;
+}
 
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
-  const isAdmin = user?.role === 'admin';
+const Sidebar: React.FC<SidebarProps> = ({ sidebarWidth, collapsed, setCollapsed }) => {
+  const { user, logout } = useAuthContext();
+  const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
+  if (!user) return null;
+  const isAdmin = user.role === 'admin';
+
+  const handleLogout = () => {
+    setIsLoggingOut(true);
+    setTimeout(() => {
+      logout();
+      setIsLoggingOut(false);
+    }, 2000);
+  }
 
   return (
+    <>
     <div
       className={`flex flex-col h-screen border-r-2 border-gray-200 min-h-screen text-gray-900 bg-gray-50 transition-[width] duration-200 ease-in-out ${collapsed ? 'w-20' : 'w-64'} relative z-10 hidden sm:hidden md:block`}
       style={{ width: sidebarWidth }}
@@ -59,7 +74,7 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
           <>
             <SidebarLink to="/myproducts" icon={<BsBoxes />} label="My Products" collapsed={collapsed} />
             <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Rent Request" collapsed={collapsed} />
-           </>
+          </>
         )}
 
         {/* Admin */}
@@ -92,6 +107,18 @@ const Sidebar = ({ handleLogout, sidebarWidth, collapsed, setCollapsed }: {
         </div>
       </div>
     </div>
+
+    {isLoggingOut && (
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs sm:max-w-sm md:max-w-md">
+            <p className="text-lg font-semibold text-gray-800">You are logging out...</p>
+            <div className="mt-4 animate-spin">
+              <LiaSpinnerSolid className="text-purple-500 text-3xl mx-auto" />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -102,7 +129,7 @@ interface SidebarLinkProps {
   collapsed: boolean;
 }
 
-const SidebarLink = ({ to, icon, label, collapsed }: SidebarLinkProps) => (
+const SidebarLink: React.FC<SidebarLinkProps> = ({ to, icon, label, collapsed }) => (
 
   <NavLink
     to={to}

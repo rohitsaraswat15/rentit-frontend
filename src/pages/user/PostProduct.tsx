@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import ProductPageLinks from '../../components/layout/ProductPageLinks';
 import { FaRegSmileBeam } from "react-icons/fa";
@@ -10,31 +10,13 @@ import { AiOutlineSmallDash } from "react-icons/ai";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { GoVerified } from "react-icons/go";
 import { terms } from './constant/Terms';
-
-interface FormData {
-    pname: string;
-    pdetails: string;
-    pcategory: string;
-    pbrandmodel: string;
-    pamount: string;
-    ptime: string;
-    psecurityDeposit: string;
-    pdlocation: string;
-    pddate: string;
-    pdtime: string;
-    pdelivery: string;
-    pstate: string;
-    pcity: string;
-    image: string[]; // This will be the URL or base64 representation of the image
-    pagreement: boolean;
-    pownClausecheckbox: string;
-    pownClause: string;
-    date: string;
-    postedBy: string;
-    pfinalAgreement: boolean;
-}
+import { useAuthContext } from '../../context/useAuthContext';
+import type { FormData } from '../../types/postTypes';
+import { createPost } from '../../services/productService';
 
 const initialFormData: FormData = {
+    id:"",
+    userid:"",
     pname: "",
     pdetails: "",
     pcategory: "",
@@ -78,26 +60,9 @@ const PostProduct: React.FC = () => {
     const [clauseClick, setClauseClick] = useState(false)
     const [saveClick, setSaveClick] = useState(false)
     const [step, setStep] = useState(1)
-    const [user, setUser] = useState<{ name: string; role: string } | null>(null);
+    const { user } = useAuthContext();
     const [postFormData, setPostFormData] = useState<FormData>(initialFormData);
     const [error, setError] = useState<string>("");
-
-
-    useEffect(() => {
-        const updateUser = () => {
-            const storedUser = localStorage.getItem('user');
-            setUser(storedUser ? JSON.parse(storedUser) : null);
-        };
-
-        //update your user log out info in different tab or window 
-        window.addEventListener('storage', updateUser);
-        updateUser();
-
-        //prevents memory leaks
-        return () => window.removeEventListener('storage', updateUser);
-    }, []);
-
-
 
     const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPostFormData((prev) => ({
@@ -110,7 +75,7 @@ const PostProduct: React.FC = () => {
         setShowSuccessMessage(false)
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!user) {
@@ -135,12 +100,14 @@ const PostProduct: React.FC = () => {
             ...postFormData,
             date: formattedDate,
             postedBy: user.name,
+            userid: user.id,
+            id: Date.now().toString(), 
         };
 
         setShowSuccessMessage(true)
-
+        const userFormDataKey = `formData_${user.id}`;
         // Retrieve existing data from localStorage, or initialize an empty array
-        let storedData: FormData[] = JSON.parse(localStorage.getItem('formData') || '[]');
+        let storedData: FormData[] = JSON.parse(localStorage.getItem(userFormDataKey) || '[]');
 
         if (!Array.isArray(storedData)) {
             storedData = []; // If not an array, reset to an empty array
@@ -149,13 +116,21 @@ const PostProduct: React.FC = () => {
         // Add new form data to the array
         storedData.push(formData);
 
+        // Send to backend too (no effect if API fails)
+        try {
+            await createPost(formData);
+            console.log('Post sent to backend successfully.');
+        } catch (error) {
+            console.warn(error,'Could not send to backend, continuing with local storage.');
+        }
+
         // Save the updated array back to localStorage
-        localStorage.setItem('formData', JSON.stringify(storedData));
+        localStorage.setItem(userFormDataKey, JSON.stringify(storedData));
 
         // Reset the form after submission
-        setPostFormData(postFormData)
+        setPostFormData(initialFormData)
         setError("");
-
+        window.dispatchEvent(new Event("storageUpdate"));
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

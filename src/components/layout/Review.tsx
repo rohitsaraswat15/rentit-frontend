@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaReply, FaEllipsisV, FaStar } from "react-icons/fa";
 import { AiFillLike } from "react-icons/ai";
+import { useAuthContext } from "../../context/useAuthContext";
 
 interface ReviewProps {
     productId: number;
@@ -31,25 +32,13 @@ const generateRandomColor = () => {
 
 
 const Review: React.FC<ReviewProps> = ({ productId }) => {
+    const { user } = useAuthContext();
     const [reviews, setReviews] = useState<Review[]>([]);
     const [newReview, setNewReview] = useState("");
     const [rating, setRating] = useState(0);
-    const [user, setUser] = useState<{ name: string; role: string } | null>(null);
+    // const [user, setUser] = useState<{ name: string; role: string } | null>(null);
     const [replyText, setReplyText] = useState<string>("");
     const [replyReviewId, setReplyReviewId] = useState<number | null>(null);
-
-    useEffect(() => {
-        const updateUser = () => {
-            const storedUser = localStorage.getItem('user');
-            setUser(storedUser ? JSON.parse(storedUser) : null);
-        };
-        //update your user log out info in different tab or window 
-        window.addEventListener('storage', updateUser);
-        updateUser();
-
-        //prevents memory leaks
-        return () => window.removeEventListener('storage', updateUser);
-    }, []);
 
     // Save reviews to localStorage whenever they change
     useEffect(() => {

@@ -1,7 +1,8 @@
 import { useLocation, NavLink } from 'react-router-dom';
+import { useAuthContext } from '../../context/useAuthContext';
 
 const ProductPageLinks: React.FC = () => {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
+     const { user } = useAuthContext();
     const isAdmin = user?.role === 'admin';
 
     return (

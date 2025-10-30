@@ -1,19 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
+import { useAuthContext } from '../../context/useAuthContext';
 
 const UserDashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
 
- useEffect(() => {
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  useEffect(() => {
 
-  if (!user) {
-    navigate('/login');
-  } else if (user.role !== 'user') {
-    navigate('/');
-  }
-}, [navigate]);
+    if (!user) {
+      navigate('/login');
+    } else if (user.role !== 'user') {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   return (
     <DashboardLayout>
@@ -23,5 +24,5 @@ const UserDashboard: React.FC = () => {
   );
 };
 
- 
+
 export default UserDashboard;

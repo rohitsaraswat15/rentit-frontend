@@ -2,6 +2,13 @@
 
 import axiosInstance from './axiosInstance';
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'user';
+}
+
 export interface RegisterData {
   fullName: string;
   phone: string;
@@ -17,22 +24,14 @@ export interface LoginData {
 export interface RegisterResponse {
   success: boolean;
   message: string;
+  user?: User;
+  token?: string;
 }
 
 export interface LoginResponse {
   success: boolean;
   token: string;
-  user: {
-    name: string;
-    email: string;
-    role: string;
-  };
-}
-
-export interface User {
-  name: string;
-  email: string;
-  role: 'admin' | 'user';
+  user: User;
 }
 
 export interface OtpResponse {
@@ -94,31 +93,44 @@ export const loginUser = async (data: LoginData): Promise<LoginResponse> => {
   } catch {
     return new Promise((resolve, reject) =>
       setTimeout(() => {
-        if (data.email === 'user@example.com' && data.password === 'User@123') {
+        if (data.email === 'user1@example.com' && data.password === 'User1@123') {
           resolve({
             success: true,
             token: 'dummy-user-token',
             user: {
+              id: '1',
               name: 'Tanya',
               email: data.email,
               role: 'user',
             },
           });
-        }
+        } else if (data.email === 'user2@example.com' && data.password === 'User2@123') {
+          resolve({
+            success: true,
+            token: 'dummy-user-token',
+            user: {
+              id: '3',
+              name: 'Krishna',
+              email: data.email,
+              role: 'user',
+            },
+          });
+        } 
         else if (data.email === 'admin@example.com' && data.password === 'Admin@123') {
           resolve({
             success: true,
             token: 'dummy-admin-token',
             user: {
+              id: '2',
               name: 'Elsa',
               email: data.email,
               role: 'admin',
             },
           });
-        } 
-        
+        }
+
         else {
-           reject(new Error('Invalid credentials'));
+          reject(new Error('Invalid credentials'));
         }
       }, 100)
     );

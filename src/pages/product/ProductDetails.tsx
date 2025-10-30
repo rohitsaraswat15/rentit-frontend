@@ -9,30 +9,8 @@ import { PiChatCircleDotsLight } from "react-icons/pi";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa6";
 import Review from "../../components/layout/Review";
-
-interface FormData {
-  pid: number;
-  pname: string;
-  pdetails: string;
-  pcategory: string;
-  pamount: string;
-  pbrandmodel: string;
-  ptime: string;
-  psecurityDeposit: string;
-  pdlocation: string;
-  pddate: string;
-  pdtime: string;
-  pdelivery: string;
-  pstate: string;
-  pcity: string;
-  image: string[]; // This will be the URL or base64 representation of the image
-  pagreement: boolean;
-  pownClausecheckbox: string;
-  pownClause: string;
-  date: string;
-  postedBy: string;
-  pfinalAgreement: boolean;
-}
+import type { FormData, FormDataPost } from "../../types/postTypes";
+import { useAuthContext } from "../../context/useAuthContext";
 
 const defaultDetails = [
   { key: "pbrandmodel", label: "Brand/ Model", type: "text" },
@@ -43,14 +21,13 @@ const defaultDetails = [
   { key: "pstate", label: "State", type: "text" },
   { key: "pcity", label: "City", type: "text" },
 ]
-
+ 
 const ProductDetails: React.FC = () => {
-  const { pid } = useParams<{ pid: string }>();
-  const products: FormData[] = JSON.parse(localStorage.getItem("formData") || "[]");
-  const product = pid ? products[Number(pid)] : null;
+  const { user } = useAuthContext();
+  const { id } = useParams();
+  const [product, setProduct] = useState<FormDataPost | null>(null);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [liked, setLiked] = useState(false);
-
 
   const toggleSave = () => {
     setLiked((prev) => !prev);
@@ -62,9 +39,34 @@ const ProductDetails: React.FC = () => {
     }
   }, [product]);
 
-  if (!product) {
-    return <p className="text-center mt-10">Product not found.</p>;
+ 
+useEffect(() => {
+  if (!id) return;
+   const storageKey = user ? `formData_${user.id}` : "formData";
+
+  const storedData = localStorage.getItem(storageKey);
+  if (storedData) {
+    const products: FormDataPost[] = JSON.parse(storedData);
+    const found = products.find((p) => String(p.id) === String(id));
+    if (found) {
+      setProduct(found);
+    } else {
+      setProduct(null);
+    }
+  } else {
+    setProduct(null);
   }
+}, [id, user]);
+
+
+const productId = id ? Number(id) : NaN;
+if (isNaN(productId)) {
+  return <div>Invalid Product ID</div>;
+}
+
+if (!product) {
+  return <p className="text-center mt-10">Product not found.</p>;
+}
 
   const isSelected = (img: string) => img === selectedImage;
   const description = product.pdetails;
@@ -78,10 +80,7 @@ const ProductDetails: React.FC = () => {
   // Remaining sentences for bullet points
   const moreDetails = sentences.slice(2);
 
-  const productId = pid ? Number(pid) : NaN;  // Convert string to number
-  if (isNaN(productId)) {
-    return <div>Invalid Product ID</div>;  // Handle invalid product ID
-  }
+   
 
   return (
     <>

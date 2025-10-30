@@ -1,19 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
+import { useAuthContext } from '../../context/useAuthContext';
 
 const AdminDashboard: React.FC = () => {
+  const { user } = useAuthContext();
   const navigate = useNavigate();
 
  useEffect(() => {
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
-
+  
   if (!user) {
     navigate('/login');
   } else if (user.role !== 'admin') {
     navigate('/');
   }
-}, [navigate]);
+}, [user, navigate]);
 
   return (
     <DashboardLayout>

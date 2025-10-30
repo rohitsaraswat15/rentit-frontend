@@ -3,12 +3,15 @@ import Navbar from './components/common/Navbar';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import AppRoutes from './routes/AppRouter';
 import BottomHeader from './components/layout/BottomHeader';
+import { AuthProvider } from './provider/AuthProvider';
 
 function AppWrapper() {
   return (
+     <AuthProvider> 
     <BrowserRouter>
       <App />
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 

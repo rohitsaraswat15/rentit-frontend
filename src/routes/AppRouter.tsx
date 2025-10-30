@@ -41,7 +41,7 @@ const AppRoutes: React.FC = () => {
       <Route path='/messages' element={<Messages />} />
       <Route path='/admin-bin' element={<AdminBin />} />
       <Route path='/allproducts' element={<AllProducts />} />
-      <Route path='/productDetails/:pid' element={<ProductDetails />} />
+      <Route path='/productDetails/:id' element={<ProductDetails />} />
       <Route path="/results" element={<ResultsPage />} />
         <Route path="/category/:name" element={<CategoryPage />} />
 

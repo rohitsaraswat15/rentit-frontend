@@ -18,6 +18,7 @@ import { LuSofa } from "react-icons/lu";
 import { GiClothes } from "react-icons/gi";
 import { PiBooksDuotone } from "react-icons/pi";
 import SearchBar from '../../components/common/SearchBar';
+import { useAuthContext } from '../../context/useAuthContext';
 
 interface DropdownProps {
     options: string[];
@@ -62,7 +63,7 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
     const [selected, setSelected] = useState<string>(defaultLabel);
     const [distance, setDistance] = useState('');
 
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const {user} = useAuthContext();
     const isAdmin = user?.role === 'admin';
 
     const handleSelect = (option: string) => {

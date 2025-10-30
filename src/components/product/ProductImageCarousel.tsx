@@ -1,16 +1,6 @@
 import { useState, useEffect } from "react";
 import { IoCloseCircle } from "react-icons/io5";
-
-interface FormData {
-    pid: number;
-    pname: string;
-    pdetails: string;
-    image: string[];
-    date: string;
-    postedBy: string;
-    pamount: string;
-    ptime: string;
-}
+import type { FormData, FormDataPost } from "../../types/postTypes";
 
 const ProductImageCarousel = () => {
     const [formData, setFormData] = useState<FormData[]>([]);
@@ -20,11 +10,32 @@ const ProductImageCarousel = () => {
 
     // Load data from localStorage
     useEffect(() => {
-        const storedData = localStorage.getItem("formData");
-        if (storedData) {
-            setFormData(JSON.parse(storedData));
-        }
+        const loadAllPosts = () => {
+            const allKeys = Object.keys(localStorage);
+            const allUserPosts: FormDataPost[] = [];
+
+            allKeys.forEach((key) => {
+                if (key.startsWith("formData_")) {
+                    const userData = JSON.parse(localStorage.getItem(key) || "[]");
+                    if (Array.isArray(userData)) {
+                        allUserPosts.push(...userData);
+                    }
+                }
+            });
+
+            setFormData(allUserPosts);
+        };
+
+        loadAllPosts(); // initial load
+
+        // Listen for updates triggered from PostProduct/MyProducts
+        window.addEventListener("storageUpdate", loadAllPosts);
+
+        return () => {
+            window.removeEventListener("storageUpdate", loadAllPosts);
+        };
     }, []);
+
 
     useEffect(() => {
         if (selectedProduct?.image && selectedProduct.image.length > 0) {
@@ -145,8 +156,8 @@ const ProductImageCarousel = () => {
                                             src={img}
                                             alt={`Thumbnail ${index}`}
                                             className={`h-20 w-20 object-cover rounded-xl sm:h-18 sm:w-18 cursor-pointer p-1 transition-all duration-300 ease-in-out ${isSelected(img)
-                                                    ? "border-4 border-purple-400 opacity-50"
-                                                    : ""
+                                                ? "border-4 border-purple-400 opacity-50"
+                                                : ""
                                                 }`}
                                             onClick={() => setSelectedImage(img)}
                                         />

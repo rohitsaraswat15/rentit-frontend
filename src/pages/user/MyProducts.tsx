@@ -7,49 +7,42 @@ import { RxCross2 } from "react-icons/rx";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IoPlanetOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-
-
-interface FormData {
-  pname: string;
-  image: string[];
-  date: string;
-  postedBy: string;
-  pamount: string;
-  ptime: string;
-}
+import type { FormDataPost } from '../../types/postTypes';
+import { useAuthContext } from '../../context/useAuthContext';
 
 const MyProducts: React.FC = () => {
-  const [formData, setFormData] = useState<FormData[]>([]);
+  const { user } = useAuthContext();
+  const [formData, setFormData] = useState<FormDataPost[]>([]);
   const [selectedItems, setSelectedItems] = useState<Set<number>>(new Set())
   const [showModal, setShowModal] = useState(false);
-  const [itemsToDelete, setItemsToDelete] = useState<FormData[]>([])
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null); // Track the active item for mobile menu
-  const [targetedItem, setTargetedItem] = useState<FormData | null>(null);
+  const [targetedItem, setTargetedItem] = useState<FormDataPost | null>(null);
   const threedotRef = useRef<HTMLDivElement | null>(null);
-  // const [user, setUser] = useState<{ name: string; role: string } | null>(null);
+  const [loading, setLoading] = useState(true);
+  console.log(loading)
 
-
-  // useEffect(() => {
-  //   const updateUser = () => {
-  //     const storedUser = localStorage.getItem('user');
-  //     setUser(storedUser ? JSON.parse(storedUser) : null);
-  //   };
-
-  //   //update your user log out info in different tab or window 
-  //   window.addEventListener('storage', updateUser);
-  //   updateUser();
-
-  //   //prevents memory leaks
-  //   return () => window.removeEventListener('storage', updateUser);
-  // }, []);
-
+  // Fetch user's posts
   useEffect(() => {
-    // Retrieve form data from localStorage
-    const storedData = localStorage.getItem('formData');
-    if (storedData) {
-      setFormData(JSON.parse(storedData));
-    }
-  }, []);
+    const fetchUserProducts = () => {
+      if(!user) return;
+          const userFormDataKey = `formData_${user.id}`;
+      const storedData = localStorage.getItem(userFormDataKey);
+      if (!storedData) return;
+      const allPosts = JSON.parse(storedData);
+
+      // Filter posts for current user
+      const validPosts = allPosts.filter((p: FormDataPost) => p.id);
+      let userPosts = validPosts;
+
+      if (user && user.role !== "admin") {
+        userPosts = allPosts.filter((post: FormDataPost) => post.userid === user.id);
+      }
+      setFormData(userPosts);
+      setLoading(false);
+    };
+
+    fetchUserProducts();
+  }, [user]);
 
   const handleCheckboxChange = (index: number) => {
     const updatedSelection = new Set(selectedItems);
@@ -61,53 +54,51 @@ const MyProducts: React.FC = () => {
     setSelectedItems(updatedSelection);
   }
 
-  const handleDeleteClick = (item: FormData) => {
+  const handleDeleteClick = (item: FormDataPost) => {
     setTargetedItem(item); // Set the targeted item for deletion
     setShowModal(true); // Open the modal
-    setItemsToDelete([item]); // Store the item to be deleted
-
-    // If multiple items are selected, store them in itemsToDelete
-    const itemsToBeDeleted = Array.from(selectedItems).map(index => formData[index]);
-    setItemsToDelete(itemsToBeDeleted); // Store selected items to delete
   };
 
   const confirmDelete = () => {
-    // const remainingItems = formData.filter((_, index) => !selectedItems.has(index));
+    if (!user) return;
 
-    // Remove selected item(specific) from formData
-    if (targetedItem) {
-      const remainingItems = formData.filter(item => item !== targetedItem);
-      // Update localStorage with remaining items
-      localStorage.setItem('formData', JSON.stringify(remainingItems));
-      // Update state with remaining items
-      setFormData(remainingItems);
-      setTargetedItem(null)
-    }
-    // Case 2: If there are selected checkboxes, delete those items
-    else if (selectedItems.size > 0) {
-      const remainingItems = formData.filter((_, index) => !selectedItems.has(index));
-      localStorage.setItem('formData', JSON.stringify(remainingItems));
-      setFormData(remainingItems);
-    }
+  const userFormDataKey = `formData_${user.id}`;
+  const userDeletedKey = `deletedItems_${user.id}`;
 
-    // Close the modal
-    setShowModal(false);
+  let updatedFormData = [...formData];
+  const deletedProducts: FormDataPost[] = [];
 
-    // Reset selected items state
-    setSelectedItems(new Set());
+  // Delete the specifically targeted item
+  if (targetedItem) {
+    updatedFormData = updatedFormData.filter(item => item.id !== targetedItem.id);
+    deletedProducts.push(targetedItem);
+  }
 
-    // Retrieve existing deleted items from localStorage
-    const existingDeletedItems = JSON.parse(localStorage.getItem('deletedItems') || '[]');
+  // Delete multiple selected items (checkboxes)
+  else if (selectedItems.size > 0) {
+    const selectedToDelete = Array.from(selectedItems).map(index => formData[index]);
+    deletedProducts.push(...selectedToDelete);
+    updatedFormData = updatedFormData.filter((_, index) => !selectedItems.has(index));
+  }
 
-    // Append the new deleted items to the existing ones
-    const updatedDeletedItems = [
-      ...existingDeletedItems,
-      ...itemsToDelete,
-      ...(targetedItem ? [targetedItem] : []),
-    ];
-    // Store updated deleted items back in localStorage
-    localStorage.setItem('deletedItems', JSON.stringify(updatedDeletedItems));
-  };
+  // Update the main "formData" (remaining active products)
+  localStorage.setItem(userFormDataKey, JSON.stringify(updatedFormData));
+  setFormData(updatedFormData);
+
+  // Retrieve existing deleted items from localStorage (Bin)
+  const existingDeletedItems: FormDataPost[] = JSON.parse(localStorage.getItem(userDeletedKey) || '[]');
+  // Add new deleted products to the Bin
+  const updatedDeletedItems = [...existingDeletedItems, ...deletedProducts];
+  localStorage.setItem(userDeletedKey, JSON.stringify(updatedDeletedItems));
+
+    // Dispatch a custom event so admin Bin updates immediately
+  window.dispatchEvent(new Event("storageUpdate"));
+
+  // Reset modal & selections
+  setShowModal(false);
+  setSelectedItems(new Set());
+  setTargetedItem(null);
+};
 
   const cancelDelete = () => {
     setShowModal(false);
@@ -161,7 +152,7 @@ const MyProducts: React.FC = () => {
 
           {formData.length > 0 ? (
             formData.map((data, index) => (
-              <div key={index} className="relative flex gap-3 border-b-2 border-gray-300 hover:bg-gray-100">
+              <div key={data.id || index } className="relative flex gap-3 border-b-2 border-gray-300 hover:bg-gray-100">
 
                 <div className='border-r-2 border-gray-300 ml-4 text-gray-700 p-3 items-center justify-center sm:block md:block lg:block hidden'>
                   <input
@@ -185,7 +176,7 @@ const MyProducts: React.FC = () => {
                     )}
                   </div>
 
-                  <Link to={`/productDetails/${index}`}> <div className='flex flex-col gap-1 md:gap-2'>
+                  <Link to={`/productDetails/${data.id}`}> <div className='flex flex-col gap-1 md:gap-2'>
                     <p className="text-md md:text-lg font-semibold text-gray-900">{data.pname}</p>
                     <p className="text-sm md:text-md font-bold text-gray-800"><span className='text-sm md:text-sm text-green-600'>Owner :</span> {data.postedBy}</p>
                     <div className="md:hidden lg:hidden text-xs text-gray-500 w-full font-semibold items-center justify-center m-auto">{data.date}</div>
@@ -194,12 +185,12 @@ const MyProducts: React.FC = () => {
                       <button className='bg-green-300 w-full mt-2 px-4 py-2 text-md font-semibold text-gray-900'>Boost</button>
                     </div>
 
-                    <Link to={`/productDetails/${index}`}> <button
+                    <button
                       className="bg-purple-500 cursor-pointer text-white w-fit px-4 py-2 rounded-sm hidden sm:block md:block"
                     >
                       View Details
                     </button>
-                    </Link>
+
 
                   </div>
                   </Link>

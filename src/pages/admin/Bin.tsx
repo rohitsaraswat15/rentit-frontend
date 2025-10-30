@@ -5,30 +5,53 @@ import { IoPlanetOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { PiRocketLaunchDuotone } from "react-icons/pi";
-
-
-
-interface FormData {
-  text: string;
-  image: string; // This will be the URL or base64 representation of the image
-  date: string;
-}
+import type { FormDataPost } from '../../types/postTypes';
+import { useAuthContext } from '../../context/useAuthContext';
 
 const AdminBin: React.FC = () => {
-  // Use FormData type instead of any
-  const [deletedItems, setDeletedItems] = useState<FormData[]>([]);
-  const [itemsToDelete, setItemsToDelete] = useState<FormData[]>([])
+  const { user } = useAuthContext();
+  const [deletedItems, setDeletedItems] = useState<FormDataPost[]>([]);
+  const [itemsToDelete, setItemsToDelete] = useState<FormDataPost[]>([])
   const [showModal, setShowModal] = useState(false);
-  const [targetedItem, setTargetedItem] = useState<FormData | null>(null);
+  const [targetedItem, setTargetedItem] = useState<FormDataPost | null>(null);
   const [selectedItems, setSelectedItems] = useState<Set<number>>(new Set())
 
-  useEffect(() => {
-    // Retrieve deleted items from localStorage
-    const items = localStorage.getItem('deletedItems');
-    if (items) {
-      setDeletedItems(JSON.parse(items));
+useEffect(() => {
+  if (!user) return;
+
+  const loadDeletedItems = () => {
+    // For normal users – only load their own deleted items
+    if (user.role !== "admin") {
+      const userDeletedKey = `deletedItems_${user.id}`;
+      const items = localStorage.getItem(userDeletedKey);
+      if (items) setDeletedItems(JSON.parse(items));
+      else setDeletedItems([]);
+      return;
     }
-  }, []);
+
+    // For admin – load ALL deletedItems_* keys
+    const allDeleted: FormDataPost[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("deletedItems_")) {
+        const items = JSON.parse(localStorage.getItem(key) || "[]");
+        allDeleted.push(...items);
+      }
+    }
+
+    setDeletedItems(allDeleted);
+  };
+
+  // Initial load
+  loadDeletedItems();
+
+  // Listen for updates when MyProducts dispatches "storageUpdate"
+  window.addEventListener("storageUpdate", loadDeletedItems);
+
+  return () => window.removeEventListener("storageUpdate", loadDeletedItems);
+}, [user]);
+
+
 
   const handleCheckboxChange = (index: number) => {
     const updatedSelection = new Set(selectedItems);
@@ -40,7 +63,7 @@ const AdminBin: React.FC = () => {
     setSelectedItems(updatedSelection);
   }
 
-  const handleDeleteClick = (item: FormData) => {
+  const handleDeleteClick = (item: FormDataPost) => {
     setTargetedItem(item); // Set the targeted item for deletion
     setShowModal(true); // Open the modal
     setItemsToDelete([item]); // Store the item to be deleted
@@ -123,18 +146,20 @@ const AdminBin: React.FC = () => {
               </div>
 
               <div className='flex gap-2 md:gap-6 lg:gap-6 w-xl py-2 px-6'>
-                <div className="w-50 h-20 md:w-45 md:h-38 flex items-center justify-center">
-                  {item.image ? (
-                    <div>
-                      <img src={item.image} alt="Uploaded" className="w-full h-full object-cover rounded-sm" />
-                    </div>
-                  ) : (
-                    <span className="text-center text-gray-500">Uploaded</span>
-                  )}
-                </div>
+               <div className="w-50 h-20 md:w-45 md:h-38 flex items-center justify-center">
+                    {item.image ? (
+                      <img
+                        src={item.image[0]}
+                        alt="Uploaded"
+                        className="w-full h-full object-cover rounded-sm"
+                      />
+                    ) : (
+                      <span className="text-center text-gray-500">Uploaded</span>
+                    )}
+                  </div>
 
                 <div className='flex flex-col gap-1 md:gap-3'>
-                  <p className="text-md md:text-lg font-semibold text-gray-900">{item.text}</p>
+                  <p className="text-md md:text-lg font-semibold text-gray-900">{item.pname}</p>
                   <div className="md:hidden lg:hidden text-xs text-gray-500 w-full font-semibold items-center justify-center m-auto">{item.date}</div>
                   <p className="text-xs text-gray-500">Product description to be written here.Available in three colors.Instant delivery.</p>
                   <button

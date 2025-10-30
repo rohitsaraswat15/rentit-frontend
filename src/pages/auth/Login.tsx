@@ -5,8 +5,9 @@ import GoogleLoginButton from '../../components/common/GoogleLoginButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword } from '../../utils/validators';
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import { loginUser } from '../../services/authService';
+// import { loginUser } from '../../services/authService';
 import { IoCloseCircle } from "react-icons/io5";
+import { useAuthContext } from '../../context/useAuthContext';
 
 interface FormState {
   email: string;
@@ -25,7 +26,8 @@ const Login: React.FC = () => {
   const [errors, setErrors] = useState<ErrorState>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const navigate = useNavigate(); // for redirect
+  const navigate = useNavigate();
+  const { login } = useAuthContext();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -46,34 +48,27 @@ const Login: React.FC = () => {
 
     setLoading(true);
     try {
-      const res = await loginUser({
-        email: form.email,
-        password: form.password,
-
+       await login({
+      email: form.email,
+      password: form.password,
       });
 
-      if (res.success) {
-        localStorage.setItem('user', JSON.stringify(res.user));
-        window.dispatchEvent(new Event('storage'));              // important for navbar to auto update
-        console.log('Login success, redirecting to Dashboard');
+       console.log('Login success, redirecting to Dashboard');
 
-        if (res.user.role === 'admin') {
-          navigate('/homepage')
-        } else if (res.user.role === 'user') {
-          navigate('/homepage')
-        }
-      }
-
-      else {
-        setErrors({ general: 'Login failed: Invalid credentials' });
-      }
-    } catch (err) {
-      console.error('Login error:', err);
-      setErrors({ general: 'Login failed: Invalid credentials' });
-    } finally {
-      setLoading(false);
+    // ✅ Redirect based on role
+    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+    if (storedUser.role === 'admin') {
+      navigate('/homepage');
+    } else if (storedUser.role === 'user') {
+      navigate('/homepage');
     }
-  };
+  } catch (err) {
+    console.error('Login error:', err);
+    setErrors({ general: 'Login failed: Invalid credentials' });
+  } finally {
+    setLoading(false);
+  }
+};
 
   const closeModal = () => {
     navigate('/')
