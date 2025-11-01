@@ -22,27 +22,46 @@ const MyProducts: React.FC = () => {
   console.log(loading)
 
   // Fetch user's posts
-  useEffect(() => {
-    const fetchUserProducts = () => {
-      if(!user) return;
-          const userFormDataKey = `formData_${user.id}`;
+ useEffect(() => {
+  const fetchUserProducts = () => {
+    if (!user) return;
+
+    const allKeys = Object.keys(localStorage);
+    let allPosts: FormDataPost[] = [];
+
+    if (user.role === "admin") {
+      // 🔹 Admin: Load all users' products
+      const productKeys = allKeys.filter((key) => key.startsWith("formData_"));
+      productKeys.forEach((key) => {
+        try {
+          const data = JSON.parse(localStorage.getItem(key) || "[]");
+          if (Array.isArray(data)) allPosts = [...allPosts, ...data];
+        } catch (err) {
+          console.warn(`Error parsing data from ${key}:`, err);
+        }
+      });
+    } else {
+      // Normal user: Only load their own products
+      const userFormDataKey = `formData_${user.id}`;
       const storedData = localStorage.getItem(userFormDataKey);
-      if (!storedData) return;
-      const allPosts = JSON.parse(storedData);
-
-      // Filter posts for current user
-      const validPosts = allPosts.filter((p: FormDataPost) => p.id);
-      let userPosts = validPosts;
-
-      if (user && user.role !== "admin") {
-        userPosts = allPosts.filter((post: FormDataPost) => post.userid === user.id);
+      if (storedData) {
+        try {
+          allPosts = JSON.parse(storedData) || [];
+        } catch (err) {
+          console.warn("Error parsing user data:", err);
+        }
       }
-      setFormData(userPosts);
-      setLoading(false);
-    };
+    }
 
-    fetchUserProducts();
-  }, [user]);
+    // Filter and update
+    const validPosts = allPosts.filter((p: FormDataPost) => p.id);
+    setFormData(validPosts);
+    setLoading(false);
+  };
+
+  fetchUserProducts();
+}, [user]);
+
 
   const handleCheckboxChange = (index: number) => {
     const updatedSelection = new Set(selectedItems);

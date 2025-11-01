@@ -1,5 +1,4 @@
-//Ensure /auth/send-otp, /auth/verify-otp, and /auth/register routes are implemented on backend.
-
+// Ensure /auth/send-otp, /auth/verify-otp, and /auth/register routes are implemented on backend.
 import axiosInstance from './axiosInstance';
 
 export interface User {
@@ -40,7 +39,22 @@ export interface OtpResponse {
   message?: string;
 }
 
-// Send OTP
+// 🧩 STEP 1: Initialize Dummy Users List in LocalStorage (only once)
+const initializeDummyUsers = () => {
+  const existing = localStorage.getItem("users");
+  if (!existing) {
+    const defaultUsers: User[] = [
+      { id: "2", name: "Elsa", email: "admin@example.com", role: "admin" },
+      { id: "1", name: "Tanya", email: "user1@example.com", role: "user" },
+      { id: "3", name: "Krishna", email: "user2@example.com", role: "user" },
+    ];
+    localStorage.setItem("users", JSON.stringify(defaultUsers));
+    console.log("✅ Dummy users initialized in localStorage:", defaultUsers);
+  }
+};
+initializeDummyUsers();
+
+// --- OTP Functions ---
 export const sendOtp = async (contact: string): Promise<OtpResponse> => {
   try {
     const res = await axiosInstance.post('/auth/send-otp', { contact });
@@ -53,7 +67,6 @@ export const sendOtp = async (contact: string): Promise<OtpResponse> => {
   }
 };
 
-// Verify OTP
 export const verifyOtp = async (otp: string): Promise<{ success: boolean }> => {
   try {
     const res = await axiosInstance.post('/auth/verify-otp', { otp });
@@ -69,7 +82,7 @@ export const verifyOtp = async (otp: string): Promise<{ success: boolean }> => {
   }
 };
 
-// Register user
+// --- Register User ---
 export const registerUser = async (data: RegisterData): Promise<RegisterResponse> => {
   try {
     const res = await axiosInstance.post('/auth/register', data);
@@ -79,13 +92,26 @@ export const registerUser = async (data: RegisterData): Promise<RegisterResponse
     return new Promise((resolve) =>
       setTimeout(() => {
         console.log('Dummy register user:', data);
-        resolve({ success: true, message: 'Registered successfully (dummy)' });
+
+        // 🧩 Add registered user to localStorage users list
+        const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
+        const newUser: User = {
+          id: (users.length + 1).toString(),
+          name: data.fullName,
+          email: data.email,
+          role: "user",
+        };
+        users.push(newUser);
+        localStorage.setItem("users", JSON.stringify(users));
+        window.dispatchEvent(new Event("storageUpdate")); // refresh stats
+
+        resolve({ success: true, message: 'Registered successfully (dummy)', user: newUser });
       }, 100)
     );
   }
 };
 
-// Login user
+// --- Login User ---
 export const loginUser = async (data: LoginData): Promise<LoginResponse> => {
   try {
     const res = await axiosInstance.post('/auth/login', data);
@@ -115,8 +141,7 @@ export const loginUser = async (data: LoginData): Promise<LoginResponse> => {
               role: 'user',
             },
           });
-        } 
-        else if (data.email === 'admin@example.com' && data.password === 'Admin@123') {
+        } else if (data.email === 'admin@example.com' && data.password === 'Admin@123') {
           resolve({
             success: true,
             token: 'dummy-admin-token',
@@ -127,9 +152,7 @@ export const loginUser = async (data: LoginData): Promise<LoginResponse> => {
               role: 'admin',
             },
           });
-        }
-
-        else {
+        } else {
           reject(new Error('Invalid credentials'));
         }
       }, 100)
