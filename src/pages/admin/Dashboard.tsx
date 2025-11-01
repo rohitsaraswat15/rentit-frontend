@@ -1,16 +1,24 @@
-// import { useNavigate } from 'react-router-dom';
-// import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
-// import { useAuthContext } from '../../context/useAuthContext';
+import { useAuthContext } from '../../context/useAuthContext';
 import Stats from './Stats';
 import type { FormDataPost } from '../../types/postTypes';
-import { useEffect, useState } from 'react';
-
+ 
 const AdminDashboard: React.FC = () => {
-  // const { user } = useAuthContext();
-  // const navigate = useNavigate();
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
   const [allPosts, setAllPosts] = useState<FormDataPost[]>([])
   const [loading, setLoading] = useState(true)
+
+   useEffect(() => {
+
+    if (!user) {
+      navigate('/login');
+    } else if (user.role !== 'admin') {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     const fetchAllUserPosts = () => {
@@ -40,14 +48,7 @@ const AdminDashboard: React.FC = () => {
 
   if (loading) return <p>Loading posts...</p>;
 
-  //  useEffect(() => {
-
-  //   if (!user) {
-  //     navigate('/login');
-  //   } else if (user.role !== 'admin') {
-  //     navigate('/');
-  //   }
-  // }, [user, navigate]);
+   
 
   return (
     <DashboardLayout>
