@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { FaUsers, FaBoxOpen } from "react-icons/fa";
-import { AiOutlineIssuesClose } from "react-icons/ai";
+ import { AiOutlineIssuesClose } from "react-icons/ai";
 import { BsLightningCharge } from "react-icons/bs";
+import { PiUsersThree } from "react-icons/pi";
+import { BsBoxes } from "react-icons/bs";
 
 
 const Stats = () => {
@@ -18,7 +19,7 @@ const Stats = () => {
           (user) => user.role?.toLowerCase() !== "admin"
         );
         setTotalUsers(nonAdminUsers.length);
-        console.log("Users =", nonAdminUsers.length);
+        // console.log("Users =", nonAdminUsers.length);
       } else {
         setTotalUsers(0);
       }
@@ -42,7 +43,7 @@ const Stats = () => {
     });
 
     setTotalProducts(totalProductsCount);
-    console.log("Products =", totalProductsCount);
+    // console.log("Products =", totalProductsCount);
   };
 
   useEffect(() => {
@@ -64,7 +65,7 @@ const Stats = () => {
       {/* Total Users */}
       <div className="relative flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl shadow-xl rounded-2xl p-5 w-full md:w-1/2 border border-white/40 hover:scale-[1.03] transition-transform duration-300">
         <div className="absolute top-0 left-0 w-full h-full rounded-3xl bg-gradient-to-br from-purple-500/10 to-indigo-500/10 pointer-events-none" />
-        <FaUsers size={48} className="text-purple-500 mb-4" />
+        <PiUsersThree size={48} className="bg-purple-300 rounded-full p-2" />
         <h2 className="text-5xl font-bold text-gray-900">{totalUsers}</h2>
         <p className="text-gray-600 text-center w-full sm:text-sm md:text-lg font-medium mt-2">Total Users</p>
       </div>
@@ -72,7 +73,7 @@ const Stats = () => {
       {/* Total Products */}
       <div className="relative flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl shadow-xl rounded-2xl p-5 w-full md:w-1/2 border border-white/40 hover:scale-[1.03] transition-transform duration-300">
         <div className="absolute top-0 left-0 w-full h-full rounded-3xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 pointer-events-none" />
-        <FaBoxOpen size={48} className="text-indigo-500 mb-4" />
+        <BsBoxes size={48} className="bg-yellow-300 rounded-full p-2" />
         <h2 className="text-5xl font-bold text-gray-900">{totalProducts}</h2>
         <p className="text-gray-600 text-center w-full sm:text-sm md:text-lg font-medium mt-2">Total Products</p>
       </div>
@@ -80,7 +81,7 @@ const Stats = () => {
       {/* Total Raised Issues */}
       <div className="relative flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl shadow-xl rounded-2xl p-5 w-full md:w-1/2 border border-white/40 hover:scale-[1.03] transition-transform duration-300">
         <div className="absolute top-0 left-0 w-full h-full rounded-3xl bg-gradient-to-br from-purple-500/10 to-indigo-500/10 pointer-events-none" />
-        <AiOutlineIssuesClose size={48} className="text-purple-500 mb-4" />
+        <AiOutlineIssuesClose size={48} className="bg-red-300 rounded-full p-2" />
         <h2 className="text-5xl font-bold text-gray-900">0</h2>
         <p className="text-gray-600 text-center w-full sm:text-sm md:text-lg font-medium mt-2">Raised Issues</p>
       </div>
@@ -88,7 +89,7 @@ const Stats = () => {
       {/* Total Pending Requests */}
       <div className="relative flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl shadow-xl rounded-2xl p-5 w-full md:w-1/2 border border-white/40 hover:scale-[1.03] transition-transform duration-300">
         <div className="absolute top-0 left-0 w-full h-full rounded-3xl bg-gradient-to-br from-purple-500/10 to-indigo-500/10 pointer-events-none" />
-        <BsLightningCharge size={48} className="text-purple-500 mb-4" />
+        <BsLightningCharge size={48} className="bg-green-300 rounded-full p-2" />
         <h2 className="text-5xl font-bold text-gray-900">0</h2>
         <p className="text-gray-600 text-center w-full sm:text-sm md:text-lg font-medium mt-2">Pending Requests</p>
       </div>

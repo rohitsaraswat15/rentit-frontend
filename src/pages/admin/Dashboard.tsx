@@ -4,14 +4,16 @@ import DashboardLayout from '../../components/layout/DashboardLayout';
 import { useAuthContext } from '../../context/useAuthContext';
 import Stats from './Stats';
 import type { FormDataPost } from '../../types/postTypes';
- 
+import { IoPlanetOutline } from "react-icons/io5";
+
+
 const AdminDashboard: React.FC = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const [allPosts, setAllPosts] = useState<FormDataPost[]>([])
   const [loading, setLoading] = useState(true)
 
-   useEffect(() => {
+  useEffect(() => {
 
     if (!user) {
       navigate('/login');
@@ -48,7 +50,7 @@ const AdminDashboard: React.FC = () => {
 
   if (loading) return <p>Loading posts...</p>;
 
-   
+
 
   return (
     <DashboardLayout>
@@ -68,8 +70,20 @@ const AdminDashboard: React.FC = () => {
         </div>
 
         {allPosts.length === 0 ? (
-          <p className="text-center text-gray-600">No posts found.</p>
-        ) : (
+          <div className="fixed inset-0 flex items-center justify-center p-4">
+            <div className="relative md:left-1/10 w-full md:w-1/2 lg:w-1/2 h-auto p-6 flex flex-col items-center justify-center">
+
+              <div className="flex items-center justify-center m-auto p-3 w-full">
+                <div className={`rounded-full p-6 bg-gray-100 overflow-hidden flex items-center justify-center text-white font-bold`}>
+                  <IoPlanetOutline className='text-purple-500' size={100} />
+                </div>
+              </div>
+
+              <h3 className="text-xl mb-4 mt-4 font-semibold text-center">Nothing to show.</h3>
+              <h3 className="text-md text-gray-500 text-center">Currently here is no deleted products. </h3>
+
+            </div>
+          </div>) : (
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 w-full ">
             {allPosts.map((post) => (
               <div
