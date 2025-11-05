@@ -19,7 +19,7 @@ import { GiClothes } from "react-icons/gi";
 import { PiBooksDuotone } from "react-icons/pi";
 import SearchBar from '../../components/common/SearchBar';
 import { useAuthContext } from '../../context/useAuthContext';
-
+ 
 interface DropdownProps {
     options: string[];
     onSelect: (option: string) => void;
@@ -265,8 +265,8 @@ const HomePage: React.FC<DropdownProps> = ({ options, onSelect, defaultLabel = '
                         Trending Rentals near you!
                     </h1>
                 </div>
-                <ProductImageCarousel/>
-                 <ProductImageCarousel/>
+                <ProductImageCarousel />
+                <ProductImageCarousel />
             </div>
 
             <div className="w-full py-10 px-4 md:px-5 lg:px-20">

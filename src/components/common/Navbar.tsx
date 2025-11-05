@@ -8,19 +8,19 @@ import { GoGitPullRequestDraft } from "react-icons/go";
 import { RiMessage2Line, RiMenu4Line } from "react-icons/ri";
 import { IoLogOutOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
-import { IoIosNotificationsOutline } from "react-icons/io";
 import { LiaSpinnerSolid } from "react-icons/lia";
 import { useAuthContext } from '../../context/useAuthContext';
-
+import NotificationBell from './NotificationBell';
+ 
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // const [user, setUser] = useState<{ name: string; role: string } | null>(null);
-  const [userDropdown, setUserDropdown] = useState(false);
+   const [userDropdown, setUserDropdown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const { logout, user} = useAuthContext();
+  
 
   
   const handleLogout = () => {
@@ -97,12 +97,7 @@ const Navbar: React.FC = () => {
 
           {/* Notification Icon */}
           <div className="relative flex items-end float-right md:mr-8 ml-35 sm:ml-40 text-gray-500">
-            <IoIosNotificationsOutline className='cursor-pointer' size={30} />
-
-            {/* Notification Badge */}
-            <div className="absolute top-0 right-0 cursor-pointer bg-red-500 text-white text-sm font-semibold rounded-full w-4 h-4 flex items-center justify-center">
-              3
-            </div>
+             <NotificationBell/>        
           </div>
 
 

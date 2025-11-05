@@ -4,13 +4,16 @@ import { BrowserRouter, useLocation } from 'react-router-dom';
 import AppRoutes from './routes/AppRouter';
 import BottomHeader from './components/layout/BottomHeader';
 import { AuthProvider } from './provider/AuthProvider';
+import { NotificationProvider } from './provider/NotificationProvider';
 
 function AppWrapper() {
   return (
      <AuthProvider> 
+      <NotificationProvider> 
     <BrowserRouter>
       <App />
     </BrowserRouter>
+    </NotificationProvider>
     </AuthProvider>
   );
 }

@@ -73,7 +73,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarWidth, collapsed, setCollapsed
         {!isAdmin && (
           <>
             <SidebarLink to="/myproducts" icon={<BsBoxes />} label="My Products" collapsed={collapsed} />
-            <SidebarLink to="/requests" icon={<GoGitPullRequestDraft />} label="Rent Request" collapsed={collapsed} />
+            <SidebarLink to="/rent-requests" icon={<GoGitPullRequestDraft />} label="Rent Request" collapsed={collapsed} />
           </>
         )}
 

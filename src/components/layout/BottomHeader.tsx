@@ -20,7 +20,7 @@ const BottomHeader: React.FC = () => {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const location = useLocation();
-  const showBottomHeaderPaths = ['/admin-dashboard', '/user-dashboard', '/request', '/postproduct', '/messages', '/myproducts','/admin-bin'];
+  const showBottomHeaderPaths = ['/admin-dashboard', '/user-dashboard', '/request', '/postproduct', '/messages', '/myproducts','/admin-bin','/rent-requests'];
   const isOnDashboardPage = user && showBottomHeaderPaths.some(path => location.pathname.startsWith(path));
 
 
@@ -106,7 +106,7 @@ const BottomHeader: React.FC = () => {
           {/* when user on dashborad */}
           {user && isOnDashboardPage && (
             <>
-              <BottomHeaderLink to="/request" icon={<GoGitPullRequestDraft size={26} />} label="Request" />
+              <BottomHeaderLink to="/rent-requests" icon={<GoGitPullRequestDraft size={26} />} label="Request" />
               <BottomHeaderLink to="/postproduct" icon={<GoGift size={26} />} label="Product" />
             </>
           )}
