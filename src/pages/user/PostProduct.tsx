@@ -266,13 +266,13 @@ const PostProduct: React.FC = () => {
                         <div className='flex justify-center items-center m-auto gap-2 md:gap-4 md:p-4 md:w-3xl'>
                             {
                                 [1, 2, 3, 4].map((s) => (
-                                    <>
-                                        <div key={s} className='flex flex-col items-center w-3xl'>
+                                    <React.Fragment key={s}>
+                                        <div  className='flex flex-col items-center w-3xl'>
                                             <StepIndicator stepIndex={s} />
                                             <span className=" text-xs md:text-sm text-gray-900 font-semibold mt-2">{getStepName(s)}</span>
                                         </div>
                                         {s < 4 && <AiOutlineSmallDash size={60} className="text-gray-500 mx-2 flex m-auto w-sm md:w-2xs" />}
-                                    </>
+                                    </React.Fragment>
                                 ))
                             }
                         </div>
